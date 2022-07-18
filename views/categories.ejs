@@ -1,0 +1,72 @@
+<style>
+    
+    .grid-container {
+        display: grid;
+        margin: auto;  
+        height: 800px; 
+    }
+
+    .grid-item {
+        font-size: 16px;
+        text-align: center;
+    }
+
+    .grid-item h2 {
+        font-size: 40px;
+    }
+
+    .grid-item a {
+        color: black;
+        text-decoration: none;
+    }
+
+    .grid-item a:hover {
+        color: black;
+        text-decoration: underline;
+    }
+</style>
+
+
+<html>
+    
+    <%- include('./partials/header.ejs') %>
+    <body>
+
+        <%- include('./partials/nav.ejs') %>
+
+        <div class="grid-container">
+
+            <div class="grid-item">
+                <div class="tech">
+                    <h2><a href="/tech">Technology</a></h2>
+                    <br>
+                    <p><a href="/phones">Cellphones</a></p>
+                    <p><a href="/phone-cases">Cellphone Cases</a></p>
+                    <p><a href="/laptops">Laptops</a></p>
+                </div>
+            </div>
+
+            <div class="grid-item">
+                <h2><a href="/fashion">Fashion</a></h2>
+                <br>
+                <p><a href="/fashion">Cellphones</a></p>
+                <p><a href="/fashion">Cellphone Cases</a></p>
+                <p><a href="/fashion">Laptops</a></p>
+            </div>
+
+            <div class="grid-item">
+                <h2><a href="/carsmoto">Automotive</a></h2>
+                <br>
+                <p><a href="/carsmoto">Cellphones</a></p>
+                <p><a href="/carsmoto">Cellphone Cases</a></p>
+                <p><a href="/carsmoto">Laptops</a></p>
+            </div>
+
+        </div>
+
+       
+        <%- include('./partials/footer.ejs') %>
+    
+    </body>
+
+</html>
