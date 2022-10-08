@@ -1,68 +1,68 @@
 <html>
-    <%- include('./partials/header.ejs') %>
+	<%- include('./partials/header.ejs') %>
 
-    <body>
+	<body>
 
-        <%- include('./partials/nav.ejs') %>
-        
+		<%- include('./partials/nav.ejs') %>
+		
 
-        <div class="Filters">
-            <div class="Maker">
+		<div class="Filters">
+			<div class="Maker">
 
-                <h3>Κατασκευαστής</h3>
-                <label for="myCheck"></label> 
+				<h3>Κατασκευαστής</h3>
+				<label for="myCheck"></label> 
 
-                <p id="Stext" style="display:none">Samsung is CHECKED!</p>
-                <input type="checkbox" id="SamsungFilter" onclick="myFunction()"> Samsung
+				<p id="Stext" style="display:none">Samsung is CHECKED!</p>
+				<input type="checkbox" id="SamsungFilter" onclick="myFunction()"> Samsung
 
-                <p id="Xtext" style="display:none">Xiaomi is CHECKED!</p>
-                <input type="checkbox" id="XiaomiFilter" onclick="myFunction()"> Xiaomi
+				<p id="Xtext" style="display:none">Xiaomi is CHECKED!</p>
+				<input type="checkbox" id="XiaomiFilter" onclick="myFunction()"> Xiaomi
 
-                
-            </div>
-            
-            
-        </div>
+				
+			</div>
+			
+			
+		</div>
 
-        <div class="grid-container">
-            <div class="grid-item">1</div>
-            <div class="grid-item">2</div>
-            <div class="grid-item">3</div>
-            <div class="grid-item">4</div>
-            <div class="grid-item">5</div>
-            <div class="grid-item">6</div>
-            <div class="grid-item">7</div>
-            <div class="grid-item">8</div>
-            <div class="grid-item">9</div>
-        </div>
+		<div class="grid-container">
+			<div class="grid-item">1</div>
+			<div class="grid-item">2</div>
+			<div class="grid-item">3</div>
+			<div class="grid-item">4</div>
+			<div class="grid-item">5</div>
+			<div class="grid-item">6</div>
+			<div class="grid-item">7</div>
+			<div class="grid-item">8</div>
+			<div class="grid-item">9</div>
+		</div>
 
-    
-        <%- include('./partials/footer.ejs') %>
-    
-    </body>
+	
+		<%- include('./partials/footer.ejs') %>
+	
+	</body>
 
-    <script>
-        function myFunction() 
-        {
-            var ScheckBox = document.getElementById("SamsungFilter");
-            var XcheckBox = document.getElementById("XiaomiFilter");
-            var Stext = document.getElementById("Stext");
-            var Xtext = document.getElementById("Xtext");
+	<script>
+		function myFunction() 
+		{
+			var ScheckBox = document.getElementById("SamsungFilter");
+			var XcheckBox = document.getElementById("XiaomiFilter");
+			var Stext = document.getElementById("Stext");
+			var Xtext = document.getElementById("Xtext");
 
-            if (ScheckBox.checked == true)
-            {
-                Stext.style.display = "block";
-            }
-            else if (XcheckBox.checked == true)
-            {
-                Xtext.style.display = "block";
-            }
-            else 
-            {
-                Stext.style.display = "none";
-                Xtext.style.display = "none";
-            }
-        }
-    </script>
+			if (ScheckBox.checked == true)
+			{
+				Stext.style.display = "block";
+			}
+			else if (XcheckBox.checked == true)
+			{
+				Xtext.style.display = "block";
+			}
+			else 
+			{
+				Stext.style.display = "none";
+				Xtext.style.display = "none";
+			}
+		}
+	</script>
 
 </html>

@@ -1,197 +1,197 @@
 <style>
-  * {
-    scroll-behavior: smooth;
-  }
+	* {
+		scroll-behavior: smooth;
+	}
 
-  body {
-    background-color: #f1f1f1;
-  }
+	body {
+		background-color: #f1f1f1;
+	}
 
-  nav {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    min-height: 8vh;
-    background-color: chocolate;
-    font-family: 'Poppins', sans-serif;
-  }
+	nav {
+		display: flex;
+		justify-content: space-around;
+		align-items: center;
+		min-height: 8vh;
+		background-color: chocolate;
+		font-family: 'Poppins', sans-serif;
+	}
 
-  .logo {
-    color: cornsilk;
-    text-transform: uppercase;
-    font-size: 18px;
-  }
+	.logo {
+		color: cornsilk;
+		text-transform: uppercase;
+		font-size: 18px;
+	}
 
-  .nav-links {
-    display: flex;
-    justify-content: space-around;
-    width: 20%;
-  }
+	.nav-links {
+		display: flex;
+		justify-content: space-around;
+		width: 20%;
+	}
 
-  .nav-links li {
-    list-style-type: none;
-  }
+	.nav-links li {
+		list-style-type: none;
+	}
 
-  .nav-links a {
-    color: cornsilk;
-    text-decoration: none;
-    font-weight: bold;
-    padding: 14px 16px;
-  }
+	.nav-links a {
+		color: cornsilk;
+		text-decoration: none;
+		font-weight: bold;
+		padding: 14px 16px;
+	}
 
-  .nav-links a:hover {
-    background: cornsilk;
-    color: black;
-  }
+	.nav-links a:hover {
+		background: cornsilk;
+		color: black;
+	}
 
-  nav ul ul {
-    display: none;
-    position: absolute;
-    /* has to be the same number as the "line-height" of "nav a" */
-    list-style: none;
-  }
+	nav ul ul {
+		display: none;
+		position: absolute;
+		/* has to be the same number as the "line-height" of "nav a" */
+		list-style: none;
+	}
 
-  /* Display Dropdowns on Hover */
-  nav ul ul li {
-    position: relative;
-    float: none;
-    width: 150px;
-    margin: 0px;
-    display: list-item;
-    border: 3px;
-    line-height: 50px;
-  }
+	/* Display Dropdowns on Hover */
+	nav ul ul li {
+		position: relative;
+		float: none;
+		width: 150px;
+		margin: 0px;
+		display: list-item;
+		border: 3px;
+		line-height: 50px;
+	}
 
-  ul li a:is(:link, :active, :visited).active {
-    background: cornsilk;
-    color: chocolate;
-  }
+	ul li a:is(:link, :active, :visited).active {
+		background: cornsilk;
+		color: chocolate;
+	}
 
-  .search-container {
-    display: flex;
-  }
+	.search-container {
+		display: flex;
+	}
 
-  .search-container .cart-button {
-    background-color: cadetblue;
-    color: cornsilk;
-    width: 50%;
-    height: 40px;
-    border: 1px solid grey;
-  }
+	.search-container .cart-button {
+		background-color: cadetblue;
+		color: cornsilk;
+		width: 50%;
+		height: 40px;
+		border: 1px solid grey;
+	}
 
-  /* Style the search field */
-  form.example input[type=text] {
-    padding: 10px;
-    font-size: 17px;
-    border: 1px solid grey;
-    float: left;
-    width: 80%;
-    background: white;
-    height: 40px;
-  }
+	/* Style the search field */
+	form.example input[type=text] {
+		padding: 10px;
+		font-size: 17px;
+		border: 1px solid grey;
+		float: left;
+		width: 80%;
+		background: white;
+		height: 40px;
+	}
 
-  /* Style the submit button */
-  form.example button {
-    float: left;
-    width: 20%;
-    padding: 10px;
-    background: cadetblue;
-    color: cornsilk;
-    font-size: 17px;
-    border: 1px solid grey;
-    border-left: none;
-    /* Prevent double borders */
-    cursor: pointer;
-    height: 40px;
-  }
+	/* Style the submit button */
+	form.example button {
+		float: left;
+		width: 20%;
+		padding: 10px;
+		background: cadetblue;
+		color: cornsilk;
+		font-size: 17px;
+		border: 1px solid grey;
+		border-left: none;
+		/* Prevent double borders */
+		cursor: pointer;
+		height: 40px;
+	}
 
-  form.example button:hover {
-    background: #36668d;
-  }
+	form.example button:hover {
+		background: #36668d;
+	}
 
-  /* Clear floats */
-  form.example::after {
-    content: "";
-    clear: both;
-    display: table;
-  }
-
-
+	/* Clear floats */
+	form.example::after {
+		content: "";
+		clear: both;
+		display: table;
+	}
 
 
 
 
-  .grid-container {
-    max-width: 500px;
-    margin: auto;
-    display: grid;
-    grid-gap: 20px;
-    grid-template-columns: auto auto auto;
-    padding: 10px;
-  }
 
-  .grid-item {
-    background-color: rgba(255, 255, 255, 0.8);
-    border: 1px solid rgba(0, 0, 0, 0.8);
-    padding: 30px;
-    text-align: center;
-  }
+
+	.grid-container {
+		max-width: 500px;
+		margin: auto;
+		display: grid;
+		grid-gap: 20px;
+		grid-template-columns: auto auto auto;
+		padding: 10px;
+	}
+
+	.grid-item {
+		background-color: rgba(255, 255, 255, 0.8);
+		border: 1px solid rgba(0, 0, 0, 0.8);
+		padding: 30px;
+		text-align: center;
+	}
 </style>
 
 <body>
 
-  <nav>
-    <div class="logo">
-      <h4>Shopping Like a Skroutz</h4>
-    </div>
+	<nav>
+		<div class="logo">
+			<h4>Shopping Like a Skroutz</h4>
+		</div>
 
-    <ul class="nav-links">
-      <li>
-        <a class="current" href="/home">Home</a>
-      </li>
+		<ul class="nav-links">
+			<li>
+				<a class="current" href="/home">Home</a>
+			</li>
 
-      <li>
-        <!-- First Tier Drop Down -->
-        <a href="/categories">Categories</a>
-        <ul>
-          <li><a href="/tech">Technology</a></li>
-          <li><a href="/fashion">Fashion</a></li>
-          <li><a href="/carsmoto">Cars/Moto</a></li>
-        </ul>
+			<li>
+				<!-- First Tier Drop Down -->
+				<a href="/categories">Categories</a>
+				<ul>
+					<li><a href="/tech">Technology</a></li>
+					<li><a href="/fashion">Fashion</a></li>
+					<li><a href="/carsmoto">Cars/Moto</a></li>
+				</ul>
 
-      </li>
+			</li>
 
-      <li>
-        <a href="/contact">Contact</a>
-      </li>
-    </ul>
+			<li>
+				<a href="/contact">Contact</a>
+			</li>
+		</ul>
 
-    <div class="search-container">
+		<div class="search-container">
 
-      <button style="font-size:17px" class="cart-button" onclick="location.href='mycart'"><i
-          class="fa fa-shopping-cart"></i> My Cart </button>
+			<button style="font-size:17px" class="cart-button" onclick="location.href='mycart'"><i
+					class="fa fa-shopping-cart"></i> My Cart </button>
 
-      <form class="example" action="/action_page.php">
+			<form class="example" action="/action_page.php">
 
-        <input type="text" placeholder="Search.." name="search" autocomplete="off">
-        <button type="submit"><i class="fa fa-search"></i></button>
-      </form>
-    </div>
-  </nav>
+				<input type="text" placeholder="Search.." name="search" autocomplete="off">
+				<button type="submit"><i class="fa fa-search"></i></button>
+			</form>
+		</div>
+	</nav>
 
 
 
-  <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
-    crossorigin="anonymous"></script>
-  <script type="text/javascript">
+	<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+		crossorigin="anonymous"></script>
+	<script type="text/javascript">
 
-    // find active page
-    const activePage = window.location.pathname; // get page from pathname
+		// find active page
+		const activePage = window.location.pathname; // get page from pathname
 
-    const navLinks = document.querySelectorAll('nav a').forEach(link => {
-      if (link.href.includes(`${activePage}`)) {
-        link.classList.add('active');
-      }
-    })
+		const navLinks = document.querySelectorAll('nav a').forEach(link => {
+			if (link.href.includes(`${activePage}`)) {
+				link.classList.add('active');
+			}
+		})
 
-  </script>
+	</script>
