@@ -19,9 +19,11 @@ const app = express();
 // View engine setup
 app.set('view engine', 'ejs');
 
-app.get('/Styling', function (req, res) {
-	res.sendFile(path.resolve("./style/home_style.css"));
-});
+
+// CSS Files Path
+app.use('/assets', express.static('style'));
+app.use(express.static(path.join(__dirname, './views/style/')));
+
 
 app.get('/home', (req, res) => {
 	res.render('home', { title: "Welcome to Skroutz" });

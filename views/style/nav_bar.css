@@ -1,0 +1,132 @@
+* {
+	scroll-behavior: smooth;
+}
+
+body {
+	background-color: #f1f1f1;
+}
+
+nav {
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+	min-height: 8vh;
+	background-color: chocolate;
+	font-family: 'Poppins', sans-serif;
+}
+
+.logo {
+	color: cornsilk;
+	text-transform: uppercase;
+	font-size: 18px;
+}
+
+.nav-links {
+	display: flex;
+	justify-content: space-around;
+	width: 20%;
+}
+
+.nav-links li {
+	list-style-type: none;
+}
+
+.nav-links a {
+	color: cornsilk;
+	text-decoration: none;
+	font-weight: bold;
+	padding: 14px 16px;
+}
+
+.nav-links a:hover {
+	background: cornsilk;
+	color: black;
+}
+
+nav ul ul {
+	display: none;
+	position: absolute;
+	/* has to be the same number as the "line-height" of "nav a" */
+	list-style: none;
+}
+
+/* Display Dropdowns on Hover */
+nav ul ul li {
+	position: relative;
+	float: none;
+	width: 150px;
+	margin: 0px;
+	display: list-item;
+	border: 3px;
+	line-height: 50px;
+}
+
+ul li a:is(:link, :active, :visited).active {
+	background: cornsilk;
+	color: chocolate;
+}
+
+.search-container {
+	display: flex;
+}
+
+.search-container .cart-button {
+	background-color: cadetblue;
+	color: cornsilk;
+	width: 50%;
+	height: 40px;
+	border: 1px solid grey;
+}
+
+/* Style the search field */
+form.example input[type=text] {
+	padding: 10px;
+	font-size: 17px;
+	border: 1px solid grey;
+	float: left;
+	width: 80%;
+	background: white;
+	height: 40px;
+}
+
+/* Style the submit button */
+form.example button {
+	float: left;
+	width: 20%;
+	padding: 10px;
+	background: cadetblue;
+	color: cornsilk;
+	font-size: 17px;
+	border: 1px solid grey;
+	border-left: none;
+	/* Prevent double borders */
+	cursor: pointer;
+	height: 40px;
+}
+
+form.example button:hover {
+	background: #36668d;
+}
+
+/* Clear floats */
+form.example::after {
+	content: "";
+	clear: both;
+	display: table;
+}
+
+.grid-container {
+	max-width: 500px;
+	margin: auto;
+	display: grid;
+	grid-gap: 20px;
+	grid-template-columns: auto auto auto;
+	padding: 10px;
+}
+
+.grid-item {
+	background-color: rgba(255, 255, 255, 0.8);
+	border: 1px solid rgba(0, 0, 0, 0.8);
+	padding: 30px;
+	text-align: center;
+}
