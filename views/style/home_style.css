@@ -1,3 +1,66 @@
-* {
-    background-color: brown;
+.deal_of_the_day {
+max-width: 300px;
+margin: auto;
+width: 50%;
+height:17%;
+background: cadetblue;
+color: cornsilk;
+
+padding: 5px 0;
+}
+
+.deal {
+    text-align: center;
+}
+
+.best-offers {
+    margin: 20px;
+}
+
+.shelf-with-offers {
+    display: flex;
+    width: 100%;
+    height: 400px;
+    list-style-type: none;
+    margin: 20;
+    padding: 0;
+    overflow: hidden;
+}
+
+img {
+    width:250px;
+    height:300px;
+}
+
+
+.shelf-item img {
+    width: 80%;
+}
+
+.shelf-item {
+    width: 100%;
+    background-color: white;
+    height: 350px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    margin: 0px 8px;
+    border: 1px solid rgb(238, 233, 233);
+    border-radius: 4px;
+    width: 350px;
+    text-align: center;
+}
+
+.shelf-item p {
+    width: 300px;
+    text-align: center;
+}
+
+.shelf-with-offers a {
+    color: rgb(0, 0, 0);
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.shelf-with-offers a:hover {
+    color: rgb(0, 0, 0);
+    text-decoration: none;
 }
