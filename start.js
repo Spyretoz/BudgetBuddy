@@ -1,46 +1,9 @@
-const { Client } = require('pg')
-const dotenv = require('dotenv')
-dotenv.config()
-
+const client = require('./config/database.js')
 var express = require('express');
-var session = require('express-session');
+// var session = require('express-session');
 var bodyParser = require('body-parser');
 var path = require('path');
-var config = require('./config/database')
-
-// Connect to db
-// var connection = mysql.createConnection({
-// 	host: '192.168.1.182',
-// 	user: 'sqluser',
-// 	password: 'password',
-// 	database: 'NodeSkroutzDB'
-// });
-
-
-// console.log(`Database host is ${}`);
-// console.log(`Database username is ${}`);
-// console.log(`Database password is ${}`);
-// console.log(`Database port is ${}`);
-
-const connectDb = async () => {
-	try {
-		const client = new Client({
-			host: process.env.PGHOST,
-			user: process.env.PGUSER,
-			password: process.env.PGPASSWORD,
-			port: process.env.PGPORT
-		})
-
-		await client.connect()
-		const res = await client.query('SELECT * FROM PRODUCT')
-		console.log(res)
-		await client.end()
-	} catch (error) {
-		console.log(error)
-	}
-}
-
-connectDb()
+// var config = require('./config/database')
 
 // Init app
 const app = express();
@@ -54,8 +17,24 @@ app.use('/assets', express.static('style'));
 app.use(express.static(path.join(__dirname, './views/style/')));
 
 
+
+// Connect to db
+client.connect();
+
+
+
 app.get('/home', (req, res) => {
 	res.render('home', { title: "Welcome to Skroutz" });
+	
+	client.query('Select * from product', (err, result)=>{
+		
+		if(!err){
+			//console.log(client)
+			console.log(result.rows[0])
+			//res.send(result);
+		}
+	});
+	client.end;
 });
 
 
@@ -64,8 +43,20 @@ app.get('/categories', (req, res) => {
 });
 
 
-app.get('/tech', (req, res) => {
+app.get('/categories/:category', (req, res) => {
 	res.render('products', { title: "Tech And Stuff" });
+
+	console.log(req.params.category);
+
+	client.query(`SELECT * FROM PRODUCT WHERE PROD_CATEGORY='${req.params.category}'`, (err, result)=>{
+		
+		if(!err){
+			//console.log(client)
+			console.log(result.rows)
+			//res.send(result);
+		}
+	});
+	client.end;
 });
 
 // app.get('/show_carriers', function(request, response)
