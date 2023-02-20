@@ -1,4 +1,7 @@
-var mysql = require('mysql');
+const { Client } = require('pg')
+const dotenv = require('dotenv')
+dotenv.config()
+
 var express = require('express');
 var session = require('express-session');
 var bodyParser = require('body-parser');
@@ -6,12 +9,38 @@ var path = require('path');
 var config = require('./config/database')
 
 // Connect to db
-var connection = mysql.createConnection({
-	host: 'localhost',
-	user: 'sqluser',
-	password: 'password',
-	database: 'NodeSkroutzDB'
-});
+// var connection = mysql.createConnection({
+// 	host: '192.168.1.182',
+// 	user: 'sqluser',
+// 	password: 'password',
+// 	database: 'NodeSkroutzDB'
+// });
+
+
+// console.log(`Database host is ${}`);
+// console.log(`Database username is ${}`);
+// console.log(`Database password is ${}`);
+// console.log(`Database port is ${}`);
+
+const connectDb = async () => {
+	try {
+		const client = new Client({
+			host: process.env.PGHOST,
+			user: process.env.PGUSER,
+			password: process.env.PGPASSWORD,
+			port: process.env.PGPORT
+		})
+
+		await client.connect()
+		const res = await client.query('SELECT * FROM PRODUCT')
+		console.log(res)
+		await client.end()
+	} catch (error) {
+		console.log(error)
+	}
+}
+
+connectDb()
 
 // Init app
 const app = express();
