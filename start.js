@@ -1,9 +1,8 @@
 const client = require('./config/database.js')
 var express = require('express');
-// var session = require('express-session');
 var bodyParser = require('body-parser');
 var path = require('path');
-// var config = require('./config/database')
+// var session = require('express-session');
 
 // Init app
 const app = express();
@@ -17,30 +16,26 @@ app.use('/assets', express.static('style'));
 app.use(express.static(path.join(__dirname, './views/style/')));
 
 
+// Set routes
+const pages = require('./routes/pages.js');
+app.use('/', pages);
+
+const home = require('./routes/home.js');
+app.use('/home', home);
+
+const categories = require('./routes/categories.js');
+app.use('/categories', categories);
+
+
 
 // Connect to db
 client.connect();
 
 
 
-app.get('/home', (req, res) => {
-	res.render('home', { title: "Welcome to Skroutz" });
-	
-	client.query('Select * from product', (err, result)=>{
-		
-		if(!err){
-			//console.log(client)
-			console.log(result.rows[0])
-			//res.send(result);
-		}
-	});
-	client.end;
-});
-
-
-app.get('/categories', (req, res) => {
-	res.render('categories', { title: "Choose category" });
-});
+// app.get('/categories', (req, res) => {
+// 	res.render('categories', { title: "Choose category" });
+// });
 
 
 app.get('/categories/:category', (req, res) => {
@@ -89,9 +84,7 @@ app.get('/contact', (req, res) => {
 });
 
 
-// Set routes
-var pages = require('./routes/pages.js');
-app.use('/', pages);
+
 
 
 // Express Validator Middleware
