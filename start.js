@@ -1,9 +1,8 @@
 const client = require('./config/database.js')
 var express = require('express');
-// var session = require('express-session');
 var bodyParser = require('body-parser');
 var path = require('path');
-// var config = require('./config/database')
+// var session = require('express-session');
 
 // Init app
 const app = express();
@@ -15,6 +14,17 @@ app.set('view engine', 'ejs');
 // CSS Files Path
 app.use('/assets', express.static('style'));
 app.use(express.static(path.join(__dirname, './views/style/')));
+
+
+// Set routes
+const pages = require('./routes/pages.js');
+app.use('/', pages);
+
+const home = require('./routes/home.js');
+app.use('/home', home);
+
+const categories = require('./routes/categories.js');
+app.use('/categories', categories);
 
 
 
@@ -89,9 +99,7 @@ app.get('/contact', (req, res) => {
 });
 
 
-// Set routes
-var pages = require('./routes/pages.js');
-app.use('/', pages);
+
 
 
 // Express Validator Middleware
