@@ -1,94 +1,94 @@
 .contact {
-    min-height: 70vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    color: black;
+	min-height: 80vh;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	color: black;
 }
 
 .contact .content {
-    max-width: 800px;
-    text-align: center;
+	max-width: 800px;
+	text-align: center;
 }
 
 .contact .content h2 {
-    font-size: 36px;
-    font-weight: 500;
+	font-size: 36px;
+	font-weight: 500;
 }
 
 .contact .content p {
-    font-weight: 300;
+	font-weight: 300;
 }
 
 .container {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 30px;
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin-top: 30px;
 }
 
 .container .contactInfo {
-    width: 50%;
-    display: flex;
-    flex-direction: column;
+	width: 50%;
+	display: flex;
+	flex-direction: column;
 }
 
 .container .contactInfo .box {
-    position: relative;
-    padding: 20px 0;
-    display: flex;
+	position: relative;
+	padding: 20px 0;
+	display: flex;
 }
 
 .container .contactInfo .box .icon {
-    min-width: 60px;
-    height: 60px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 30px;
+	min-width: 60px;
+	height: 60px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-size: 30px;
 }
 
 .container .contactInfo .box .text {
-    display: flex;
-    font-size: 16px;
-    margin-left: 20px;
-    flex-direction: column;
-    font-weight: 300;
+	display: flex;
+	font-size: 16px;
+	margin-left: 20px;
+	flex-direction: column;
+	font-weight: 300;
 }
 
 .container .contactInfo .box .text h3 {
-    font-weight: 500;
-    color: cadetblue;
+	font-weight: 500;
+	color: cadetblue;
 }
 
 
 .contact {
-    background-color: rgb(241, 240, 236);
+	background-color: rgb(241, 240, 236);
 }
 
 .cont-form {
-    background-color: bisque;
-    padding: 50px 50px;
+	background-color: bisque;
+	padding: 50px 50px;
 }
 
 
 .container .contactInfo .box .icon a {
-    display: flex;
-    color: rgb(61, 79, 160);
-    text-decoration: none;
-    font-weight: bold;
-    margin: 10px 8px;
+	display: flex;
+	color: rgb(61, 79, 160);
+	text-decoration: none;
+	font-weight: bold;
+	margin: 10px 8px;
 
-    
+	
 }
 
 .container .contactInfo .box .icon a i {
-    margin-top: 30px;
+	margin-top: 30px;
 }
 
 .shelf-with-offers a:hover {
-    color: rgb(0, 0, 0);
-    text-decoration: none;
+	color: rgb(0, 0, 0);
+	text-decoration: none;
 }

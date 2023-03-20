@@ -26,15 +26,15 @@ client.connect();
 app.get('/home', (req, res) => {
 	res.render('home', { title: "Welcome to Skroutz" });
 	
-	client.query('Select * from product', (err, result)=>{
+	// client.query('Select * from product', (err, result)=>{
 		
-		if(!err){
-			//console.log(client)
-			console.log(result.rows[0])
-			//res.send(result);
-		}
-	});
-	client.end;
+	// 	if(!err){
+	// 		//console.log(client)
+	// 		console.log(result.rows[0])
+	// 		//res.send(result);
+	// 	}
+	// });
+	// client.end;
 });
 
 
@@ -48,15 +48,15 @@ app.get('/categories/:category', (req, res) => {
 
 	console.log(req.params.category);
 
-	client.query(`SELECT * FROM PRODUCT WHERE PROD_CATEGORY='${req.params.category}'`, (err, result)=>{
+	// client.query(`SELECT * FROM PRODUCT WHERE PROD_CATEGORY='${req.params.category}'`, (err, result)=>{
 		
-		if(!err){
-			//console.log(client)
-			console.log(result.rows)
-			//res.send(result);
-		}
-	});
-	client.end;
+	// 	if(!err){
+	// 		//console.log(client)
+	// 		console.log(result.rows)
+	// 		//res.send(result);
+	// 	}
+	// });
+	// client.end;
 });
 
 // app.get('/show_carriers', function(request, response)
@@ -102,7 +102,6 @@ app.use(function (req, res, next) {
 	res.locals.messages = require('express-messages')(req, res);
 	next();
 })
-
 
 
 

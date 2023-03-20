@@ -1,59 +1,35 @@
 <link href="/nav_bar.css" rel="stylesheet" type="text/css">
 
-<body>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<nav>
-	<div class="logo">
-		<h4>Shopping Like a Skroutz</h4>
-	</div>
 
-	<ul class="nav-links">
-		<li>
-			<a class="current" href="/home">Home</a>
-		</li>
-
-		<li>
-			<!-- First Tier Drop Down -->
-			<a href="/categories">Categories</a>
-			<ul>
-				<li><a href="/tech">Technology</a></li>
-				<li><a href="/fashion">Fashion</a></li>
-				<li><a href="/carsmoto">Cars/Moto</a></li>
-			</ul>
-
-		</li>
-
-		<li>
-			<a href="/contact">Contact</a>
-		</li>
-	</ul>
-
-	<div class="search-container">
-
-		<button style="font-size:17px" class="cart-button" onclick="location.href='mycart'"><i
-				class="fa fa-shopping-cart"></i> My Cart </button>
-
-		<form class="example" action="/action_page.php">
-
-			<input type="text" placeholder="Search.." name="search" autocomplete="off">
-			<button type="submit"><i class="fa fa-search"></i></button>
-		</form>
-	</div>
-</nav>
+<div class="topnav" id="myTopnav">
+	<a href="/home">Home</a>
+	<a href="/categories">Categories</a>
+	<a href="/contact">Contact</a>
+	<a href="javascript:void(0);" class="icon" onclick="myFunction()">
+	<i class="fa fa-bars"></i>
+	</a>
+</div>
 
 
 
-<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
-	crossorigin="anonymous"></script>
 <script type="text/javascript">
+	function myFunction() {
+	var x = document.getElementById("myTopnav");
+	if (x.className === "topnav") {
+		x.className += " responsive";
+	} else {
+		x.className = "topnav";
+	}
+}
 
-	// find active page
+
 	const activePage = window.location.pathname; // get page from pathname
 
-	const navLinks = document.querySelectorAll('nav a').forEach(link => {
+	const navLinks = document.querySelectorAll('.topnav a').forEach(link => {
 		if (link.href.includes(`${activePage}`)) {
 			link.classList.add('active');
 		}
-	})
-
+	});
 </script>
