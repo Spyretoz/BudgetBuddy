@@ -1,0 +1,62 @@
+<html>
+	
+	<%- include('./partials/header.ejs') %>
+	<body>
+
+		<%- include('./partials/nav.ejs') %>
+	   
+		<br>
+
+        <form class="cont-form">
+
+            <table>
+                <tr>
+                    <th><h3>ProductName</h3></th>
+                    <th><h3>Description</h3></th>
+                    <th><h3>Category</h3></th>
+                    <th><h3>Price</h3></th>
+                </tr>
+    
+                <tr>
+                    <td><input type="text" id="ProductName" autocomplete="off"></td>
+                    <td><input type="text" id="Description" autocomplete="off"></td>
+                    <td>
+                        <select id="Category">
+                            <option value="Science fiction" id="sciencefiction">Science fiction
+                            <option value="Satire" id="satire">Satire
+                            <option value="Drama" id="drama">Drama
+                            <option value="Action and Adventure" id="ANA">Action and Adventure
+                            <option value="Romance" id="romance">Romance
+                            <option value="Mystery" id="mystery">Mystery
+                            <option value="Horror" id="horror">Horror
+                        </select>
+                    </td>
+    
+                <td><input type="text" id="price" autocomplete="off"></td>
+                <td><input type="text" id="Year" autocomplete="off"></td>
+            </table>
+
+            <!-- <input type="text" class="field" required="required" placeholder="">
+            <br><br>
+            <input type="text" class="field" required="required" placeholder="">
+            <br><br>
+            <input type="text" class="field" placeholder="">
+            <br><br>
+            <input type="text" class="field" placeholder="Brand">
+            <br><br>
+            <input type="text" class="field" placeholder="Price">
+            <br><br>
+            <input type="text" class="field" placeholder="Year"> -->
+
+            <br><br><br>
+
+            <div class="add_data">
+                <button class="btn" id="btn" onclick="begin()">ADD</button>
+            </div>
+        </form>
+
+		<%- include('./partials/footer.ejs') %>
+	
+	</body>
+
+</html>

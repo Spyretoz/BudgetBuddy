@@ -18,25 +18,34 @@ app.use(express.static(path.join(__dirname, './views/style/')));
 
 
 // Set routes
-const pages = require('./routes/pages.js');
-app.use('/', pages);
+// const pages = require('./routes/pages.js');
+// app.use('/', pages);
 
 const home = require('./routes/home.js');
-app.use('/home', home);
+app.use('/', home);
 
 const categories = require('./routes/categories.js');
 app.use('/categories', categories);
 
+const insertproduct = require('./routes/insertproduct.js');
+app.use('/insertnewproduct', insertproduct);
+
+
+const contact = require('./routes/contact.js');
+app.use('/contact', contact);
+
+// const categories = require('./routes/categories.js');
+// app.use('/categories', categories);
 
 
 // Connect to db
-client.connect();
+//client.connect();
 // console.log(client);
 
 
-app.get('/home', (req, res) => {
+// app.get('/home', (req, res) => {
 
-	res.render('home', { title: "Welcome to Skroutz" });
+// 	res.render('home', { title: "Welcome to Skroutz" });
 	
 	// client.query('SELECT * FROM PRODUCT', (err, result)=>{
 		
@@ -47,64 +56,9 @@ app.get('/home', (req, res) => {
 	// 	}
 	// });
 	//client.end;
-});
-
-
-app.get('/categories', (req, res) => {
-	res.render('categories', { title: "Choose category" });
-});
-
-
-app.get('/categories/:category', (req, res) => {
-	res.render('products', { title: "Tech And Stuff" });
-
-	console.log(req.params.category);
-
-	// client.query(`SELECT * FROM PRODUCT WHERE PROD_CATEGORY='${req.params.category}'`, (err, result)=>{
-		
-	// 	if(!err){
-	// 		//console.log(client)
-	// 		console.log(result.rows)
-	// 		//res.send(result);
-	// 	}
-	// });
-	// client.end;
-});
-
-// app.get('/show_carriers', function(request, response)
-// {
-// 	if (request.session.loggedin) 
-// 	{
-// 		connection.query("SELECT car_name FROM carrier;", function(error, results, fields) 
-// 		{
-// 			if (error) throw error;
-// 			console.log(results);
-//    			response.send(results);       
-// 		});
-// 	}
-// 	else 
-// 	{
-// 		response.send('Please login to view this page!');
-// 	}
 // });
 
-app.get('/fashion', (req, res) => {
-	res.render('products', { title: "Fashion" });
-});
 
-app.get('/carsmoto', (req, res) => {
-	res.render('products', { title: "Cars And Moto" });
-});
-
-app.get('/contact', (req, res) => {
-	res.render('contact', { title: "Contact Us" });
-});
-
-
-
-
-
-// Express Validator Middleware
 
 // Express Messages Middleware
 app.use(require('connect-flash')());
@@ -112,9 +66,6 @@ app.use(function (req, res, next) {
 	res.locals.messages = require('express-messages')(req, res);
 	next();
 })
-
-
-
 
 
 

@@ -5,6 +5,9 @@ const client = require('../config/database.js')
 
 router.get('/', (req, res) => {
 
+    // Connect to db
+    client.connect();
+
     res.render('home', { title: "Welcome to Skroutz" });
         
     client.query('SELECT * FROM PRODUCT', (err, result)=>{
@@ -13,6 +16,7 @@ router.get('/', (req, res) => {
             console.log(result.rows)
             // console.log(result.rows[0])
             // res.send(result);
+            //const myArr = JSON.parse(result.rows);
         }
     });
     client.end;
