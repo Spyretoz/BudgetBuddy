@@ -1,37 +1,32 @@
 const express = require('express');
 const router = express.Router();
-const client = require('../config/database.js')
+const client = require('../config/database.js');
 
 
 
 router.get('/', (req, res) => {
-    res.render('newproduct', { title: "Insert a new product" });
+	res.render('newproduct', { title: "Insert a new product" });
 });
 
 
-router.post('/', (req, res) =>
-{
-    // Connect to db
-    client.connect();
-    
-    var sql = "INSERT INTO product VALUES(null, '" + req.body.author + "', '" + req.body.title + "','" + req.body.genre + "'," + req.body.price + ")";
 
-    mysqlConnection.query(sql, (err) => 
-    {       
-        if(!err)        
-        {
-            resultJson = JSON.stringify([{'ADD':'SUCCESS'}]);
-            console.log(req.body);
-        }
-        else
-        {
-            resultJson = JSON.stringify([{'ADD':'FAIL'}]); 
-            console.log("ERROR");
-        }
-        res.end(resultJson);
-    });
-    
-    mysqlConnection.end();
+router.post('/addProduct', async (req, res) => {
+
+	try {
+		const { prodName, prodDescription, prodCategory, prodBrand, prodPrice, prodYear } = req.body;
+
+		// Insert data into database
+		const result = await client.query('INSERT INTO PRODUCTS (name, description, categoryid, brand, price, year) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *', [prodName, prodDescription, prodCategory, prodBrand, prodPrice, prodYear]);
+
+		// You can handle the result as needed
+		console.log('Product added to the database:', result.rows[0]);
+
+		res.send('Product added to the database successfully!');
+
+	} catch (error) {
+		console.error(error);
+		res.status(500).send('Internal Server Error');
+	}
 });
 
 

@@ -4,7 +4,7 @@
   | - Product ID   |<>------<>| - Retailer ID   |          | - User ID     |
   | - Name         |          | - Name          |          | - Name        |
   | - Description  |          | - Location      |          | - Email       |
-  | - Category     |          | - Website       |          | - Password    |
+  | - CategoryID   |          | - Website       |          | - Password    |
   | - Brand        |          | - Contact Info  |          +---------------+
   | - Price        |          +-----------------+
   | - Year         |
@@ -20,14 +20,22 @@
          |            | - Comment      |
          |            +----------------+
          |
+         |            +--------------------+
+         |<>----------|  PriceHistory      |
+         |            +--------------------+
+         |            | - Price History ID |
+         |            | - Product ID       |
+         |            | - Retailer ID      |
+         |            | - Price            |
+         |            | - Date             |
+         |            +--------------------+
+         |
+         |
          |            +----------------+
-         |<>----------|  PriceHistory  |
+         |<>----------|    Category    |
                       +----------------+
-                      | - Price History ID |
-                      | - Product ID    |
-                      | - Retailer ID   |
-                      | - Price         |
-                      | - Date          |
+                      | - Category ID   |
+                      | - Category Name |
                       +-----------------+
 
 
