@@ -62,24 +62,53 @@
 				</div>
 
 
-				<form class="cont-form">
-					<input type="text" class="field" required="required" placeholder="Your Name">
+				<form class="contactForm">
+					<input type="text" class="field" required="required" id="name" placeholder="Your Name">
 					<br><br>
-					<input type="mail" class="field" required="required" placeholder="Your Email">
+					<input type="mail" class="field" required="required" id="email" placeholder="Your Email">
 					<br><br>
-					<input type="text" class="field" placeholder="Phone">
-					<br><br>
-					<textarea placeholder="Message" class="field"></textarea>
+					<textarea placeholder="Message" required="required" id="message" class="field"></textarea>
 
 					<br><br><br>
 
-					<div class="inputBox">
-						<input type="submit" value="Send">
-					</div>
+					<button type="button" onclick="sendEmail()">Send Message</button>
 				</form>
 				
 			</div>
 		</section>
+
+
+		<script>
+			async function sendEmail() {
+				const name = document.getElementById('name').value;
+				const email = document.getElementById('email').value;
+				const message = document.getElementById('message').value;
+		
+				try {
+					const response = await fetch('/send-email', {
+						method: 'POST',
+						headers: {
+							'Content-Type': 'application/json',
+						},
+						body: JSON.stringify({
+							name,
+							email,
+							message,
+						}),
+					});
+		
+					if (response.ok) {
+						alert('Email sent successfully!');
+					} else {
+						alert('Failed to send email.');
+					}
+				} catch (error) {
+					console.error('Error:', error);
+					alert('An error occurred while sending the email.');
+				}
+			}
+		</script>
+		
 	
 		<%- include('./partials/footer.ejs') %>
 	

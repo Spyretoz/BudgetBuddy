@@ -7,35 +7,39 @@
 
 		<%- include('./partials/nav.ejs') %>
 
-		<div class="grid-container">
-
-			<div class="grid-item">
-				<div class="tech">
-					<h2><a href="/tech">Technology</a></h2>
-					<br>
-					<p><a href="/phones">Cellphones</a></p>
-					<p><a href="/phone-cases">Cellphone Cases</a></p>
-					<p><a href="/laptops">Laptops</a></p>
-				</div>
-			</div>
-
-			<div class="grid-item">
-				<h2><a href="/fashion">Fashion</a></h2>
-				<br>
-				<p><a href="/fashion">Cellphones</a></p>
-				<p><a href="/fashion">Cellphone Cases</a></p>
-				<p><a href="/fashion">Laptops</a></p>
-			</div>
-
-			<div class="grid-item">
-				<h2><a href="/carsmoto">Automotive</a></h2>
-				<br>
-				<p><a href="/carsmoto">Cellphones</a></p>
-				<p><a href="/carsmoto">Cellphone Cases</a></p>
-				<p><a href="/carsmoto">Laptops</a></p>
-			</div>
-
+		<br><br><br>
+		<div class="categories-container" id="categories-container">
+			<!-- Categories will be added here dynamically -->
 		</div>
+
+		<br><br><br>
+		
+		<script>
+			// Fetch categories from the server and render them on the page
+			async function fetchCategories() {
+				try {
+					const response = await fetch('/categories/all');
+					const categories = await response.json();
+		
+					const categoriesContainer = document.getElementById('categories-container');
+					
+					// Render categories dynamically
+					categories.forEach(category => {
+						const categoryDiv = document.createElement('div');
+						categoryDiv.classList.add('category');
+						categoryDiv.innerHTML = `
+							<div class="category-name">${category.categoryname}</div>
+						`;
+						categoriesContainer.appendChild(categoryDiv);
+					});
+				} catch (error) {
+					console.error('Error fetching categories:', error);
+				}
+			}
+		
+			// Call the function to fetch and display categories when the page loads
+			fetchCategories();
+		</script>
 
 	   
 		<%- include('./partials/footer.ejs') %>

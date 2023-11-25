@@ -27,12 +27,16 @@ app.use('/', home);
 const categories = require('./routes/categories.js');
 app.use('/categories', categories);
 
+
 const insertproduct = require('./routes/insertproduct.js');
 app.use('/insertnewproduct', insertproduct);
 
 
 const contact = require('./routes/contact.js');
 app.use('/contact', contact);
+
+const mail = require('./routes/mail.js');
+app.use('/send-email', mail);
 
 
 
@@ -46,7 +50,7 @@ app.use(function (req, res, next) {
 
 var port = 8081;
 var server = app.listen(port, function () {
-	var host = server.address().address;
-	var port = server.address().port;
-	console.log(`Example app listening at http://${host}:${port}`);
+	// var host = server.address().address;
+	// var port = server.address().port;
+	console.log(`Server is listening at http://localhost:${port}`);
 });
