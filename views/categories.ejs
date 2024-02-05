@@ -25,7 +25,10 @@
 					
 					// Render categories dynamically
 					categories.forEach(category => {
-						const categoryDiv = document.createElement('div');
+						const categoryDiv = document.createElement('a');
+
+						categoryDiv.href = window.location.href + "/" + `${category.categoryname}`;
+
 						categoryDiv.classList.add('category');
 						categoryDiv.innerHTML = `
 							<div class="category-name">${category.categoryname}</div>
