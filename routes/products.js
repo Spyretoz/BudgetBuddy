@@ -5,15 +5,15 @@ const client = require('../config/database.js');
 
 router.get('/', (req, res) => {
 
-	res.render('categories', { title: "Choose category" });
+	res.render('products', { title: "Show all products" });
 });
 
 
-router.get('/all', async (req, res) => {
+router.get('/brands', async (req, res) => {
 
 	try {
 		// Show allacategories from database
-		const response = await client.query('SELECT * FROM CATEGORIES');
+		const response = await client.query('SELECT distinct BRAND FROM Products');
 		res.json(response.rows);
 
 	} catch (error) {
@@ -22,11 +22,13 @@ router.get('/all', async (req, res) => {
 	}
 });
 
+
+
 router.get('/all', async (req, res) => {
 
 	try {
 		// Show allacategories from database
-		const response = await client.query('SELECT * FROM CATEGORIES');
+		const response = await client.query('SELECT * FROM Products');
 		res.json(response.rows);
 
 	} catch (error) {

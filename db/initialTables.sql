@@ -1,9 +1,9 @@
-DROP TABLE IF EXISTS Categories;
-DROP TABLE IF EXISTS Retailers;
-DROP TABLE IF EXISTS Users;
-DROP TABLE IF EXISTS Products;
-DROP TABLE IF EXISTS Reviews;
 DROP TABLE IF EXISTS PriceHistory;
+DROP TABLE IF EXISTS Reviews;
+DROP TABLE IF EXISTS Products;
+DROP TABLE IF EXISTS Users;
+DROP TABLE IF EXISTS Retailers;
+DROP TABLE IF EXISTS Categories;
 
 
 
@@ -35,7 +35,7 @@ CREATE TABLE Products (
     ProductID SERIAL PRIMARY KEY,
     Name VARCHAR(255) NOT NULL,
     Description TEXT,
-    CategoryID INTEGER REFERENCES Categories(CategoryID),
+    CategoryID INTEGER REFERENCES Categories(CategoryID)  NOT NULL,
     Brand VARCHAR(255),
     Price DECIMAL(10, 2) NOT NULL,
     Year SMALLINT NOT NULL

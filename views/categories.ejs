@@ -20,6 +20,8 @@
 				try {
 					const response = await fetch('/categories/all');
 					const categories = await response.json();
+
+					//console.log(categories);
 		
 					const categoriesContainer = document.getElementById('categories-container');
 					
