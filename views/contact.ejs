@@ -9,6 +9,7 @@
 		<%- include('./partials/nav.ejs') %>
 
 
+		<br><br>
 		<section class="contact">
 			<div class="content">
 				<h2>Contact Us</h2>
@@ -50,11 +51,11 @@
 
 					<div class="box">
 						<div class="icon">
-							<a href="mailto:someone@example.com">
+							<a href="mailto:skrnodemail@gmail.com">
 								<i class="fa fa-envelope" aria-hidden="true"></i>
 								<div class="text">
 									<h3>E-mail</h3>
-									<p>random-mail@gmail.com</p>
+									<p>skrnodemail@gmail.com</p>
 								</div>
 							</a>
 						</div>
@@ -67,11 +68,11 @@
 					<br><br>
 					<input type="mail" class="field" required="required" id="email" placeholder="Your Email">
 					<br><br>
-					<textarea placeholder="Message" required="required" id="message" class="field"></textarea>
+					<textarea class="field" placeholder="Message" required="required" id="message"></textarea>
 
 					<br><br><br>
 
-					<button type="button" onclick="sendEmail()">Send Message</button>
+					<button type="button" class="submitButton" onclick="sendEmail()">Send Message</button>
 				</form>
 				
 			</div>

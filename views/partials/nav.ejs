@@ -1,35 +1,58 @@
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
 <link href="/nav_bar.css" rel="stylesheet" type="text/css">
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<header>
+	<div class="navbar">
+		<div class="logo"><a href="/">NodeSkroutz</a></div>
+		<ul class="links">
+			<li><a href="/">Home</a></li>
+			<li><a href="/categories">Categories</a></li>
+			<li><a href="/contact">Contact</a></li>
+		</ul>
+		<a href="#" class="action_btn">Get Started</a>
+		<div class="toggle_btn"><i class="fa-solid fa-bars"></i></div>
+	</div>
+
+	<div class="dropdown_menu">
+		<li><a href="/">Home</a></li>
+		<li><a href="/categories">Categories</a></li>
+		<li><a href="/contact">Contact</a></li>
+		<li><a href="#" class="action_btn">Get Started</a></li>
+	</div>
 
 
-<div class="topnav" id="myTopnav">
-	<a href="/">Home</a>
-	<a href="/categories">Categories</a>
-	<a href="/contact">Contact</a>
-	<a href="javascript:void(0);" class="icon" onclick="myFunction()">
-	<i class="fa fa-bars"></i>
-	</a>
-</div>
+	<div class="search">
+		<button type="submit" class="searchButton" onclick="searchItem()">
+			<i class="fa fa-search"></i>
+		</button>
 
+		<input type="text" class="searchTerm" placeholder="What are you looking for?">
+		
+		<button type="submit" class="listButton" onclick="showCategories()"></button>
+			<i class="fa-solid fa-list"></i>
+		</button>
+	</div>
+</header>
+<script>
+	const toggleBtn = document.querySelector('.toggle_btn');
+	const toggleBtnIcon = document.querySelector('.toggle_btn i');
+	const dropDownMenu = document.querySelector('.dropdown_menu');
 
+	toggleBtn.onclick = function () {
+		dropDownMenu.classList.toggle('open')
+		const isOpen = dropDownMenu.classList.contains('open')
 
-<script type="text/javascript">
-	function myFunction() {
-	var x = document.getElementById("myTopnav");
-	if (x.className === "topnav") {
-		x.className += " responsive";
-	} else {
-		x.className = "topnav";
+		toggleBtnIcon.classList = isOpen
+			? 'fa-solid fa-xmark'
+			: 'fa-solid fa-bars'
 	}
-}
 
 
-	const activePage = window.location.pathname; // get page from pathname
 
-	const navLinks = document.querySelectorAll('.topnav a').forEach(link => {
-		if (link.href.includes(`${activePage}`)) {
-			link.classList.add('active');
-		}
-	});
+	function showCategories() {
+		console.log("Pressed showCategories");
+	}
 </script>
