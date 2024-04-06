@@ -11,10 +11,10 @@
 		<div class="categories-container" id="categories-container">
 			<!-- Categories will be added here dynamically -->
 
-			<section class="index-category">
+			<section class="index-category" id="index-category">
 				<p>Categories</p>
 
-				<a href="" class="index-category-box">
+				<!-- <a href="" class="index-category-box">
 					<div class="dark-overlay"></div>
 					<h3>Electronics</h3>
 				</a>
@@ -25,7 +25,7 @@
 				<a href="" class="index-category-box">
 					<div class="dark-overlay"></div>
 					<h3>Medical</h3>
-				</a>
+				</a> -->
 			</section>
 		</div>
 
@@ -40,18 +40,21 @@
 
 					//console.log(categories);
 		
-					const categoriesContainer = document.getElementById('categories-container');
+					const categoriesContainer = document.getElementById('index-category');
+					
 					
 					// Render categories dynamically
 					categories.forEach(category => {
+
+
 						const categoryDiv = document.createElement('a');
 
 						categoryDiv.href = window.location.href + "/" + `${category.categoryname}`;
 
-						categoryDiv.classList.add('category');
-						categoryDiv.innerHTML = `
-							<div class="category-name">${category.categoryname}</div>
-						`;
+						categoryDiv.classList.add('index-category-box');
+
+						categoryDiv.innerHTML = `<div class="dark-overlay"></div><h3>${category.categoryname}</h3>`;
+
 						categoriesContainer.appendChild(categoryDiv);
 					});
 				} catch (error) {
