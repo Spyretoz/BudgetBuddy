@@ -13,7 +13,7 @@ router.get('/all', async (req, res) => {
 
 	try {
 		// Show allacategories from database
-		const response = await client.query('SELECT * FROM CATEGORIES');
+		const response = await client.query('SELECT categoryname, IMAGEURL FROM CATEGORIES ORDER BY categoryid');
 		res.json(response.rows);
 
 	} catch (error) {

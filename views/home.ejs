@@ -15,7 +15,9 @@
 			<br>
 
 			<div id="deal_of_the_day">
-				<img src="https://images.vans.com/is/image/VansEU/VN0A3WMAVNE-HERO?$PDP-FULL-IMAGE$">
+				<h2>Deal Of The Day</h2><br>
+				<img src="https://images.vans.com/is/image/VansEU/VN0A3WMAVNE-HERO?$PDP-FULL-IMAGE$" width="300" height="300">
+				<br><br><h3 id="demo"></h3>
 			</div>
 
 			<br>
@@ -25,44 +27,9 @@
 			<br><br>
 		</div>
 
-		<!-- <div class="best-offers">
-			<h3>Προϊόντα σε προσφορά</h3>
-			
-			<ul class="shelf-with-offers">
-				<li class="shelf-item">
-					<a title="Nike Ανδρικά Παπούτσια για Τρέξιμο Downshifter 9 AQ7481-002" href="https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.adidas.gr%2Fgazelle-shoes%2FBB5476.html&psig=AOvVaw29J6418yMkMHkjDcawwDRD&ust=1679046517059000&source=images&cd=vfe&ved=0CBAQjRxqFwoTCIiO0e2V4P0CFQAAAAAdAAAAABAD">
-						<img src="https://assets.adidas.com/images/h_840,f_auto,q_auto,fl_lossy,c_fill,g_auto/61f87dec481e4512823ea7fb0080ba1a_9366/Gazelle_Shoes_Mayro_BB5476_01_standard.jpg">
-						
-						<div class="container">
-							<p>Nike Ανδρικά Παπούτσια για Τρέξιμο Downshifter 9 AQ7481-002</p>
-						</div>
-					</a>
-				</li>
+		
 
-				<li class="shelf-item">
-					<a title="Nike Ανδρικά Παπούτσια για Τρέξιμο Downshifter 9 AQ7481-002" href="https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.adidas.gr%2Fgazelle-shoes%2FBB5476.html&psig=AOvVaw29J6418yMkMHkjDcawwDRD&ust=1679046517059000&source=images&cd=vfe&ved=0CBAQjRxqFwoTCIiO0e2V4P0CFQAAAAAdAAAAABAD">
-						<img src="https://assets.adidas.com/images/h_840,f_auto,q_auto,fl_lossy,c_fill,g_auto/61f87dec481e4512823ea7fb0080ba1a_9366/Gazelle_Shoes_Mayro_BB5476_01_standard.jpg">
-						
-						<div class="container">
-							<p>Nike Ανδρικά Παπούτσια για Τρέξιμο Downshifter 9 AQ7481-002</p>
-						</div>
-					</a>
-				</li>
-
-				<li class="shelf-item">
-					<a title="Nike Ανδρικά Παπούτσια για Τρέξιμο Downshifter 9 AQ7481-002" href="https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.adidas.gr%2Fgazelle-shoes%2FBB5476.html&psig=AOvVaw29J6418yMkMHkjDcawwDRD&ust=1679046517059000&source=images&cd=vfe&ved=0CBAQjRxqFwoTCIiO0e2V4P0CFQAAAAAdAAAAABAD">
-						<img src="https://assets.adidas.com/images/h_840,f_auto,q_auto,fl_lossy,c_fill,g_auto/61f87dec481e4512823ea7fb0080ba1a_9366/Gazelle_Shoes_Mayro_BB5476_01_standard.jpg">
-						
-						<div class="container">
-							<p>Nike Ανδρικά Παπούτσια για Τρέξιμο Downshifter 9 AQ7481-002</p>
-						</div>
-					</a>
-				</li>
-			</ul>
-			
-		</div> -->
-
-		<!-- <script>
+		<script>
 			// Set the date we're counting down to
 			//var countDownDate = new Date("Jan 5, 2022 15:37:25").getTime();
 			const today = new Date()
@@ -86,7 +53,7 @@
 				var seconds = Math.floor((distance % (1000 * 60)) / 1000);
 					
 				// Output the result in an element with id="demo"
-				document.getElementById("demo").innerHTML = hours + "h "
+				document.getElementById("demo").innerHTML = "Time remain: " + hours + "h "
 				+ minutes + "m " + seconds + "s";
 					
 				// If the count down is over, write some text 
@@ -95,7 +62,7 @@
 					document.getElementById("demo").innerHTML = "EXPIRED";
 				}
 			}, 1000);
-		</script> -->
+		</script>
 
 		<%- include('./partials/footer.ejs') %>
 	
