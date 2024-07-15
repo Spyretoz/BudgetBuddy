@@ -30,6 +30,43 @@
 		
 
 		<script>
+
+			// Fetch categories from the server and render them on the page
+			async function fetchDealOfDay() {
+				try {
+					const response = await fetch('/dealofday');
+					const dealOfDay = await response.json();
+
+		
+					const categoriesContainer = document.getElementById('index-category');
+
+					
+					// Render categories dynamically
+					categories.forEach(category => {
+
+						const categoryDiv = document.createElement('a');
+
+						categoryDiv.href = window.location.href + "/" + `${category.categoryname}`;
+
+						categoryDivBox = categoryDiv.classList.add('index-category-box');
+
+						categoryDiv.style.backgroundImage = `url(${category.imageurl})`; // Set background image
+
+						categoryDiv.innerHTML = `<div class="dark-overlay"></div><h3>${category.categoryname}</h3>`;
+
+						categoriesContainer.appendChild(categoryDiv);
+
+					});
+				} catch (error) {
+					console.error('Error fetching categories:', error);
+				}
+			}
+		
+			// Call the function to fetch and display categories when the page loads
+			fetchDealOfDay();
+
+
+
 			// Set the date we're counting down to
 			//var countDownDate = new Date("Jan 5, 2022 15:37:25").getTime();
 			const today = new Date()
@@ -63,9 +100,7 @@
 				}
 			}, 1000);
 		</script>
-
-		<%- include('./partials/footer.ejs') %>
 	
 	</body>
 
-</html>
+<%- include('./partials/footer.ejs') %>

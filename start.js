@@ -3,7 +3,7 @@ var path = require('path');
 const client = require('./config/database.js')
 
 
-client.connect();
+//client.connect();
 
 // Init app
 const app = express();

@@ -9,6 +9,21 @@ router.get('/', (req, res) => {
 });
 
 
+router.get('/Electronics', async (req, res) => {
+
+	try {
+		// Show allacategories from database
+		//const response = await client.query('SELECT distinct BRAND FROM Products');
+		const response = {"something": "blah"};
+		res.json(response.rows);
+
+	} catch (error) {
+		console.error(error);
+		res.status(500).send('Internal Server Error');
+	}
+});
+
+
 router.get('/brands', async (req, res) => {
 
 	try {
