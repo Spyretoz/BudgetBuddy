@@ -1,4 +1,4 @@
-INSERT INTO Categories (CategoryName, IMAGEURL) VALUES ('Electronics', 'https://t.ly/jZB9c');
-INSERT INTO Categories (CategoryName, IMAGEURL) VALUES ('Fashion', '');
-INSERT INTO Categories (CategoryName, IMAGEURL) VALUES ('Car & Moto', 'https://t.ly/VeZBV');
-INSERT INTO Categories (CategoryName, IMAGEURL) VALUES ('Home', '');
+INSERT INTO Categories (CategoryName, IMAGEURL) VALUES ('Electronics', 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Arduino_ftdi_chip-1.jpg/1200px-Arduino_ftdi_chip-1.jpg');
+INSERT INTO Categories (CategoryName, IMAGEURL) VALUES ('Fashion', 'https://voguenvibess.wordpress.com/wp-content/uploads/2018/12/7d2aa820f753978c57208fe047ed4fa42516308820713725772.jpg?w=1080');
+INSERT INTO Categories (CategoryName, IMAGEURL) VALUES ('Car & Moto', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRwBOTR6GKAMI58QDaIaTXmRJuuR9S33twRDg&s');
+INSERT INTO Categories (CategoryName, IMAGEURL) VALUES ('Home', 'https://media.designcafe.com/wp-content/uploads/2020/11/13130440/rustic-home-decor.jpg');

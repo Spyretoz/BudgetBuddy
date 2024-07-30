@@ -3,7 +3,10 @@ var path = require('path');
 const client = require('./config/database.js')
 
 
-//client.connect();
+process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = 0; // for connection with secure db
+
+
+client.connect();
 
 // Init app
 const app = express();
