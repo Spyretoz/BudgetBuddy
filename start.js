@@ -41,9 +41,6 @@ app.use('/contact', contact);
 const mail = require('./routes/mail.js');
 app.use('/send-email', mail);
 
-const products = require('./routes/products.js');
-app.use('/products', products);
-
 
 
 // Express Messages Middleware

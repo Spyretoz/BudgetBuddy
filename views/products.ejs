@@ -2,68 +2,90 @@
 	<%- include('./partials/header.ejs') %>
 
 	<body>
-		<link rel="stylesheet" type="text/css" href="/views/style/products.css">
+		<link href="/products.css" rel="stylesheet" type="text/css">
+
 
 		<%- include('./partials/nav.ejs') %>
 
-		<div class="container">
-			<h1>Items List</h1>
-			<ul>
-				<li>Something Cool</li>
-				<li>Something More</li>
-			</ul>
-		</div>
+		<br><br><br>
+		<div class="categories-container" id="categories-container">
+			<!-- Categories will be added here dynamically -->
 
-	
-		<%- include('./partials/footer.ejs') %>
+			<section class="index-product" id="index-product">
+				<p>products</p>
+
+				<!-- <a href="" class="index-category-box">
+					<div class="dark-overlay"></div>
+					<h3>Electronics</h3>
+				</a>
+				<a href="" class="index-category-box">
+					<div class="dark-overlay"></div>
+					<h3>Cars & Moto</h3>
+				</a>
+				<a href="" class="index-category-box">
+					<div class="dark-overlay"></div>
+					<h3>Medical</h3>
+				</a> -->
+			</section>
+		</div>
 	
 	</body>
 
 	<script>
-
-		async function getBrandFilters() 
-		{
-			// Fetch categories from the server and render them on the page
-			
+		// Fetch products from the server and render them on the page
+		async function fetchProducts() {
 			try {
-				const response = await fetch('/products/brands');
-				const brands = await response.json();
-
-				console.log(brands);
+				const response = await fetch(window.location.href + '/products');
+				const products = await response.json();
+				console.log(products);
 	
+				const productsContainer = document.getElementById('index-category');
+
+				
+				let products = null;
+			// get datas from file json
+			fetch('products.json')
+				.then(response => response.json())
+				.then(data => {
+					products = data;
+					showDetail();
+			})
+
+        	function showDetail(){
+			// remove datas default from HTML
+				let detail = document.querySelector('.detail');
+				let listProduct = document.querySelector('.listProduct');
+				let productId =  new URLSearchParams(window.location.search).get('id');
+				let thisProduct = products.filter(value => value.id == productId)[0];
+				//if there is no product with id = productId => return to home page
+				if(!thisProduct){
+					window.location.href = "/";
+				}
+
+				detail.querySelector('.image img').src = thisProduct.image;
+				detail.querySelector('.name').innerText = thisProduct.name;
+				detail.querySelector('.price').innerText = '$' + thisProduct.price;
+				detail.querySelector('.description').innerText = '$' + thisProduct.description;
+
+
+				(products.filter(value => value.id != productId)).forEach(product => {
+					let newProduct = document.createElement('a');
+					newProduct.href = '/detail.html?id=' + product.id;
+					newProduct.classList.add('item');
+					newProduct.innerHTML = 
+					`<img src="${product.image}" alt="">
+					<h2>${product.name}</h2>
+					<div class="price">$${product.price}</div>`;
+					listProduct.appendChild(newProduct);
+				});
+			}
 			} catch (error) {
 				console.error('Error fetching categories:', error);
 			}
 		}
-
-
-
-		function myFunction() 
-		{
-			var ScheckBox = document.getElementById("SamsungFilter");
-			var XcheckBox = document.getElementById("XiaomiFilter");
-			var Stext = document.getElementById("Stext");
-			var Xtext = document.getElementById("Xtext");
-
-			if (ScheckBox.checked == true)
-			{
-				Stext.style.display = "block";
-			}
-			else if (XcheckBox.checked == true)
-			{
-				Xtext.style.display = "block";
-			}
-			else 
-			{
-				Stext.style.display = "none";
-				Xtext.style.display = "none";
-			}
-		}
-
-
-
-		// Call the function to fetch and display categories when the page loads
-		getBrandFilters();
+	
+		// Call the function to fetch and display products when the page loads
+		fetchProducts();
 	</script>
 
 </html>
