@@ -1,118 +1,111 @@
 <link href="/contact.css" rel="stylesheet" type="text/css">
+<%- include('./partials/header.ejs') %>
 
-<html>
+<body>
 
-	<%- include('./partials/header.ejs') %>
-
-	<body>
-
-		<%- include('./partials/nav.ejs') %>
+	<%- include('./partials/nav.ejs') %>
 
 
-		<br><br>
-		<section class="contact">
-			<div class="content">
-				<h2>Contact Us</h2>
-				<p>
-					We are a team of new people who are interested to help you find the BEST offers. 
-					<br>
-					Please feel free to visit us on office or contact with us on our e-mail or on phone.
-				</p>
-			</div>
-			<div class="container">
-				<div class="contactInfo">
-					
-					<div class="box">
-						<div class="icon">
-							<a href="https://goo.gl/maps/4u27q9cVGe6NgufS6" target="_blank">
-								<i class="fa fa-map-marker" aria-hidden="true"></i>
+	<br><br>
+	<section class="contact">
+		<div class="content">
+			<h2>Contact Us</h2>
+			<p>
+				We are a team of new people who are interested to help you find the BEST offers. 
+				<br>
+				Please feel free to visit us on office or contact with us on our e-mail or on phone.
+			</p>
+		</div>
+		<div class="container">
+			<div class="contactInfo">
+				
+				<div class="box">
+					<div class="icon">
+						<a href="https://goo.gl/maps/4u27q9cVGe6NgufS6" target="_blank">
+							<i class="fa fa-map-marker" aria-hidden="true"></i>
 
-								<div class="text">
-									<h3>Address</h3>
-									<p>Λεωφ. Βασιλίσσης Αμαλίας 133, Αθήνα 105 57</p>
-								</div>
-							</a>
-							
-						</div>
+							<div class="text">
+								<h3>Address</h3>
+								<p>Λεωφ. Βασιλίσσης Αμαλίας 133, Αθήνα 105 57</p>
+							</div>
+						</a>
 						
 					</div>
+					
+				</div>
 
-					<div class="box">
-						<div class="icon">
-							<a href="tel:+302102102102">
-								<i class="fa fa-phone" aria-hidden="true"></i>
-								<div class="text">
-									<h3>Phone</h3>
-									<p>+30 210-2102102</p>
-								</div>
-							</a>
-						</div>
-					</div>
-
-					<div class="box">
-						<div class="icon">
-							<a href="mailto:skrnodemail@gmail.com">
-								<i class="fa fa-envelope" aria-hidden="true"></i>
-								<div class="text">
-									<h3>E-mail</h3>
-									<p>skrnodemail@gmail.com</p>
-								</div>
-							</a>
-						</div>
+				<div class="box">
+					<div class="icon">
+						<a href="tel:+302102102102">
+							<i class="fa fa-phone" aria-hidden="true"></i>
+							<div class="text">
+								<h3>Phone</h3>
+								<p>+30 210-2102102</p>
+							</div>
+						</a>
 					</div>
 				</div>
 
-
-				<form class="contactForm">
-					<input type="text" class="field" required="required" id="name" placeholder="Your Name">
-					<br><br>
-					<input type="mail" class="field" required="required" id="email" placeholder="Your Email">
-					<br><br>
-					<textarea class="field" placeholder="Message" required="required" id="message"></textarea>
-
-					<br><br><br>
-
-					<button type="button" class="submitButton" onclick="sendEmail()">Send Message</button>
-				</form>
-				
+				<div class="box">
+					<div class="icon">
+						<a href="mailto:skrnodemail@gmail.com">
+							<i class="fa fa-envelope" aria-hidden="true"></i>
+							<div class="text">
+								<h3>E-mail</h3>
+								<p>skrnodemail@gmail.com</p>
+							</div>
+						</a>
+					</div>
+				</div>
 			</div>
-		</section>
 
 
-		<script>
-			async function sendEmail() {
-				const name = document.getElementById('name').value;
-				const email = document.getElementById('email').value;
-				const message = document.getElementById('message').value;
-		
-				try {
-					const response = await fetch('/send-email', {
-						method: 'POST',
-						headers: {
-							'Content-Type': 'application/json',
-						},
-						body: JSON.stringify({
-							name,
-							email,
-							message,
-						}),
-					});
-		
-					if (response.ok) {
-						alert('Email sent successfully!');
-					} else {
-						alert('Failed to send email.');
-					}
-				} catch (error) {
-					console.error('Error:', error);
-					alert('An error occurred while sending the email.');
+			<form class="contactForm">
+				<input type="text" class="field" required="required" id="name" placeholder="Your Name">
+				<br><br>
+				<input type="mail" class="field" required="required" id="email" placeholder="Your Email">
+				<br><br>
+				<textarea class="field" placeholder="Message" required="required" id="message"></textarea>
+
+				<br><br><br>
+
+				<button type="button" class="submitButton" onclick="sendEmail()">Send Message</button>
+			</form>
+			
+		</div>
+	</section>
+
+
+	<script>
+		async function sendEmail() {
+			const name = document.getElementById('name').value;
+			const email = document.getElementById('email').value;
+			const message = document.getElementById('message').value;
+	
+			try {
+				const response = await fetch('/send-email', {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json',
+					},
+					body: JSON.stringify({
+						name,
+						email,
+						message,
+					}),
+				});
+	
+				if (response.ok) {
+					alert('Email sent successfully!');
+				} else {
+					alert('Failed to send email.');
 				}
+			} catch (error) {
+				console.error('Error:', error);
+				alert('An error occurred while sending the email.');
 			}
-		</script>
-		
-	
-		<%- include('./partials/footer.ejs') %>
-	
-	</body>
+		}
+	</script>
+</body>
 
-</html>
+<%- include('./partials/footer.ejs') %>

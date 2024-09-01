@@ -1,91 +1,58 @@
-<html>
-	<%- include('./partials/header.ejs') %>
+<%- include('./partials/header.ejs') %>
 
-	<body>
-		<link href="/products.css" rel="stylesheet" type="text/css">
+<link href="/products.css" rel="stylesheet" type="text/css">
+<body>
+	<%- include('./partials/nav.ejs') %>
 
-
-		<%- include('./partials/nav.ejs') %>
-
-		<br><br><br>
-		<div class="categories-container" id="categories-container">
-			<!-- Categories will be added here dynamically -->
-
-			<section class="index-product" id="index-product">
-				<p>products</p>
-
-				<!-- <a href="" class="index-category-box">
-					<div class="dark-overlay"></div>
-					<h3>Electronics</h3>
-				</a>
-				<a href="" class="index-category-box">
-					<div class="dark-overlay"></div>
-					<h3>Cars & Moto</h3>
-				</a>
-				<a href="" class="index-category-box">
-					<div class="dark-overlay"></div>
-					<h3>Medical</h3>
-				</a> -->
-			</section>
-		</div>
-	
-	</body>
-
-	<script>
-		// Fetch products from the server and render them on the page
-		async function fetchProducts() {
-			try {
-				const response = await fetch(window.location.href + '/products');
-				const products = await response.json();
-				console.log(products);
-	
-				const productsContainer = document.getElementById('index-category');
-
-				
-				let products = null;
-			// get datas from file json
-			fetch('products.json')
-				.then(response => response.json())
-				.then(data => {
-					products = data;
-					showDetail();
-			})
-
-        	function showDetail(){
-			// remove datas default from HTML
-				let detail = document.querySelector('.detail');
-				let listProduct = document.querySelector('.listProduct');
-				let productId =  new URLSearchParams(window.location.search).get('id');
-				let thisProduct = products.filter(value => value.id == productId)[0];
-				//if there is no product with id = productId => return to home page
-				if(!thisProduct){
-					window.location.href = "/";
-				}
-
-				detail.querySelector('.image img').src = thisProduct.image;
-				detail.querySelector('.name').innerText = thisProduct.name;
-				detail.querySelector('.price').innerText = '$' + thisProduct.price;
-				detail.querySelector('.description').innerText = '$' + thisProduct.description;
+	<br><br><br>
 
 
-				(products.filter(value => value.id != productId)).forEach(product => {
-					let newProduct = document.createElement('a');
-					newProduct.href = '/detail.html?id=' + product.id;
-					newProduct.classList.add('item');
-					newProduct.innerHTML = 
-					`<img src="${product.image}" alt="">
+
+	<div class="products-container" id="products-container">
+		<!-- Categories will be added here dynamically -->
+		<h1>Products</h1>
+		<section class="index-product" id="index-product">
+			
+
+		
+		</section>
+	</div>
+</body>
+
+<script>
+	// Fetch products from the server and render them on the page
+	async function fetchProducts() {
+		try {
+			const response = await fetch(window.location.href +'/products');
+			const products = await response.json();
+
+			//console.log(products);
+
+			const productsContainer = document.getElementById('index-product');
+
+			
+			// Render categories dynamically
+			products.forEach(product => {
+
+				const productDiv = document.createElement('a');
+				productDiv.href = window.location.href + "/" + `${product.productid}`;
+
+				productDiv.innerHTML = `
+					<img src="${product.imageurl}">
 					<h2>${product.name}</h2>
-					<div class="price">$${product.price}</div>`;
-					listProduct.appendChild(newProduct);
-				});
-			}
-			} catch (error) {
-				console.error('Error fetching categories:', error);
-			}
-		}
-	
-		// Call the function to fetch and display products when the page loads
-		fetchProducts();
-	</script>
+					<div class="price">${product.price}</div>
+				`;
 
-</html>
+				productDivBox = productDiv.classList.add('index-product-box');
+				productsContainer.appendChild(productDiv);
+			});
+		} catch (error) {
+			console.error('Error fetching products: ', error);
+		}
+	}
+
+	// Call the function to fetch and display products when the page loads
+	fetchProducts();
+</script>
+
+<%- include('./partials/footer.ejs') %>

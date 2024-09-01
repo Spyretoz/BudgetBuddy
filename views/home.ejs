@@ -1,106 +1,92 @@
-<html>
+<link href="/home.css" rel="stylesheet" type="text/css">
+<%- include('./partials/header.ejs') %>
+<body>
+	
+	<%- include('./partials/nav.ejs') %>
 
+	<div class="home">
+		<br><br>
 
-	<link href="/home.css" rel="stylesheet" type="text/css">
-	<%- include('./partials/header.ejs') %>
-	<body>
-		
-		<%- include('./partials/nav.ejs') %>
-
-		<div class="home">
-			<br>
-
-			
-
-			<br>
-
-			<div id="deal_of_the_day">
-				<h2>Deal Of The Day</h2><br>
-				<img src="https://images.vans.com/is/image/VansEU/VN0A3WMAVNE-HERO?$PDP-FULL-IMAGE$" width="300" height="300">
-				<br><br><h3 id="demo"></h3>
-			</div>
-
-			<br>
-
-			
-			
-			<br><br>
+		<div id="deal_of_the_day">
+			<h2>Deal Of The Day</h2><br>
+			<img src="https://images.vans.com/is/image/VansEU/VN0A3WMAVNE-HERO?$PDP-FULL-IMAGE$" width="300" height="300">
+			<br><br><h3 id="demo"></h3>
 		</div>
 
-		
+		<br><br><br>
+	</div>
+</body>
 
-		<script>
+<script>
 
-			// Fetch categories from the server and render them on the page
-			async function fetchDealOfDay() {
-				try {
-					const response = await fetch('/dealofday');
-					const dealOfDay = await response.json();
-
-		
-					const categoriesContainer = document.getElementById('index-category');
-
-					
-					// Render categories dynamically
-					categories.forEach(category => {
-
-						const categoryDiv = document.createElement('a');
-
-						categoryDiv.href = window.location.href + "/" + `${category.categoryname}`;
-
-						categoryDivBox = categoryDiv.classList.add('index-category-box');
-
-						categoryDiv.style.backgroundImage = `url(${category.imageurl})`; // Set background image
-
-						categoryDiv.innerHTML = `<div class="dark-overlay"></div><h3>${category.categoryname}</h3>`;
-
-						categoriesContainer.appendChild(categoryDiv);
-
-					});
-				} catch (error) {
-					console.error('Error fetching categories:', error);
-				}
-			}
-		
-			// Call the function to fetch and display categories when the page loads
-			fetchDealOfDay();
+	// Fetch categories from the server and render them on the page
+	async function fetchDealOfDay() {
+		try {
+			const response = await fetch('/dealofday');
+			const dealOfDay = await response.json();
 
 
+			const categoriesContainer = document.getElementById('index-category');
 
-			// Set the date we're counting down to
-			//var countDownDate = new Date("Jan 5, 2022 15:37:25").getTime();
-			const today = new Date()
-			const tomorrow = new Date(today)
-			tomorrow.setDate(tomorrow.getDate() + 1)
-			tomorrow.setHours(0,0,0,0);
-			var countDownDate = tomorrow;
+			
+			// Render categories dynamically
+			categories.forEach(category => {
 
-			// Update the count down every 1 second
-			var x = setInterval(function() {
+				const categoryDiv = document.createElement('a');
 
-				// Get today's date and time
-				var now = new Date().getTime();
-					
-				// Find the distance between now and the count down date
-				var distance = countDownDate - now;
-					
-				// Time calculations for hours, minutes and seconds
-				var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-				var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-				var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-					
-				// Output the result in an element with id="demo"
-				document.getElementById("demo").innerHTML = "Time remain: " + hours + "h "
-				+ minutes + "m " + seconds + "s";
-					
-				// If the count down is over, write some text 
-				if (distance < 0) {
-					clearInterval(x);
-					document.getElementById("demo").innerHTML = "EXPIRED";
-				}
-			}, 1000);
-		</script>
-	
-	</body>
+				categoryDiv.href = window.location.href + "/" + `${category.categoryname}`;
+
+				categoryDivBox = categoryDiv.classList.add('index-category-box');
+
+				categoryDiv.style.backgroundImage = `url(${category.imageurl})`; // Set background image
+
+				categoryDiv.innerHTML = `<div class="dark-overlay"></div><h3>${category.categoryname}</h3>`;
+
+				categoriesContainer.appendChild(categoryDiv);
+
+			});
+		} catch (error) {
+			console.error('Error fetching categories:', error);
+		}
+	}
+
+	// Call the function to fetch and display categories when the page loads
+	fetchDealOfDay();
+
+
+
+	// Set the date we're counting down to
+	//var countDownDate = new Date("Jan 5, 2022 15:37:25").getTime();
+	const today = new Date()
+	const tomorrow = new Date(today)
+	tomorrow.setDate(tomorrow.getDate() + 1)
+	tomorrow.setHours(0,0,0,0);
+	var countDownDate = tomorrow;
+
+	// Update the count down every 1 second
+	var x = setInterval(function() {
+
+		// Get today's date and time
+		var now = new Date().getTime();
+			
+		// Find the distance between now and the count down date
+		var distance = countDownDate - now;
+			
+		// Time calculations for hours, minutes and seconds
+		var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+		var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+		var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+			
+		// Output the result in an element with id="demo"
+		document.getElementById("demo").innerHTML = "Time remain: " + hours + "h "
+		+ minutes + "m " + seconds + "s";
+			
+		// If the count down is over, write some text 
+		if (distance < 0) {
+			clearInterval(x);
+			document.getElementById("demo").innerHTML = "EXPIRED";
+		}
+	}, 1000);
+</script>
 
 <%- include('./partials/footer.ejs') %>

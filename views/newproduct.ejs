@@ -1,42 +1,45 @@
 <link href="/insertproduct.css" rel="stylesheet" type="text/css">
 
-<html>
+<%- include('./partials/header.ejs') %>
+<body>
+
+	<%- include('./partials/nav.ejs') %>
 	
-	<%- include('./partials/header.ejs') %>
-	<body>
+	<br>
 
-		<%- include('./partials/nav.ejs') %>
-	   
-		<br>
+	<h2>Add Item to Database</h2>
 
-		<h2>Add Item to Database</h2>
+	<form id="addItemForm">
+		<label for="prodName">Product Name</label>
+		<input type="text" id="prodName" name="prodName" required><br><br>
 
-		<form id="addItemForm">
-			<label for="prodName">Product Name</label>
-			<input type="text" id="prodName" name="prodName" required><br><br>
+		<label for="prodDescription">Product Description</label>
+		<textarea id="prodDescription" name="prodDescription" rows="4" required></textarea><br><br>
 
-			<label for="prodDescription">Product Description</label>
-			<textarea id="prodDescription" name="prodDescription" rows="4" required></textarea><br><br>
+		<label for="prodCategory">Product Description</label>
+		<select id="prodCategory" name="prodCategory">
+			<option value="1">Electronics</option>
+			<option value="2">Fashion</option>
+			<option value="3">Car & Moto</option>
+			<option value="4">Home</option>
+		</select><br><br>
 
-			<label for="prodCategory">Product Description</label>
-			<select id="prodCategory" name="prodCategory">
-				<option value="1">Electronics</option>
-				<option value="2">Fashion</option>
-				<option value="3">Car & Moto</option>
-				<option value="4">Home</option>
-			</select><br><br>
+		<label for="prodBrand">Product Brand</label>
+		<input type="text" id="prodBrand" name="prodBrand" required><br><br>
 
-			<label for="prodBrand">Product Brand</label>
-			<input type="text" id="prodBrand" name="prodBrand" required><br><br>
+		<label for="prodPrice">Product Price</label>
+		<input type="number" id="prodPrice" name="prodPrice" step="0.01" required><br><br>
 
-			<label for="prodPrice">Product Price</label>
-			<input type="number" id="prodPrice" name="prodPrice" step="0.01" required><br><br>
+		<label for="prodYear">Product Year</label>
+		<input type="number" id="prodYear" name="prodYear" min="1900" max="2023" step="1" value="2023" required><br><br>
 
-			<label for="prodYear">Product Year</label>
-			<input type="number" id="prodYear" name="prodYear" min="1900" max="2023" step="1" value="2023" required><br><br>
+		<button type="button" onclick="addItem()">Add Item</button>
+	</form>
 
-			<button type="button" onclick="addItem()">Add Item</button>
-		</form>
+	<%- include('./partials/footer.ejs') %>
+	
+	</body>
+
 
 <script>
 	async function addItem() {
@@ -72,10 +75,3 @@
 		}
 	}
 </script>
-
-
-	<%- include('./partials/footer.ejs') %>
-	
-	</body>
-
-</html>

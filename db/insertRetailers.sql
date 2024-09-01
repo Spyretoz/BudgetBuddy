@@ -1,0 +1,3 @@
+INSERT INTO Retailers (Name, Location, Website, ContactInfo) VALUES ('Electroholic', 'Εθνάρχου Μακαρίου 27, Περιστέρι, Τ.Κ. 12131', 'https://www.electroholic.gr/', '2102201111');
+INSERT INTO Retailers (Name, Location, Website, ContactInfo) VALUES ('iStrom', 'Πλ. Φιλικής Εταιρείας 19-20, Κολωνάκι, Αθήνα, T.K. 10673', 'https://www.istorm.gr/', '2119997590');
+INSERT INTO Retailers (Name, Location, Website, ContactInfo) VALUES ('', '', '', '');

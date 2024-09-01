@@ -26,36 +26,4 @@ router.get('/all', async (req, res) => {
 });
 
 
-router.get('/:categoryid', async (req, res) => {
-
-	try {
-		const categoryID = req.params.categoryid;
-		res.render('products', { title: categoryID });
-
-	} catch (error) {
-		console.error(error);
-		res.status(500).send('Internal Server Error');
-	}
-
-});
-
-
-router.get('/:categoryid/products', async (req, res) => {
-
-	try {
-		const categoryID = req.params.categoryid;
-        const query = 'SELECT PRODUCTS.productid, PRODUCTS.name, PRODUCTS.price, PRODUCTS.imageurl FROM PRODUCTS LEFT OUTER JOIN CATEGORIES ON CATEGORIES.categoryID = PRODUCTS.categoryID WHERE categoryname = $1';
-        const values = [categoryID];
-        const response = await client.query(query, values);
-
-		res.json(response.rows);
-
-	} catch (error) {
-		console.error(error);
-		res.status(500).send('Internal Server Error');
-	}
-
-});
-
-
 module.exports = router;

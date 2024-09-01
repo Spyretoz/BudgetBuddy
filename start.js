@@ -30,6 +30,9 @@ app.use('/', home);
 const categories = require('./routes/categories.js');
 app.use('/categories', categories);
 
+const products = require('./routes/products.js');
+app.use('/categories', products);
+
 
 const insertproduct = require('./routes/insertproduct.js');
 app.use('/insertnewproduct', insertproduct);
