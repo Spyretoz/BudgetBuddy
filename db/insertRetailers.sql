@@ -1,3 +1,3 @@
-INSERT INTO Retailers (Name, Location, Website, ContactInfo) VALUES ('Electroholic', 'Εθνάρχου Μακαρίου 27, Περιστέρι, Τ.Κ. 12131', 'https://www.electroholic.gr/', '2102201111');
-INSERT INTO Retailers (Name, Location, Website, ContactInfo) VALUES ('iStrom', 'Πλ. Φιλικής Εταιρείας 19-20, Κολωνάκι, Αθήνα, T.K. 10673', 'https://www.istorm.gr/', '2119997590');
-INSERT INTO Retailers (Name, Location, Website, ContactInfo) VALUES ('', '', '', '');
+INSERT INTO Retailers (Name, Location, Website, ContactInfo, IMAGEURL) VALUES ('Electroholic', 'Εθνάρχου Μακαρίου 27, Περιστέρι, Τ.Κ. 12131', 'https://www.electroholic.gr/', '2102201111', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRrpDP0PsA70NbBX90BIsDf8h6ttHJuKxOgjg&s');
+INSERT INTO Retailers (Name, Location, Website, ContactInfo, IMAGEURL) VALUES ('iStrom', 'Πλ. Φιλικής Εταιρείας 19-20, Κολωνάκι, Αθήνα, T.K. 10673', 'https://www.istorm.gr/', '2119997590', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSMV6bE8R3uNeqaR_-B14m-0MEyHgYOlQCzsw&s');
+INSERT INTO Retailers (Name, Location, Website, ContactInfo, IMAGEURL) VALUES ('', '', '', '');

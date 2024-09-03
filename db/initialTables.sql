@@ -31,7 +31,8 @@ CREATE TABLE Retailers (
     Name VARCHAR(255) NOT NULL,
     Location VARCHAR(255),
     Website VARCHAR(255),
-    ContactInfo VARCHAR(255)
+    ContactInfo VARCHAR(255),
+    IMAGEURL VARCHAR(255)
 );
 
 -- Create ProductRetailers table
