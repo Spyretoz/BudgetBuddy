@@ -5,7 +5,12 @@ const client = require('../config/database.js');
 
 
 router.get('/', (req, res) => {
-	res.render('newproduct', { title: "Insert a new product" });
+	try {
+		res.status(200).render('newproduct', { title: "Insert a new product" });
+	} catch (error) {
+		console.error(error);
+		res.status(500).send('Internal Server Error');
+	}
 });
 
 

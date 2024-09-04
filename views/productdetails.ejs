@@ -1,0 +1,81 @@
+<%- include('./partials/header.ejs') %>
+
+<link href="/eachproduct.css" rel="stylesheet" type="text/css">
+<body>
+	<%- include('./partials/nav.ejs') %>
+
+	<br><br><br>
+
+
+	<div class="prod-retail">
+		<div class="show" id="show">
+			<section class="index-product" id="index-product"></section>
+		</div>
+	
+		<div class="details" id="details">
+			<section class="index-retailer" id="index-retailer"></section>
+		</div>
+	</div>
+	
+</body>
+
+<script>
+	// Fetch products from the server and render them on the page
+	async function fetchProductDetails() {
+		try {
+			const response = await fetch(window.location.href +'/info');
+			const details = await response.json();
+
+			console.log(details);
+
+			
+
+
+			const productdetailContainer = document.getElementById('index-product');
+			//const showDiv = document.createElement('a');
+
+			productdetailContainer.innerHTML = `
+				<img src="${details[0].prodimg}">
+				<h2>${details[0].prdname}</h2>
+				<dic class="descr">${details[0].description}</div>
+				<div class="price">${details[0].price}</div>
+			`;
+
+			//showDivBox = showDiv.classList.add('index-product-box');
+			//productdetailContainer.appendChild(showDiv);
+			
+			
+			
+			const retailersContainer = document.getElementById('index-retailer');
+
+			// Render retailers dynamically
+			details.forEach(retailer => {
+
+				const retailDiv = document.createElement('div');
+				retailDiv.classList.add('retailer');
+
+
+				retailDiv.innerHTML = `
+					
+					<a href="${retailer.website}"><img src="${retailer.retailerimg}"></a>
+					<a class="prdlink" href="${retailer.productlink}">
+						${retailer.retailname}
+						${retailer.prdname}
+						<div class="price">${retailer.price}</div>
+					</a>
+				`;
+
+				retailersContainer.appendChild(retailDiv);
+			});
+
+			
+		} catch (error) {
+			console.error('Error fetching product details: ', error);
+		}
+	}
+
+	// Call the function to fetch and display products when the page loads
+	fetchProductDetails();
+</script>
+
+<%- include('./partials/footer.ejs') %>

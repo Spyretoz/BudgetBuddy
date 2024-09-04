@@ -8,7 +8,7 @@ router.get('/:categoryid', async (req, res) => {
 
 	try {
 		const categoryID = req.params.categoryid;
-		res.render('products', { title: categoryID });
+		res.status(200).render('products', { title: categoryID });
 
 	} catch (error) {
 		console.error(error);
@@ -41,7 +41,7 @@ router.get('/:categoryid/:productid/:productname', async (req, res) => {
 
 	try {
 		const productname = req.params.productname;
-		res.render('eachproduct', { title: productname });
+		res.status(200).render('productdetails', { title: productname });
 
 	} catch (error) {
 		console.error(error);
@@ -54,8 +54,7 @@ router.get('/:categoryid/:productid/:productname/info', async (req, res) => {
 	try {
 
 		const productID = req.params.productid;
-		const query = 'SELECT PRODUCTS.productid, PRODUCTS.name, PRODUCTS.imageurl, RETAILERS.name, RETAILERS.website, RETAILERS.location FROM PRODUCTS LEFT OUTER JOIN RETAILERS ON RETAILERS.productid = PRODUCTS.productid WHERE productid = $1';
-		//PRODUCTS.price, 
+		const query = 'SELECT PRODUCTS.productid, PRODUCTS.name as PRDNAME, PRODUCTS.DESCRIPTION, PRODUCTS.name, PRODUCTS.imageurl AS PRODIMG, PRODUCTRETAILERS.PRICE, PRODUCTRETAILERS.PRODUCTLINK, RETAILERS.NAME AS RETAILNAME, RETAILERS.website, RETAILERS.location, RETAILERS.IMAGEURL AS RETAILERIMG FROM PRODUCTS LEFT OUTER JOIN PRODUCTRETAILERS ON PRODUCTRETAILERS.PRODUCTID = PRODUCTS.PRODUCTID LEFT OUTER JOIN RETAILERS ON RETAILERS.RETAILERID = PRODUCTRETAILERS.RETAILERID WHERE PRODUCTS.productid = $1 ORDER BY PRICE';
 		
 		const value = [productID];
 		const productinfo = await client.query(query, value);

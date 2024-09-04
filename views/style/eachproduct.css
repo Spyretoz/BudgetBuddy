@@ -1,0 +1,51 @@
+.prod-retail {
+    display: flex;
+}
+
+
+.show {
+    width: 50%;
+    text-align: center;
+    margin-bottom: 50px;
+    color: aliceblue;
+}
+
+.show img {
+    height: 400px;
+    filter: drop-shadow(0 50px 20px #0009);
+}
+
+
+
+.details {
+    width: 30%;
+    color: aliceblue;
+}
+
+.retailer {
+
+    display: flex;
+    border-style: groove;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    padding: 5px;
+    height: 115px;
+}
+
+.retailer img {
+    height: 100px;
+}
+
+
+.prdlink {
+    margin-left: 10%;
+    margin-top: 5%;
+    font-size: 24px;
+    text-align: center;
+    font-weight: bold;
+}
+
+
+.price {
+    text-align: center;
+}

@@ -5,7 +5,12 @@ const client = require('../config/database.js');
 
 
 router.get('/', async (req, res) => {
-	res.render('home', { title: "Welcome to Skroutz" });
+	try {
+		res.status(200).render('home', { title: "Welcome to Skroutz" });
+	} catch (error) {
+		console.error(error);
+		res.status(500).send('Internal Server Error');
+	}
 });
 
 

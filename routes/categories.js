@@ -5,7 +5,12 @@ const client = require('../config/database.js');
 
 router.get('/', (req, res) => {
 
-	res.render('categories', { title: "Choose category" });
+	try {
+		res.status(200).render('categories', { title: "Choose category" });
+	} catch (error) {
+		console.error(error);
+		res.status(500).send('Internal Server Error');
+	}
 });
 
 
