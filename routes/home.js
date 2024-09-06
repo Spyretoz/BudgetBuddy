@@ -1,29 +1,38 @@
 const express = require('express');
 const router = express.Router();
-const client = require('../config/database.js');
+const homeController = require('../controllers/homeController.js');
 
 
 
-router.get('/', async (req, res) => {
-	try {
-		res.status(200).render('home', { title: "Welcome to Skroutz" });
-	} catch (error) {
-		console.error(error);
-		res.status(500).send('Internal Server Error');
-	}
-});
+router.route('/')
+	.get(homeController.getHome)
+;
+
+router.route('/dealofday')
+	.get(homeController.getDealOfDay)
+;
 
 
-router.get('/dealofday', async (req, res) => {
-	try {
-		// Show allacategories from database
-		const response = await client.query('SELECT IMAGEURL, PRICE FROM PRODUCTS');
-		res.json(response.rows);
+// router.get('/', async (req, res) => {
+// 	try {
+// 		res.status(200).render('home', { title: "Welcome to Skroutz" });
+// 	} catch (error) {
+// 		console.error(error);
+// 		res.status(500).send('Internal Server Error');
+// 	}
+// });
 
-	} catch (error) {
-		console.error(error);
-		res.status(500).send('Internal Server Error');
-	}
-});
+
+// router.get('/dealofday', async (req, res) => {
+// 	try {
+// 		// Show allacategories from database
+// 		const response = await client.query('SELECT IMAGEURL, PRICE FROM PRODUCTS');
+// 		res.json(response.rows);
+
+// 	} catch (error) {
+// 		console.error(error);
+// 		res.status(500).send('Internal Server Error');
+// 	}
+// });
 
 module.exports = router;
