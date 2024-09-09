@@ -4,9 +4,10 @@ const homeController = require('../controllers/homeController.js');
 
 
 
-router.route('/')
-	.get(homeController.getHome)
-;
+// router.route('/').get(homeController.getHome);
+
+router.get('/', homeController.getHome);
+
 
 router.route('/dealofday')
 	.get(homeController.getDealOfDay)

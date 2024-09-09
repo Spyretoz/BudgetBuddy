@@ -1,17 +1,23 @@
-const { Client } = require('pg');
+const { Sequelize } = require('sequelize');
 const dotenv = require('dotenv');
 dotenv.config();
 
 NODE_TLS_REJECT_UNAUTHORIZED = 0;
 
-const client = new Client({
-	connectionString: process.env.DATABASE_CONNECTION,
-	// host: process.env.PGHOST,
-	// user: process.env.PGUSER,
-	// password: process.env.PGPASSWORD,
-	// port: process.env.PGPORT,
-	// database: process.env.SCHEMA
+const sequelize  = new Sequelize(process.env.DATABASE_CONNECTION, {
+	operatorsAliases: false,
+	quoteIdentifiers: false,
+	freezeTableName: true
 });
 
 
-module.exports = client
+sequelize.authenticate()
+.then(() => {
+	console.log('Connection to the PostgreSQL database has been established successfully.');
+})
+.catch((error) => {
+	console.error('Unable to connect to the PostgreSQL database: ', error);
+});
+
+
+module.exports = sequelize

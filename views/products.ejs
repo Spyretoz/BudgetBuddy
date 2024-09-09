@@ -23,15 +23,16 @@
 	// Fetch products from the server and render them on the page
 	async function fetchProducts() {
 		try {
-			const response = await fetch(window.location.href +'/products');
-			const products = await response.json();
+			// const response = await fetch(window.location.href +'/products');
+			// const products = await response.json();
+			const products = <%- JSON.stringify(products).replace(/</g, '\\u003c') %>; // Embed data without HTML entities
 
-			//console.log(products);
+			// console.log(products);
 
 			const productsContainer = document.getElementById('index-product');
 
 			
-			// Render categories dynamically
+			// // Render categories dynamically
 			products.forEach(product => {
 
 				const productDiv = document.createElement('a');
@@ -40,7 +41,7 @@
 				productDiv.innerHTML = `
 					<img src="${product.imageurl}">
 					<h2>${product.name}</h2>
-					<div class="price">${product.price}</div>
+					<div class="price">${product.minprice}</div>
 				`;
 
 				productDivBox = productDiv.classList.add('index-product-box');

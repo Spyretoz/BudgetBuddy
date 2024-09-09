@@ -10,7 +10,7 @@ DROP TABLE IF EXISTS Categories;
 -- Create Categories table
 CREATE TABLE Categories (
     CategoryID SERIAL PRIMARY KEY,
-    CategoryName VARCHAR(255) NOT NULL,
+    Name VARCHAR(255) NOT NULL,
     IMAGEURL VARCHAR(255)
 );
 
@@ -37,7 +37,7 @@ CREATE TABLE Retailers (
 
 -- Create ProductRetailers table
 CREATE TABLE ProductRetailers (
-    ProductRetailers SERIAL PRIMARY KEY,
+    ProductRetailersID SERIAL PRIMARY KEY,
     RetailerID INTEGER REFERENCES Retailers(RetailerID)  NOT NULL,
     ProductID INTEGER REFERENCES Products(ProductID)  NOT NULL,
     PRODUCTLINK VARCHAR(255) NOT NULL,

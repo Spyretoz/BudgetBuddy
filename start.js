@@ -1,18 +1,20 @@
-var express = require('express');
-var path = require('path');
-const client = require('./config/database.js')
+const express = require('express');
+const path = require('path');
+const bodyParser = require('body-parser')
+// const client = require('./config/database.js')
+// const https = require('https');
+
 
 
 process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = 0; // for connection with secure db
 
-
-client.connect();
 
 // Init app
 const app = express();
 
 // For parsing application/json
 app.use(express.json());
+
 
 // View engine setup
 app.set('view engine', 'ejs');
@@ -28,7 +30,7 @@ const home = require('./routes/home.js');
 app.use('/', home);
 
 const categories = require('./routes/categories.js');
-app.use('/categories', categories);
+app.use('/', categories);
 
 const products = require('./routes/products.js');
 app.use('/categories', products);
@@ -60,3 +62,7 @@ var server = app.listen(port, function () {
 	// var port = server.address().port;
 	console.log(`Server is listening at http://localhost:${port}`);
 });
+// https.createServer(options, (req, res) => {
+// 	res.writeHead(200);
+// 	//res.end('hello world\n');
+//   }).listen(port); 

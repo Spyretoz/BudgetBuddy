@@ -1,4 +1,4 @@
-const client = require('../config/database.js');
+// const client = require('../config/database.js');
 
 
 exports.getHome = async (req, res) => {
@@ -14,8 +14,8 @@ exports.getHome = async (req, res) => {
 exports.getDealOfDay = async (req, res) => {
 	try {
         // Show allacategories from database
-        const response = await client.query('SELECT NAME, IMAGEURL FROM PRODUCTS');
-        res.json(response.rows);
+        // const response = await client.query('SELECT NAME, IMAGEURL FROM PRODUCTS');
+        // res.json(response.rows);
 
     } catch (error) {
         console.error(error);
