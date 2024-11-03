@@ -1,16 +1,27 @@
 const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser')
-// const client = require('./config/database.js')
-// const https = require('https');
+const session = require('express-session');
 
+// Init app
+const app = express();
 
 
 process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = 0; // for connection with secure db
 
 
-// Init app
-const app = express();
+
+app.use(session({
+	secret: 'your-secret-key', // Replace with a secure key
+	resave: false,
+	saveUninitialized: true,
+	cookie: { secure: false } // Set to true if using HTTPS
+}));
+
+
+
+
+
 
 // For parsing application/json
 app.use(express.json());
@@ -39,6 +50,10 @@ app.use('/categories', products);
 const insertproduct = require('./routes/insertproduct.js');
 app.use('/insertnewproduct', insertproduct);
 
+const cart = require('./routes/cart.js');
+app.use('/cart', cart);
+
+
 
 const contact = require('./routes/contact.js');
 app.use('/contact', contact);
@@ -62,7 +77,3 @@ var server = app.listen(port, function () {
 	// var port = server.address().port;
 	console.log(`Server is listening at http://localhost:${port}`);
 });
-// https.createServer(options, (req, res) => {
-// 	res.writeHead(200);
-// 	//res.end('hello world\n');
-//   }).listen(port); 

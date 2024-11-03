@@ -11,7 +11,7 @@ const ProductRetailer = sequelize.define('ProductRetailer', {
 		primaryKey: true,
 		allowNull: false
 	},
-	RetailerId: {
+	RetailerID: {
 		type: DataTypes.INTEGER,
 		allowNull: false,
 		references: {
@@ -39,5 +39,7 @@ const ProductRetailer = sequelize.define('ProductRetailer', {
 	tableName: 'PRODUCTRETAILERS', // Ensure the table name matches your database schema exactly
 	timestamps: false // Disable timestamps if not required
 });
+
+ProductRetailer.belongsTo(Retailer, { foreignKey: 'RetailerID' }); // ProductRetailer belongs to Retailer
 
 module.exports = ProductRetailer;

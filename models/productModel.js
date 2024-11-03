@@ -2,6 +2,7 @@ const { DataTypes } = require('sequelize');
 const sequelize = require('../config/database');
 const Category = require('./categoryModel');
 const ProductRetailer = require('./productRetailerModel');
+// const Retailer = require('./retailerModel');
 
 
 const Product = sequelize.define('Product', {
@@ -44,8 +45,6 @@ const Product = sequelize.define('Product', {
 Product.belongsTo(Category, { foreignKey: 'categoryId' });
 Product.hasMany(ProductRetailer, { foreignKey: 'ProductID' });
 
-// Category.hasMany(Product, { foreignKey: 'categoryId' });
-// ProductRetailer.belongsTo(Product, { foreignKey: 'ProductId' });
 
 
 module.exports = Product;

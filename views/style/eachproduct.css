@@ -1,51 +1,97 @@
 .prod-retail {
-    display: flex;
+	display: flex;
 }
 
 
 .show {
-    width: 50%;
-    text-align: center;
-    margin-bottom: 50px;
-    color: aliceblue;
+	width: 50%;
+	text-align: center;
+	margin-bottom: 50px;
+	color: aliceblue;
 }
 
 .show img {
-    height: 400px;
-    filter: drop-shadow(0 50px 20px #0009);
+	height: 400px;
+	filter: drop-shadow(0 50px 20px #0009);
 }
 
 
 
 .details {
-    width: 30%;
-    color: aliceblue;
+	width: 35%;
+	color: aliceblue;
 }
 
 .retailer {
 
-    display: flex;
-    border-style: groove;
-    margin-bottom: 15px;
-    border-radius: 8px;
-    padding: 5px;
-    height: 115px;
+	display: flex;
+	border-style: groove;
+	margin-bottom: 15px;
+	border-radius: 8px;
+	padding: 5px;
+	height: 115px;
 }
 
 .retailer img {
-    height: 100px;
+	height: 100px;
 }
 
 
 .prdlink {
-    margin-left: 10%;
-    margin-top: 5%;
-    font-size: 24px;
-    text-align: center;
-    font-weight: bold;
+	margin-left: 10%;
+	margin-top: 5%;
+	font-size: 24px;
+	text-align: center;
+	font-weight: bold;
 }
 
 
 .price {
-    text-align: center;
+	text-align: center;
+}
+
+
+
+
+
+
+
+
+
+
+.add-to-cart-button {
+	margin-top: 20%;
+	margin-right: 10%;
+	background: #e6a247;
+	border: none;
+	border-radius: 4px;
+	-webkit-box-shadow: 0 3px 13px -2px rgba(0, 0, 0, .15);
+	box-shadow: 0 3px 13px -2px rgba(0, 0, 0, .15);
+	color: #fff;
+	display: flex;
+	font-family: 'Ubuntu', sans-serif;
+	justify-content: space-around;
+	min-width: 55px;
+	overflow: hidden;
+	outline: none;
+	padding: 0.7rem;
+	position: relative;
+	text-transform: uppercase;
+	transition: 0.4s ease;
+	width: auto;
+}
+.add-to-cart-button:active {
+	-webkit-box-shadow: 0 0 0 0.2rem rgba(252, 186, 3, .45);
+	box-shadow: 0 0 0 0.2rem rgba(252, 186, 3, .45);
+	-webkit-transform: translateY(4px);
+	transform: translateY(4px);
+}
+.add-to-cart-button:hover {
+	cursor: pointer;
+}
+.add-to-cart-button:hover, .add-to-cart-button:focus {
+	-webkit-box-shadow: 0 0 0 0.2rem rgba(252, 186, 3, .45);
+	box-shadow: 0 0 0 0.2rem rgba(252, 186, 3, .45);
+	-webkit-transform: translateY(-1px);
+	transform: translateY(-1px);
 }

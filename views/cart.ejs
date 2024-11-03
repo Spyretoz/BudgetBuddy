@@ -1,0 +1,45 @@
+<%- include('./partials/header.ejs') %>
+
+<link href="/cart.css" rel="stylesheet" type="text/css">
+<body>
+
+	<%- include('./partials/nav.ejs') %>
+
+    <br><br><br>
+
+
+    <% if (cart.length === 0) { %>
+        <h3>Your cart is empty.</h3>
+    <% } else { %>
+        <table>
+            <tr>
+                <th>Product</th>
+                <th>Quantity</th>
+                <th>Price</th>
+                <th>Total</th>
+                <th>Actions</th>
+            </tr>
+            <% cart.forEach(item => { %>
+                <tr>
+                    <td><%= item.name %></td>
+                    <td><%= item.quantity %></td>
+                    <td>$<%= item.price.toFixed(2) %></td>
+                    <td>$<%= (item.price * item.quantity).toFixed(2) %></td>
+                    <td>
+                        <form action="/cart/remove" method="POST" style="display:inline;">
+                            <input type="hidden" name="productId" value="<%= item.productId %>">
+                            <button type="submit">Remove</button>
+                        </form>
+                    </td>
+                </tr>
+            <% }) %>
+        </table>
+        <p><strong>Grand Total: $<%= cart.reduce((acc, item) => acc + item.price * item.quantity, 0).toFixed(2) %></strong></p>
+    <% } %>
+</body>
+
+<br><br>
+
+	   
+<%- include('./partials/footer.ejs') %>
+

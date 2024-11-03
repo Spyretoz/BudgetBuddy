@@ -37,7 +37,4 @@ const Retailer = sequelize.define('Retailer', {
 });
 
 
-// Retailer.hasOne(ProductRetailer, { foreignKey: 'RetailerId' });
-
-
 module.exports = Retailer;

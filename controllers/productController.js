@@ -10,18 +10,30 @@ const Retailer = require('../models/retailerModel');
 
 
 exports.getProducts = async (req, res) => {
-	try {
-		const categoryName = req.params.categoryname;
-		console.log(categoryName);
+	
 
-		// Fetch all products with associated categories
+	const categoryName = req.params.categoryname; // Get categoryname from URL params
+
+	// Fetch all products with associated categories
+	try {
 		const products = await Product.findAll({
 			raw: true,
 			attributes: [
 				'ProductId',
 				'name',
 				'imageurl',
-				[sequelize.fn('MIN', sequelize.col('ProductRetailers.Price')), 'MinPrice']
+				// Get the minimum price or return "No Price" if no price is found
+				// [	
+				// 	sequelize.fn('COALESCE',
+				// 		sequelize.fn('MIN', sequelize.col('ProductRetailers.Price')), 
+				// 		sequelize.literal("'No Price'"),
+				// 	'MinPrice')
+				// ]
+
+				[sequelize.fn('COALESCE',
+					sequelize.fn('MIN', sequelize.col('ProductRetailers.Price')), // Minimum price
+					sequelize.literal("0.00") // Fallback when there's no price
+				  ), 'minPrice'],
 			],
 			include: [
 				{
@@ -29,20 +41,20 @@ exports.getProducts = async (req, res) => {
 					attributes: [],
 					where: {
 						name: categoryName
-					}
+					},
 				},
 				{
 					model: ProductRetailer,
-					attributes: []
+					attributes: [],
+					required: false, // This will use LEFT OUTER JOIN
+
 				}
 			],
 			group: ['Product.ProductID', 'Product.name', 'Product.imageurl'], // Group by ProductID and CategoryId
 		});
 
+		res.status(200).render('products', { products, title: `${categoryName}` });
 
-		res.status(200).render('products', { products, title: categoryName });
-
-		console.log(products);
 
 	} catch (error) {
 		console.error(error);
@@ -56,89 +68,47 @@ exports.getProducts = async (req, res) => {
 exports.getProduct = async (req, res) => {
 
 	try {
-		const productname = req.params.productname;
 		const productId = req.params.productid; // Assuming ID is passed as a URL parameter
+		console.log(productId);
 
-
-		// Fetch the product with the specified ID from PRODUCTS table, including its category
-		const product = await Product.findByPk(productId, {
-			raw: true,
-			attributes: [ 'productid', 'name', 'description', 'imageurl' ],
-			// include: [
-			// {
-			// 	model: ProductRetailer,
-			// 	attributes: [ 'Price', 'PRODUCTLINK', 'IMAGEURL' ]
-			// },
-			// {
-			// 	model: Retailer,
-			// 	attributes: [ 'Name','Website', 'Location', ],
-			// }
-			// ],
-
-		});
-
-		// Check if the product exists
-		if (!product) {
-			return res.status(404).send('Product not found');
+		if (!productId || isNaN(productId)) {
+			// Handle case when productId is null, undefined, or not a valid number
+			return res.status(400).send('Invalid Product ID');
 		}
 
 
+		// Fetch the product with the specified ID from PRODUCTS table, including its category
+		const productDetail = await Product.findAll({
+			raw: true,
+			attributes: [ 'productid', 'name', 'description', ['imageurl', 'prdimg'] ],
+			include: [{
+				model: ProductRetailer,
+				attributes: [ 'Price', 'PRODUCTLINK' ],
+				required: false, // This will use LEFT OUTER JOIN
+				include: [{
+					model: Retailer,
+					attributes: [ 'Name','Website', 'Location', [ 'imageurl', 'retailerimg' ] ],
+					//required: true
+				}],
+				//required: true
+			}],
+			where : {productid: productId},
 
-		res.status(200).render('productdetails', { title: productname });
+			order: [[ProductRetailer, 'Price', 'ASC']], // Order by Product Name in ascending order
+		});
+
+		// Check if the product exists
+		if ((!productDetail) || (productDetail.length === 0)) {
+		 	return res.status(404).send('Product not found');
+		}
+		else {
+			res.status(200).render('productdetails', { productDetail, title: productDetail[0].name });
+		}
+
+		
 
 	} catch (error) {
 		console.error(error);
 		res.status(500).send('Internal Server Error');
 	}
 };
-
-
-
-
-
-// // Controller to fetch a specific product by ID
-// exports.getProductById = async (req, res) => {
-// 	try {
-// 		const productId = req.params.productid; // Assuming ID is passed as a URL parameter
-  
-// 	  	// Fetch the product with the specified ID from PRODUCTS table, including its category
-// 		const product = await Product.findByPk(productId, {
-// 			include: [
-// 			{
-// 				model: Category,
-// 				attributes: ['CategoryId', 'name'],
-// 			},
-// 			],
-// 		});
-  
-// 		// Check if the product exists
-// 		if (!product) {
-// 			return res.status(404).send('Product not found');
-// 		}
-  
-// 		// Render a view or send the product data as JSON
-// 		res.render('productDetail', { product });
-// 	} catch (error) {
-// 		console.error('Error fetching product:', error);
-// 		res.status(500).send('Internal Server Error');
-// 	}
-//   };
-
-// exports.getProductDetails = async (req, res) => {
-
-// 	try {
-
-// 		const productID = req.params.productid;
-// 		const query = 'SELECT PRODUCTS.productid, PRODUCTS.name as PRDNAME, PRODUCTS.DESCRIPTION, PRODUCTS.name, PRODUCTS.imageurl AS PRODIMG, PRODUCTRETAILERS.PRICE, PRODUCTRETAILERS.PRODUCTLINK, RETAILERS.NAME AS RETAILNAME, RETAILERS.website, RETAILERS.location, RETAILERS.IMAGEURL AS RETAILERIMG FROM PRODUCTS LEFT OUTER JOIN PRODUCTRETAILERS ON PRODUCTRETAILERS.PRODUCTID = PRODUCTS.PRODUCTID LEFT OUTER JOIN RETAILERS ON RETAILERS.RETAILERID = PRODUCTRETAILERS.RETAILERID WHERE PRODUCTS.productid = $1 ORDER BY PRICE';
-		
-// 		const value = [productID];
-// 		// const productinfo = await client.query(query, value);
-
-// 		// // console.log(productinfo.rows);
-// 		// res.json(productinfo.rows);
-
-// 	} catch (error) {
-// 		console.error(error);
-// 		res.status(500).send('Internal Server Error');
-// 	}
-// };
