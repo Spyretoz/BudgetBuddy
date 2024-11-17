@@ -1,37 +1,62 @@
 const Product = require('../models/productModel'); // Adjust path based on your structure
+const Cart = require('../models/cartModel');
 
-// Add item to cart
+
 exports.addToCart = async (req, res) => {
-	const productId = req.body.productid;
-	const quantity = parseInt(req.body.quantity) || 1;
 
-	// Fetch product details
-	const product = await Product.findByPk(productId);
-	if (!product) {
-		return res.status(404).send('Product not found');
-	}
-
-	// Initialize cart if it doesn't exist
 	if (!req.session.cart) {
 		req.session.cart = [];
 	}
 
-	// Find if product is already in the cart
-	const cartItemIndex = req.session.cart.findIndex(item => item.productId === productId);
-	if (cartItemIndex > -1) {
-		// If product exists in cart, update quantity
-		req.session.cart[cartItemIndex].quantity += quantity;
-	} else {
-	// Add new product to cart
-		req.session.cart.push({
-			productId: product.productid,
-			name: product.name,
-			price: product.price,
-			quantity: quantity
-		});
+	const { ProductID, RetailerID } = req.body;
+
+	const Quantity = 1;
+	// console.log(ProductID, RetailerID);
+
+
+	if (!ProductID || !RetailerID) {
+		return res.status(400).send('Missing product or retailer');
 	}
 
-	res.status(200).send('Product added to cart');
+	try {
+		// Check if the cart entry already exists
+		const cartSession = req.session.cart;
+
+		const cartSessionItemExists = req.session.cart.find(item =>
+			item.ProductID === parseInt(ProductID, 10) && item.RetailerID === parseInt(RetailerID, 10)
+		);
+		const cartItem = await Cart.findOne({ where: { ProductID, RetailerID } });
+
+		console.log(cartSession, cartSessionItemExists);
+
+		if (cartSessionItemExists) {
+			
+			cartSessionItemExists.quantity = cartSessionItemExists.quantity + 1;
+		}
+		else
+		{
+			req.session.cart.push({
+				ProductID,
+				RetailerID,
+				Quantity: parseInt(Quantity, 10),
+			});
+		}
+		
+
+		if (cartItem) {
+			// Update quantity if item exists
+			cartItem.Quantity += 1;
+			await cartItem.save();
+		} else {
+			// Create a new cart entry
+			await Cart.create({ ProductID, RetailerID, Quantity });
+		}
+
+		res.status(200).send('Product added to cart');
+	} catch (error) {
+		console.error('Error adding to cart:', error);
+		res.status(500).send('An error occurred');
+	}
 };
 
 // Remove item from cart
@@ -48,6 +73,7 @@ exports.removeFromCart = (req, res) => {
 exports.viewCart = async (req, res) => {
 	try {
 		const cart = req.session.cart || [];
+		console.log(cart);
 		res.render('cart', { cart, title: "Your Cart" });
 
 	} catch (error) {

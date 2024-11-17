@@ -10,13 +10,23 @@ const app = express();
 process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = 0; // for connection with secure db
 
 
-
-app.use(session({
-	secret: 'your-secret-key', // Replace with a secure key
-	resave: false,
-	saveUninitialized: true,
-	cookie: { secure: false } // Set to true if using HTTPS
-}));
+app.use(
+	session({
+		secret: 'your-secret-key', // Used to sign session cookies (keep it secret!)
+		resave: false,             // Prevents resaving session if it hasn't changed
+		saveUninitialized: true,   // Save sessions even if they are new and unmodified
+		cookie: {
+			secure: false,           // Set to true if using HTTPS
+			maxAge: 1000 * 60 * 60,  // Session expiration in milliseconds (1 hour)
+		}
+	})
+);
+// app.use(session({
+// 	secret: 'your-secret-key', // Replace with a secure key
+// 	resave: false,
+// 	saveUninitialized: true,
+// 	cookie: { secure: false } // Set to true if using HTTPS
+// }));
 
 
 
@@ -24,7 +34,8 @@ app.use(session({
 
 
 // For parsing application/json
-app.use(express.json());
+app.use(express.urlencoded({ extended: true })); // Parses URL-encoded bodies
+app.use(express.json()); // Parses JSON bodies
 
 
 // View engine setup
