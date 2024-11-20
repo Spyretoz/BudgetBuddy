@@ -21,19 +21,10 @@ app.use(
 		}
 	})
 );
-// app.use(session({
-// 	secret: 'your-secret-key', // Replace with a secure key
-// 	resave: false,
-// 	saveUninitialized: true,
-// 	cookie: { secure: false } // Set to true if using HTTPS
-// }));
 
 
 
-
-
-
-// For parsing application/json
+// For parsing application
 app.use(express.urlencoded({ extended: true })); // Parses URL-encoded bodies
 app.use(express.json()); // Parses JSON bodies
 
