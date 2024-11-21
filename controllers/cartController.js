@@ -1,63 +1,84 @@
-const Product = require('../models/productModel'); // Adjust path based on your structure
-const Cart = require('../models/cartModel');
+const Product = require('../models/productModel');
+const Retailer = require('../models/retailerModel');
+const ProductRetailer = require('../models/productRetailerModel');
 
 
 exports.addToCart = async (req, res) => {
-
-	if (!req.session.cart) {
-		req.session.cart = [];
-	}
-
-	const { ProductID, RetailerID } = req.body;
-
-	const Quantity = 1;
-	// console.log(ProductID, RetailerID);
-
-
-	if (!ProductID || !RetailerID) {
-		return res.status(400).send('Missing product or retailer');
-	}
+	const { productId, retailerId, quantity } = req.body; // get them from productdetails page
+	// console.log(productId, retailerId, quantity);
 
 	try {
-		// Check if the cart entry already exists
-		const cartSession = req.session.cart;
+		// Fetch product details
+		const product = await Product.findByPk(productId);
+		const retailer = await Retailer.findByPk(retailerId);
+		const productRetailer = await ProductRetailer.findOne({
+			where: {
+				ProductID: productId,
+				RetailerID: retailerId
+			}
+		});
 
-		const cartSessionItemExists = req.session.cart.find(item =>
-			item.ProductID === parseInt(ProductID, 10) && item.RetailerID === parseInt(RetailerID, 10)
-		);
-		const cartItem = await Cart.findOne({ where: { ProductID, RetailerID } });
+		// Validations
+		if (!product || !retailer || !productRetailer) {
+            return res.status(404).send({ message: "Product, Retailer or Price not found" });
+        }
 
-		console.log(cartSession, cartSessionItemExists);
-
-		if (cartSessionItemExists) {
-			
-			cartSessionItemExists.quantity = cartSessionItemExists.quantity + 1;
-		}
-		else
-		{
-			req.session.cart.push({
-				ProductID,
-				RetailerID,
-				Quantity: parseInt(Quantity, 10),
-			});
-		}
+		// Initialize cart if not present
 		
 
-		if (cartItem) {
-			// Update quantity if item exists
-			cartItem.Quantity += 1;
-			await cartItem.save();
-		} else {
-			// Create a new cart entry
-			await Cart.create({ ProductID, RetailerID, Quantity });
+		if (!req.session.cart) {
+			req.session.cart = {
+				items: [],
+				totalQuantity: 0,
+				totalPrice: 0
+			};
 		}
 
-		res.status(200).send('Product added to cart');
-	} catch (error) {
-		console.error('Error adding to cart:', error);
-		res.status(500).send('An error occurred');
+		const cart = req.session.cart;
+
+		// Check if product from the same retailer is already in cart
+		const existingItemIndex = cart.items.findIndex(
+			item => item.productId === productId && item.retailerId === retailerId
+		);
+
+		const price = parseFloat(productRetailer.Price);
+
+		if (existingItemIndex >= 0) {
+			// Update quantity and total for existing product
+			cart.items[existingItemIndex].quantity += parseInt(quantity);
+			cart.items[existingItemIndex].total = cart.items[existingItemIndex].quantity * price;
+		} else {
+			// Add new product to cart
+			cart.items.push({
+				productId: productId,
+				productName: product.name, // Assuming `Name` field in Product
+				retailerId: retailerId,
+				retailerName: retailer.Name,
+				price: price,
+				quantity: parseInt(quantity),
+				total: parseInt(quantity) * price,
+			});
+		}
+
+		// Update cart totals
+		cart.totalQuantity += parseInt(quantity);
+		cart.totalPrice += parseInt(quantity) * price;
+
+		//res.status(200).send({ message: "Product added to cart", cart });
+		// res.status(200).send({ message: "Product added to cart"});
+		// Redirect with a success message
+        req.session.message = "Item added to cart successfully!";
+		res.redirect(req.get("Referer") || "/"); // Safe redirect to the referring page or home
+        // res.redirect("back"); // Redirects to the previous page
+		// console.log(cart);
+	} catch (err) {
+		console.error(err);
+		req.session.message = "Failed to add item to cart.";
+        res.redirect("back"); // Redirects to the previous page
+		// res.status(500).send({ message: "Server error", error: err.message });
 	}
 };
+
 
 // Remove item from cart
 exports.removeFromCart = (req, res) => {

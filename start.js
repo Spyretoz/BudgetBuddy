@@ -23,6 +23,13 @@ app.use(
 );
 
 
+app.use((req, res, next) => {
+    res.locals.message = req.session.message || null; // Set the message in res.locals
+    delete req.session.message; // Clear the message after passing it
+    next();
+});
+
+
 
 // For parsing application
 app.use(express.urlencoded({ extended: true })); // Parses URL-encoded bodies
@@ -62,7 +69,6 @@ app.use('/contact', contact);
 
 const mail = require('./routes/mail.js');
 app.use('/send-email', mail);
-
 
 
 // Express Messages Middleware

@@ -2,7 +2,6 @@ const { DataTypes } = require('sequelize');
 const sequelize = require('../config/database');
 const Retailer = require('./retailerModel'); // Import the Retailer model
 const Product = require('./productModel'); // Import the Product model
-const Cart = require('./cartModel');
 
 
 const ProductRetailer = sequelize.define('ProductRetailer', {
@@ -42,7 +41,5 @@ const ProductRetailer = sequelize.define('ProductRetailer', {
 });
 
 ProductRetailer.belongsTo(Retailer, { foreignKey: 'RetailerID' }); // ProductRetailer belongs to Retailer
-ProductRetailer.hasMany(Cart, { foreignKey: 'retailerid' });
-
 
 module.exports = ProductRetailer;
