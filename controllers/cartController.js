@@ -71,13 +71,35 @@ exports.addToCart = async (req, res) => {
 
 
 // Remove item from cart
+// exports.removeFromCart = (req, res) => {
+// 	const productId = req.body.productId;
+
+// 	// Filter out the product from cart
+// 	req.session.cart = req.session.cart.filter(item => item.productId !== productId);
+
+// 	res.status(200).send('Product removed from cart');
+// };
+
+
 exports.removeFromCart = (req, res) => {
-	const productId = req.body.productId;
+    const { productId, retailerId } = req.body;
 
-	// Filter out the product from cart
-	req.session.cart = req.session.cart.filter(item => item.productId !== productId);
+    const cart = req.session.cart;
+    const itemIndex = cart.items.findIndex(
+        item => item.productId === productId && item.retailerId === retailerId
+    );
 
-	res.status(200).send('Product removed from cart');
+    if (itemIndex >= 0) {
+        const item = cart.items[itemIndex];
+        cart.totalQuantity -= item.quantity;
+        cart.totalPrice -= item.total;
+
+        cart.items.splice(itemIndex, 1);
+
+        res.json({ success: true });
+    } else {
+        res.status(404).json({ success: false, message: 'Item not found in cart' });
+    }
 };
 
 // Get cart contents

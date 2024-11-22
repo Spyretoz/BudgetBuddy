@@ -5,13 +5,82 @@
 
 	<%- include('./partials/nav.ejs') %>
 
-    <br><br><br>
+	<br><br><br>
 
-    <% if (session.cart && session.cart.totalQuantity > 0) { %>
-        <h3>There are <%= session.cart.totalQuantity %> items in your cart.</h3>
-    <% } else { %>
-        <h3>Your cart is empty.</h3>
-    <% } %>
+	<% if (session.cart && session.cart.totalQuantity > 0) { %>
+		<h3>There are <%= session.cart.totalQuantity %> items in your cart.</h3>
+
+		<ul class="cart-items">
+			<% session.cart.items.forEach(item => { %>
+				<li class="cart-item">
+					<!-- Product Image -->
+					<img src="<%= item.productImage %>" alt="<%= item.productName %>" class="product-image">
+					
+					<!-- Product Name and Retailer Name -->
+					<div class="product-details">
+						<p class="product-name"><%= item.productName %></p>
+						<p class="retailer-name">By: <%= item.retailerName %></p>
+					</div>
+
+					<!-- Quantity and Price -->
+					<div class="quantity-controls">
+						<button class="quantity-btn" onclick="updateQuantity('<%= item.productId %>', '<%= item.retailerId %>', -1)">-</button>
+						<span class="quantity"><%= item.quantity %></span>
+						<button class="quantity-btn" onclick="updateQuantity('<%= item.productId %>', '<%= item.retailerId %>', 1)">+</button>
+					</div>
+					<p class="item-price">$<%= item.total.toFixed(2) %></p>
+
+					<!-- Trash Button -->
+					<button class="trash-btn" onclick="deleteItem('<%= item.productId %>', '<%= item.retailerId %>')">🗑️</button>
+				</li>
+			<% }) %>
+		</ul>
+
+
+		<!-- Total Price Display -->
+		<div class="cart-total">
+			<p>Total: $<%= cart.totalPrice.toFixed(2) %></p>
+			<p>Items in Cart: <%= cart.totalQuantity %></p>
+		</div>
+		
+	<% } else { %>
+		<h3>Your cart is empty.</h3>
+	<% } %>
+
+
+	<script>
+		function updateQuantity(productId, retailerId, change) {
+			fetch('/cart/update', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify({ productId, retailerId, quantityChange: change })
+			})
+			.then(response => response.json())
+			.then(data => {
+				if (data.success) {
+					location.reload(); // Refresh the cart
+				}
+			});
+		}
+	
+		function deleteItem(productId, retailerId) {
+			fetch('/cart/remove', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify({ productId, retailerId })
+			})
+			.then(response => response.json())
+			.then(data => {
+				if (data.success) {
+					location.reload(); // Refresh the cart
+				}
+			});
+		}
+	</script>
 </body>
 
 <br><br>
