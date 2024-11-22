@@ -24,11 +24,28 @@ app.use(
 
 
 app.use((req, res, next) => {
+    // Initialize cart if it doesn't exist in the session
+    if (!req.session.cart) {
+        req.session.cart = {
+            items: [],
+            totalQuantity: 0,
+            totalPrice: 0
+        };
+    }
+    next();
+});
+
+app.use((req, res, next) => {
+	// Make session data available in all views
+    res.locals.session = req.session;
+    next();
+});
+
+app.use((req, res, next) => {
     res.locals.message = req.session.message || null; // Set the message in res.locals
     delete req.session.message; // Clear the message after passing it
     next();
 });
-
 
 
 // For parsing application

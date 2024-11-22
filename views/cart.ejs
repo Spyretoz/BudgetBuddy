@@ -7,13 +7,10 @@
 
     <br><br><br>
 
-
-    <% if (cart.length === 0) { %>
-        <h3>Your cart is empty.</h3>
+    <% if (session.cart && session.cart.totalQuantity > 0) { %>
+        <h3>There are <%= session.cart.totalQuantity %> items in your cart.</h3>
     <% } else { %>
-
-        <h3>There are items in your cart.</h3>
-        
+        <h3>Your cart is empty.</h3>
     <% } %>
 </body>
 

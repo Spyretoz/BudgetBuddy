@@ -23,16 +23,6 @@ exports.addToCart = async (req, res) => {
             return res.status(404).send({ message: "Product, Retailer or Price not found" });
         }
 
-		// Initialize cart if not present
-		
-
-		if (!req.session.cart) {
-			req.session.cart = {
-				items: [],
-				totalQuantity: 0,
-				totalPrice: 0
-			};
-		}
 
 		const cart = req.session.cart;
 
