@@ -8,6 +8,9 @@ router.post('/add', cartController.addToCart);
 // Remove item from cart
 router.post('/remove', cartController.removeFromCart);
 
+// Update cart item quantity
+router.post('/update', cartController.updateCart);
+
 // View cart
 router.get('/', cartController.viewCart);
 

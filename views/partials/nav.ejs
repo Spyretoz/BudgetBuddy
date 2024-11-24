@@ -12,7 +12,8 @@
 			<li><a href="/categories">Categories</a></li>
 			<li><a href="/contact">Contact</a></li>
 		</ul>
-		<a href="/cart" class="action_btn"><i class="fa fa-shopping-cart" style="font-size:16px"></i>
+		<a href="/cart" class="action_btn">
+			<i class="fa fa-shopping-cart" style="font-size: 20px; position: relative;"></i>
 			<% if (session.cart && session.cart.totalQuantity > 0) { %>
 				<span class="cart-count"><%= session.cart.totalQuantity %></span>
 			<% } %>

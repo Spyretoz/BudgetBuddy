@@ -20,8 +20,8 @@ exports.addToCart = async (req, res) => {
 
 		// Validations
 		if (!product || !retailer || !productRetailer) {
-            return res.status(404).send({ message: "Product, Retailer or Price not found" });
-        }
+			return res.status(404).send({ message: "Product, Retailer or Price not found" });
+		}
 
 
 		const cart = req.session.cart;
@@ -57,60 +57,143 @@ exports.addToCart = async (req, res) => {
 		//res.status(200).send({ message: "Product added to cart", cart });
 		// res.status(200).send({ message: "Product added to cart"});
 		// Redirect with a success message
-        req.session.message = "Item added to cart successfully!";
+		req.session.message = "Item added to cart successfully!";
 		res.redirect(req.get("Referer") || "/"); // Safe redirect to the referring page or home
-        // res.redirect("back"); // Redirects to the previous page
+		// res.redirect("back"); // Redirects to the previous page
 		// console.log(cart);
 	} catch (err) {
 		console.error(err);
 		req.session.message = "Failed to add item to cart.";
-        res.redirect("back"); // Redirects to the previous page
+		res.redirect("back"); // Redirects to the previous page
 		// res.status(500).send({ message: "Server error", error: err.message });
 	}
 };
 
-
-// Remove item from cart
-// exports.removeFromCart = (req, res) => {
-// 	const productId = req.body.productId;
-
-// 	// Filter out the product from cart
-// 	req.session.cart = req.session.cart.filter(item => item.productId !== productId);
-
-// 	res.status(200).send('Product removed from cart');
-// };
-
-
 exports.removeFromCart = (req, res) => {
-    const { productId, retailerId } = req.body;
+	const { productId, retailerId } = req.body;
 
-    const cart = req.session.cart;
-    const itemIndex = cart.items.findIndex(
-        item => item.productId === productId && item.retailerId === retailerId
-    );
+	const cart = req.session.cart;
+	const itemIndex = cart.items.findIndex(
+		item => item.productId === productId && item.retailerId === retailerId
+	);
 
-    if (itemIndex >= 0) {
-        const item = cart.items[itemIndex];
-        cart.totalQuantity -= item.quantity;
-        cart.totalPrice -= item.total;
+	if (itemIndex >= 0) {
+		const item = cart.items[itemIndex];
+		cart.totalQuantity -= item.quantity;
+		cart.totalPrice -= item.total;
 
-        cart.items.splice(itemIndex, 1);
+		cart.items.splice(itemIndex, 1);
 
-        res.json({ success: true });
-    } else {
-        res.status(404).json({ success: false, message: 'Item not found in cart' });
-    }
+		res.json({ success: true });
+	} else {
+		res.status(404).json({ success: false, message: 'Item not found in cart' });
+	}
 };
+
+
+exports.updateCart = async (req, res) => {
+	const { productId, retailerId, quantityChange } = req.body;
+
+	if (!req.session.cart) {
+		return res.status(400).json({ success: false, message: "Cart not found." });
+	}
+
+	const cart = req.session.cart;
+	const itemIndex = cart.items.findIndex(
+		item => item.productId === productId && item.retailerId === retailerId
+	);
+
+	if (itemIndex === -1) {
+		return res.status(404).json({ success: false, message: "Item not found in cart." });
+	}
+
+	const item = cart.items[itemIndex];
+
+	// Update the item's quantity
+	item.quantity += quantityChange;
+
+	// Validate quantity (e.g., prevent negative quantities)
+	if (item.quantity <= 0) {
+		// Remove item if quantity becomes zero or less
+		cart.items.splice(itemIndex, 1);
+	} else {
+		// Update the item's total price
+		item.total = item.quantity * item.price;
+	}
+
+	// Update cart totals
+	cart.totalQuantity = cart.items.reduce((sum, item) => sum + item.quantity, 0);
+	cart.totalPrice = cart.items.reduce((sum, item) => sum + item.total, 0);
+
+	// Respond with updated cart data
+	res.json({
+		success: true,
+		updatedCart: cart,
+	});
+};
+
+
+
 
 // Get cart contents
 exports.viewCart = async (req, res) => {
-	try {
-		const cart = req.session.cart || [];
-		console.log(cart);
-		res.render('cart', { cart, title: "Your Cart" });
 
+	try {
+
+		const cart = req.session.cart;
+
+		// Load additional product details (e.g., image) for each item in the cart
+		await Promise.all(
+			cart.items.map(async (item) => {
+				const product = await Product.findOne({
+					where: { ProductID: item.productId },
+				});
+
+				// Update item with additional details
+				item.productImage = product ? product.imageurl : '/images/default-product.png'; // Provide a default image fallback
+				item.productName = product ? product.name : 'Unknown Product';
+			})
+		);
+
+
+		for (const item of cart.items) {
+			// Fetch the lowest price for the same product from other retailers
+			const lowerPriceOffer = await ProductRetailer.findOne({
+				where: {
+					productId: item.productId
+				},
+				include: [
+					{
+						model: Retailer, // Join with the Retailer model to get the retailer name
+						attributes: ['Name'], // Only fetch the name
+					},
+				],
+				order: [['price', 'ASC']], // Get the lowest price
+			});
+
+	
+			// Check if a lower price offer exists
+			if (lowerPriceOffer && lowerPriceOffer.Price < item.price) {
+				// If the current item's price is higher than the lowest price, add the lower price warning
+				item.lowerPrice = lowerPriceOffer.Price;
+				item.lowerPriceRetailerName = lowerPriceOffer.Retailer.Name;
+			}
+			else {
+				// Remove the warning if no lower price exists
+				item.lowerPrice = null;
+				item.lowerPriceRetailerName = null;
+			}
+		}
+
+		const cartWithDetails = {
+			totalQuantity: cart.totalQuantity,
+			totalPrice: cart.totalPrice,
+			items: cart.items
+		};
+
+		res.render('cart', { title: "Your Cart", cart: cartWithDetails });
 	} catch (error) {
-		console.error(error);
-		res.status(500).send('Internal Server Error');
+		console.error('Error loading cart:', error);
+		res.status(500).send('An error occurred while loading the cart.');
 	}
 };

@@ -62,7 +62,7 @@ header {
 	display: none;
 }
 
-.action_btn {
+/* .action_btn {
 	background-color: #7c1919d7;
 	color: #fff;
 	padding: 0.5rem 1rem;
@@ -73,7 +73,54 @@ header {
 	font-weight: bold;
 	cursor: pointer;
 	transition: scale 0.2 ease;
+} */
+
+.action_btn {
+    position: relative;
+    display: inline-block;
+    text-decoration: none;
+	padding: 0.5rem 1rem;
+    
+	background-color: #7c1919d7;
+	color: #fff;
+	border: none;
+	outline: none;
+	border-radius: 20px;
+	font-size: 0.8rem;
+	font-weight: bold;
+	cursor: pointer;
 }
+
+.cart-count {
+    position: absolute;
+    top: 10px; /* Adjust to position the badge above the icon */
+    right: 10px; /* Adjust to position the badge to the right */
+    background-color: #ff4d4d; /* Bright red for visibility */
+    color: #ffffff; /* White text for contrast */
+    font-size: 12px;
+    font-weight: bold;
+    padding: 3px 6px;
+    border-radius: 50%; /* Makes the badge circular */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Adds subtle shadow */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10; /* Ensures the badge is on top */
+    transform: translate(50%, -50%); /* Center the badge on the corner */
+}
+
+.cart-count::after {
+    content: ''; /* Optional: Adds a little flair */
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 8px;
+    height: 8px;
+    background-color: #ffffff;
+    border-radius: 50%;
+    opacity: 0.1;
+}
+
 
 .action_btn:hover {
 	scale: 1.05;
@@ -84,16 +131,14 @@ header {
 	scale: 0.95;
 }
 
-.cart-count {
+/* .cart-count {
     position: absolute;
-    /* top: -1;
-    right: -1; */
     background-color: red;
     color: white;
     font-size: 16px;
     padding: 3px 6px;
     border-radius: 50%;
-}
+} */
 
 /* DROPDOWN MENU */
 .dropdown_menu {

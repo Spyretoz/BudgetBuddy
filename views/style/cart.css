@@ -14,59 +14,111 @@ h3 {
 }
 
 
-
-.cart-container {
-    width: 100%;
-    padding: 20px;
-}
-
-.cart-items {
-    list-style-type: none;
-    padding: 0;
-	color: #fff;
-}
-
 .cart-item {
-    display: flex;
-    align-items: center;
-    padding: 15px 0;
-    border-bottom: 1px solid #ccc;
+	display: flex;
+	/* flex-direction: column; */
+	align-items: center; /* Centers the cart in the container */
+	flex-wrap: wrap; /* Wrap items for smaller screens */
+	align-items: center;
+	justify-content: center; /* Centers horizontally */
+	margin: 0 auto; /* Automatically centers horizontally */
+
+	padding: 20px;
+	gap: 20px;
+	margin-bottom: 15px;
+	/* margin-left: 20%; */
+	border-bottom: 1px solid #ddd;
+	padding-bottom: 10px;
+	max-width: 1000px;
+	width: 100%;
+
+	background-color: rgba(0, 0, 0, 0.7); /* Dark overlay */
+	color: #ffffff; /* White text for contrast */
+	padding: 10px;
+	border-radius: 5px;
 }
+
+
+
 
 .product-image {
-    width: 50px;
-    height: 50px;
-    object-fit: cover;
-    margin-right: 15px;
+	width: 80px;
+	height: 80px;
+	object-fit: cover;
+	border-radius: 5px;
+	border: 1px solid #ccc;
+	margin-left: 100px;
 }
 
 .product-details {
-    flex: 1;
+	flex-grow: 1;
 }
 
+.item-price {
+	font-weight: bold;
+	margin-left: auto;
+}
+
+
 .quantity-controls {
-    display: flex;
-    align-items: center;
-    margin-right: 15px;
+	display: flex;
+	align-items: center;
+	gap: 5px;
+	margin-right: 50px;
 }
 
 .quantity-btn {
-    background: #f0f0f0;
-    border: none;
-    padding: 5px 10px;
-    cursor: pointer;
+	background: none;
+	border: none;
+	font-size: 1.5rem;
+	color: white; /* Bootstrap primary color */
+	cursor: pointer;
+	transition: color 0.3s;
 }
+
+.quantity-btn:hover {
+	color: #0056b3; /* Darker shade for hover */
+}
+
+.quantity {
+	font-size: 1.2rem;
+	font-weight: bold;
+}
+
 
 .trash-btn {
-    background: red;
-    color: white;
-    border: none;
-    padding: 5px 10px;
-    cursor: pointer;
+	background: none;
+	border: none;
+	color: #dc3545; /* Bootstrap danger color */
+	font-size: 1.5rem;
+	cursor: pointer;
+	transition: color 0.3s;
 }
 
+.trash-btn:hover {
+	color: #a71d2a; /* Darker red on hover */
+}
+
+
 .cart-total {
-    margin-top: 20px;
-    font-weight: bold;
+	margin-top: 20px;
+	font-weight: bold;
 	color: #fff;
+}
+
+
+.lower-price-warning {
+	background-color: #cce5ff; /* Light blue background */
+	color: #004085; /* Dark blue text */
+	font-size: 14px;
+	padding: 5px 10px;
+	border-radius: 5px;
+	margin-top: 5px;
+	display: inline-block;
+	box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.lower-price-warning i {
+	margin-right: 5px;
+	color: #004085;
 }

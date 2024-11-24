@@ -8,10 +8,10 @@
 	<br><br><br>
 
 	<% if (session.cart && session.cart.totalQuantity > 0) { %>
-		<h3>There are <%= session.cart.totalQuantity %> items in your cart.</h3>
+		<h3><%= session.cart.totalQuantity %> item(s) in your cart</h3>
 
 		<ul class="cart-items">
-			<% session.cart.items.forEach(item => { %>
+			<% cart.items.forEach(item => { %>
 				<li class="cart-item">
 					<!-- Product Image -->
 					<img src="<%= item.productImage %>" alt="<%= item.productName %>" class="product-image">
@@ -20,18 +20,31 @@
 					<div class="product-details">
 						<p class="product-name"><%= item.productName %></p>
 						<p class="retailer-name">By: <%= item.retailerName %></p>
-					</div>
 
+						<% if (item.lowerPrice) { %>
+							<p class="lower-price-warning">
+								<i class="fa fa-info-circle"></i>
+								Better price available: $<%= item.lowerPrice %> at <%= item.lowerPriceRetailerName %>
+							</p>
+						<% } %>
+					</div>
+		
 					<!-- Quantity and Price -->
 					<div class="quantity-controls">
-						<button class="quantity-btn" onclick="updateQuantity('<%= item.productId %>', '<%= item.retailerId %>', -1)">-</button>
+						<button class="quantity-btn" onclick="updateQuantity('<%= item.productId %>', '<%= item.retailerId %>', -1)">
+							<i class="fa fa-minus-circle"></i>
+						</button>
 						<span class="quantity"><%= item.quantity %></span>
-						<button class="quantity-btn" onclick="updateQuantity('<%= item.productId %>', '<%= item.retailerId %>', 1)">+</button>
+						<button class="quantity-btn" onclick="updateQuantity('<%= item.productId %>', '<%= item.retailerId %>', 1)">
+							<i class="fa fa-plus-circle"></i>
+						</button>
 					</div>
 					<p class="item-price">$<%= item.total.toFixed(2) %></p>
-
+		
 					<!-- Trash Button -->
-					<button class="trash-btn" onclick="deleteItem('<%= item.productId %>', '<%= item.retailerId %>')">🗑️</button>
+					<button class="trash-btn" onclick="deleteItem('<%= item.productId %>', '<%= item.retailerId %>')">
+						<i class="fa fa-trash"></i>
+					</button>
 				</li>
 			<% }) %>
 		</ul>
@@ -44,7 +57,7 @@
 		</div>
 		
 	<% } else { %>
-		<h3>Your cart is empty.</h3>
+		<h3>Your cart is empty</h3>
 	<% } %>
 
 
@@ -80,6 +93,31 @@
 				}
 			});
 		}
+
+
+		async function updateQuantity(productId, retailerId, change) {
+			try {
+				const response = await fetch('/cart/update', {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json',
+					},
+					body: JSON.stringify({ productId, retailerId, quantityChange: change })
+				});
+
+				const data = await response.json();
+
+				if (data.success) {
+					location.reload(); // Refresh the cart dynamically (or update UI without reload)
+				} else {
+					alert(data.message || "Failed to update quantity.");
+				}
+			} catch (error) {
+				console.error("Error updating quantity:", error);
+				alert("An error occurred while updating the quantity.");
+			}
+		}
+
 	</script>
 </body>
 
