@@ -11,6 +11,8 @@ body {
 	background-image: url('https://images.unsplash.com/photo-1485470733090-0aae1788d5af?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1517&q=80');
 	background-size: cover;
 	background-position: center;
+	text-align: center;
+	margin: auto;
 }
 
 li {
@@ -61,19 +63,6 @@ header {
 	cursor: pointer;
 	display: none;
 }
-
-/* .action_btn {
-	background-color: #7c1919d7;
-	color: #fff;
-	padding: 0.5rem 1rem;
-	border: none;
-	outline: none;
-	border-radius: 20px;
-	font-size: 0.8rem;
-	font-weight: bold;
-	cursor: pointer;
-	transition: scale 0.2 ease;
-} */
 
 .action_btn {
     position: relative;
@@ -253,3 +242,36 @@ header {
 	left: 50%;
 	transform: translate(-50%, -50%);
 } */
+
+/* Basic styling for search and drop-down */
+.search-container {
+    position: relative;
+    width: 100%;
+    max-width: 300px;
+}
+
+#search-input {
+    width: 100%;
+    padding: 8px;
+}
+
+#search-results {
+    position: absolute;
+    top: 120px;
+	max-width: 500px;
+    width: 100%;
+    max-height: 200px;
+    overflow-y: auto;
+    background-color: white;
+    border: 1px solid #ddd;
+    display: none;
+}
+
+#search-results li {
+    padding: 8px;
+    cursor: pointer;
+}
+
+#search-results li:hover {
+    background-color: #f1f1f1;
+}

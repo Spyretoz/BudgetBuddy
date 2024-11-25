@@ -66,6 +66,9 @@ app.use(express.static(path.join(__dirname, './views/style/')));
 const home = require('./routes/home.js');
 app.use('/', home);
 
+const navbar = require('./routes/navbar.js');
+app.use('/search', navbar);
+
 const categories = require('./routes/categories.js');
 app.use('/', categories);
 
