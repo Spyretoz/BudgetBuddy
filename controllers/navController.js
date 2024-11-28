@@ -1,24 +1,34 @@
 const Product = require('../models/productModel');
 const ProductRetailer = require('../models/productRetailerModel');
-const { Op } = require('sequelize');
+const { Op, Sequelize } = require('sequelize');
 
 
 // Controller function to handle AJAX search requests
 exports.searchProducts = async (req, res) => {
     const query = req.query.query;
-    console.log(query);
-
 
     try {
         // Sequelize query with 'ILIKE' for case-insensitive matching
         const products = await Product.findAll({
-
-            include: [
+            raw: true,
+            attributes: [
+				'ProductId',
+				'name',
+				'imageurl',
+                [
+                    Sequelize.fn(
+                        'COALESCE',
+					    Sequelize.fn('MIN', Sequelize.col('ProductRetailers.Price')), // Minimum price
+					    Sequelize.literal("0.00") // Fallback when there's no price
+                    ), 
+                    'minPrice'
+                ],
+			],
+			include: [
 				{
 					model: ProductRetailer,
 					attributes: [],
-					required: false, // This will use LEFT OUTER JOIN
-
+					required: true, // This will use INNER JOIN
 				}
 			],
             where: {
@@ -26,9 +36,9 @@ exports.searchProducts = async (req, res) => {
                     [Op.iLike]: `%${query}%` // Use ILIKE for case-insensitive search
                 }
             },
-            limit: 10 // Limit results for the drop-down
+            group: ['Product.ProductID', 'Product.name', 'Product.imageurl'], // Group by ProductID and CategoryId
         });
-        console.log(products);
+        
         res.json(products);
     } catch (error) {
         res.status(500).json({ message: 'Error fetching products', error });
@@ -40,12 +50,36 @@ exports.getSearchResults = async (req, res) => {
     const query = req.query.q;
     try {
         const products = await Product.findAll({
+			raw: true,
+			attributes: [
+				'ProductId',
+				'name',
+				'imageurl',
+                [
+                    Sequelize.fn(
+                        'COALESCE',
+					    Sequelize.fn('MIN', Sequelize.col('ProductRetailers.Price')), // Minimum price
+					    Sequelize.literal("0.00") // Fallback when there's no price
+                    ), 
+                    'minPrice'
+                ],
+			],
+			include: [
+				{
+					model: ProductRetailer,
+					attributes: [],
+					required: false, // This will use LEFT OUTER JOIN
+				}
+			],
             where: {
                 name: {
                     [Op.iLike]: `%${query}%` // Use ILIKE for case-insensitive search
                 }
-            }
-        });
+            },
+			group: ['Product.ProductID', 'Product.name', 'Product.imageurl'], // Group by ProductID and CategoryId
+		});
+
+
         res.render('search', { products, query, title: query });
     } catch (error) {
         res.status(500).json({ message: 'Error fetching search results', error });

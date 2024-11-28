@@ -2,7 +2,6 @@ const { Sequelize } = require('sequelize');
 const dotenv = require('dotenv');
 dotenv.config();
 
-NODE_TLS_REJECT_UNAUTHORIZED = 0;
 
 const sequelize  = new Sequelize(process.env.DATABASE_CONNECTION, {
 	operatorsAliases: false,

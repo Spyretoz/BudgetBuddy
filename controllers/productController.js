@@ -22,14 +22,6 @@ exports.getProducts = async (req, res) => {
 				'ProductId',
 				'name',
 				'imageurl',
-				// Get the minimum price or return "No Price" if no price is found
-				// [	
-				// 	sequelize.fn('COALESCE',
-				// 		sequelize.fn('MIN', sequelize.col('ProductRetailers.Price')), 
-				// 		sequelize.literal("'No Price'"),
-				// 	'MinPrice')
-				// ]
-
 				[sequelize.fn('COALESCE',
 					sequelize.fn('MIN', sequelize.col('ProductRetailers.Price')), // Minimum price
 					sequelize.literal("0.00") // Fallback when there's no price
@@ -69,7 +61,7 @@ exports.getProduct = async (req, res) => {
 
 	try {
 		const productId = req.params.productid; // Assuming ID is passed as a URL parameter
-		console.log(productId);
+		// console.log(productId);
 
 		if (!productId || isNaN(productId)) {
 			// Handle case when productId is null, undefined, or not a valid number
@@ -88,9 +80,7 @@ exports.getProduct = async (req, res) => {
 				include: [{
 					model: Retailer,
 					attributes: [ 'Name','Website', 'Location', [ 'imageurl', 'retailerimg' ] ],
-					//required: true
-				}],
-				//required: true
+				}]
 			}],
 			where : {productid: productId},
 
@@ -104,9 +94,6 @@ exports.getProduct = async (req, res) => {
 		else {
 			res.status(200).render('productdetails', { productDetail, title: productDetail[0].name });
 		}
-
-		
-
 	} catch (error) {
 		console.error(error);
 		res.status(500).send('Internal Server Error');
