@@ -15,7 +15,7 @@ exports.sendEmail = async (req, res) => {
 			pass: process.env.SKR_APP_PASSWORD, // Replace with your Gmail password or an app-specific password
 		}
 	});
-  
+
 	// Set up the email options
 	const mailOptions = {
 		from: process.env.SKR_EMAIL, // Replace with your Gmail email address
@@ -25,11 +25,11 @@ exports.sendEmail = async (req, res) => {
 	};
 
 	try {
-	  // Send the email
-	  await transporter.sendMail(mailOptions);
-	  res.sendStatus(200);
+		// Send the email
+		await transporter.sendMail(mailOptions);
+		res.sendStatus(200);
 	} catch (error) {
-	  console.error(error);
-	  res.status(500)
+		console.error(error);
+		res.status(500)
 	}
 };

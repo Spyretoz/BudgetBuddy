@@ -133,6 +133,71 @@ exports.updateCart = async (req, res) => {
 };
 
 
+// Save session cart to database on login
+exports.saveCartToDatabase = async (req, res) => {
+    if (!req.session.cart || !req.user) {
+        return res.status(400).send({ message: "No cart to save or user not logged in" });
+    }
+
+    const { cart } = req.session;
+    const userId = req.user.id;
+
+    try {
+        let userCart = await Cart.findOne({ where: { UserID: userId } });
+
+        if (!userCart) {
+            userCart = await Cart.create({
+                UserID: userId,
+                TotalQuantity: cart.totalQuantity,
+                TotalPrice: cart.totalPrice,
+            });
+
+            for (const item of cart.items) {
+                await CartItem.create({
+                    CartID: userCart.CartID,
+                    ProductID: item.productId,
+                    RetailerID: item.retailerId,
+                    Quantity: item.quantity,
+                    TotalPrice: item.total,
+                });
+            }
+        } else {
+            const existingItems = await CartItem.findAll({ where: { CartID: userCart.CartID } });
+
+            for (const sessionItem of cart.items) {
+                const existingItem = existingItems.find(item => 
+                    item.ProductID === sessionItem.productId && item.RetailerID === sessionItem.retailerId
+                );
+
+                if (existingItem) {
+                    existingItem.Quantity += sessionItem.quantity;
+                    existingItem.TotalPrice += sessionItem.total;
+                    await existingItem.save();
+                } else {
+                    await CartItem.create({
+                        CartID: userCart.CartID,
+                        ProductID: sessionItem.productId,
+                        RetailerID: sessionItem.retailerId,
+                        Quantity: sessionItem.quantity,
+                        TotalPrice: sessionItem.total,
+                    });
+                }
+            }
+
+            userCart.TotalQuantity += cart.totalQuantity;
+            userCart.TotalPrice += cart.totalPrice;
+            await userCart.save();
+        }
+
+        req.session.cart = null;
+
+        res.status(200).send({ message: "Cart saved to database successfully" });
+    } catch (err) {
+        res.status(500).send({ message: "Server error", error: err.message });
+    }
+};
+
+
 
 
 // Get cart contents

@@ -13,7 +13,6 @@ exports.getCategories = async (req, res) => {
 
 		// Render products view with fetched data
 		res.render('categories', { categories, title: "Choose category" } );
-		// console.log(categories);
 
 	} catch (error) {
 		console.error(error);

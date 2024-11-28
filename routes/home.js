@@ -1,39 +1,12 @@
 const express = require('express');
 const router = express.Router();
-const homeController = require('../controllers/homeController.js');
+const homeController = require('../controllers/homeController');
 
 
-
-// router.route('/').get(homeController.getHome);
 
 router.get('/', homeController.getHome);
 
+router.get('/dealofday', homeController.getDealOfDay);
 
-router.route('/dealofday')
-	.get(homeController.getDealOfDay)
-;
-
-
-// router.get('/', async (req, res) => {
-// 	try {
-// 		res.status(200).render('home', { title: "Welcome to Skroutz" });
-// 	} catch (error) {
-// 		console.error(error);
-// 		res.status(500).send('Internal Server Error');
-// 	}
-// });
-
-
-// router.get('/dealofday', async (req, res) => {
-// 	try {
-// 		// Show allacategories from database
-// 		const response = await client.query('SELECT IMAGEURL, PRICE FROM PRODUCTS');
-// 		res.json(response.rows);
-
-// 	} catch (error) {
-// 		console.error(error);
-// 		res.status(500).send('Internal Server Error');
-// 	}
-// });
 
 module.exports = router;

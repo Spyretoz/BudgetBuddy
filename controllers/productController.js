@@ -6,12 +6,8 @@ const ProductRetailer = require('../models/productRetailerModel');
 const Retailer = require('../models/retailerModel');
 
 
-
-
-
 exports.getProducts = async (req, res) => {
 	
-
 	const categoryName = req.params.categoryname; // Get categoryname from URL params
 
 	// Fetch all products with associated categories

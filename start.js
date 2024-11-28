@@ -81,6 +81,8 @@ app.use('/insertnewproduct', insertproduct);
 const cart = require('./routes/cart.js');
 app.use('/cart', cart);
 
+const login = require('./routes/login.js');
+app.use('/login', login);
 
 
 const contact = require('./routes/contact.js');
@@ -96,6 +98,14 @@ app.use(function (req, res, next) {
 	res.locals.messages = require('express-messages')(req, res);
 	next();
 })
+
+
+module.exports = (req, res, next) => {
+	if (!req.session.user) {
+		return res.redirect('/login');
+	}
+	next();
+};
 
 
 var port = 8081;
