@@ -85,6 +85,12 @@ const login = require('./routes/login.js');
 app.use('/login', login);
 
 
+const userdata = require('./routes/userdata.js');
+app.get('/user', auth, userdata);
+
+
+
+
 const contact = require('./routes/contact.js');
 app.use('/contact', contact);
 
@@ -100,7 +106,7 @@ app.use(function (req, res, next) {
 })
 
 
-module.exports = (req, res, next) => {
+const auth = module.exports = (req, res, next) => {
 	if (!req.session.user) {
 		return res.redirect('/login');
 	}
@@ -109,7 +115,8 @@ module.exports = (req, res, next) => {
 
 
 var port = 8081;
-var server = app.listen(port, function () {
+// var server = 
+app.listen(port, function () {
 	// var host = server.address().address;
 	// var port = server.address().port;
 	console.log(`Server is listening at http://localhost:${port}`);

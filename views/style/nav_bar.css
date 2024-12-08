@@ -55,6 +55,7 @@ header {
 .navbar .links {
 	display: flex;
 	gap: 2rem;
+	padding-left: 150;
 }
 
 .navbar .toggle_btn {
@@ -275,4 +276,63 @@ header {
 
 #search-results li:hover {
     background-color: #f1f1f1;
+}
+
+
+
+
+
+/* Profile Icon Dropdown */
+.dropdown {
+    position: relative;
+}
+
+.profile-btn {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    right: -60;
+    top: 40px;
+    background-color: #3333339a;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+	width: 150px;
+}
+
+.dropdown-menu a {
+    display: block;
+    color: white;
+    text-decoration: none;
+    margin: 5px 0;
+	text-align: center;
+}
+
+.dropdown-menu a:hover {
+    color: #7c1919d7;
+}
+
+.dropdown:hover .dropdown-menu {
+    display: block;
+}
+
+/* Logout Button */
+.logout-btn {
+    background: #e41818;
+    color: white;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
+    text-align: center;
 }

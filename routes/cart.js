@@ -12,7 +12,7 @@ router.post('/remove', cartController.removeFromCart);
 router.post('/update', cartController.updateCart);
 
 // Save cart in db
-router.post('/save', authMiddleware, cartController.saveCartToDatabase);
+// router.post('/save', authMiddleware, cartController.saveCartToDatabase);
 
 // View cart
 router.get('/', cartController.viewCart);
