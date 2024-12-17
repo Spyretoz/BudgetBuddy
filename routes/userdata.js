@@ -7,7 +7,7 @@ router.get('/profile', userController.getProfile);
 
 router.get('/orders', userController.getOrders);
 
-router.get('/reviews', userController.getrReviews);
+router.get('/reviews', userController.getReviews);
 
 
 

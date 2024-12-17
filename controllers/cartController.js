@@ -2,6 +2,9 @@ const Product = require('../models/productModel');
 const Retailer = require('../models/retailerModel');
 const ProductRetailer = require('../models/productRetailerModel');
 
+const Cart = require('../models/cartModel');
+const CartItem = require('../models/cartItemModel');
+
 
 exports.addToCart = async (req, res) => {
 	const { productId, retailerId, quantity } = req.body; // get them from productdetails page
@@ -54,6 +57,57 @@ exports.addToCart = async (req, res) => {
 		cart.totalQuantity += parseInt(quantity);
 		cart.totalPrice += parseInt(quantity) * price;
 
+		const user = req.session.user;
+
+		if (user) {
+			const dbCart = await Cart.findOne({
+				attributes: ['CartID', 'UserID', 'TotalQuantity', 'TotalPrice'], // Specify fields for Cart
+				where: { UserID: user.id },
+				
+			});
+
+			console.log(dbCart);
+
+			// if (!dbCart) {
+			// 	// Create a new cart for the user if none exists
+			// 	dbCart = await Cart.create({
+			// 		UserID: user.id,
+			// 		TotalQuantity: 0,
+			// 		TotalPrice: 0.0,
+			// 	});
+			// }
+
+			// Check if item already exists in the database cart
+			let dbCartItem = await CartItem.findOne({
+				where: {
+					CartID: dbCart.CartID,
+					ProductID: productId,
+					RetailerID: retailerId,
+				},
+			});
+
+			if (dbCartItem) {
+				// Update quantity and total price if the item exists
+				dbCartItem.Quantity += quantity;
+				dbCartItem.TotalPrice += price * quantity;
+				await dbCartItem.save();
+			} else {
+				// Add new item to CartItem
+				await CartItem.create({
+					CartID: dbCart.CartID,
+					ProductID: productId,
+					RetailerID: retailerId,
+					Quantity: quantity,
+					TotalPrice: price * quantity,
+				});
+			}
+
+			// Update cart totals in the database
+			dbCart.TotalQuantity += quantity;
+			dbCart.TotalPrice += price * quantity;
+			await dbCart.save();
+		}
+
 		//res.status(200).send({ message: "Product added to cart", cart });
 		// res.status(200).send({ message: "Product added to cart"});
 		// Redirect with a success message
@@ -64,7 +118,7 @@ exports.addToCart = async (req, res) => {
 	} catch (err) {
 		console.error(err);
 		req.session.message = "Failed to add item to cart.";
-		res.redirect("back"); // Redirects to the previous page
+		res.redirect(req.get("Referer") || "/");
 		// res.status(500).send({ message: "Server error", error: err.message });
 	}
 };
@@ -133,69 +187,63 @@ exports.updateCart = async (req, res) => {
 };
 
 
-// Save session cart to database on login
-exports.saveCartToDatabase = async (req, res) => {
-    if (!req.session.cart || !req.user) {
-        return res.status(400).send({ message: "No cart to save or user not logged in" });
-    }
 
-    const { cart } = req.session;
-    const userId = req.user.id;
 
-    try {
-        let userCart = await Cart.findOne({ where: { UserID: userId } });
+// exports.saveCartToDatabase = async (req, res) => {
+// 	try {
+// 		const user = req.session.user;
 
-        if (!userCart) {
-            userCart = await Cart.create({
-                UserID: userId,
-                TotalQuantity: cart.totalQuantity,
-                TotalPrice: cart.totalPrice,
-            });
+// 		if (!user) {
+// 			return res.status(401).json({ message: 'User is not logged in.' });
+// 		}
 
-            for (const item of cart.items) {
-                await CartItem.create({
-                    CartID: userCart.CartID,
-                    ProductID: item.productId,
-                    RetailerID: item.retailerId,
-                    Quantity: item.quantity,
-                    TotalPrice: item.total,
-                });
-            }
-        } else {
-            const existingItems = await CartItem.findAll({ where: { CartID: userCart.CartID } });
+// 		const sessionCart = req.session.cart;
 
-            for (const sessionItem of cart.items) {
-                const existingItem = existingItems.find(item => 
-                    item.ProductID === sessionItem.productId && item.RetailerID === sessionItem.retailerId
-                );
+// 		if (!sessionCart || sessionCart.items.length === 0) {
+// 			return res.status(400).json({ message: 'No items in the session cart to save.' });
+// 		}
 
-                if (existingItem) {
-                    existingItem.Quantity += sessionItem.quantity;
-                    existingItem.TotalPrice += sessionItem.total;
-                    await existingItem.save();
-                } else {
-                    await CartItem.create({
-                        CartID: userCart.CartID,
-                        ProductID: sessionItem.productId,
-                        RetailerID: sessionItem.retailerId,
-                        Quantity: sessionItem.quantity,
-                        TotalPrice: sessionItem.total,
-                    });
-                }
-            }
+// 		// Find the user's cart in the database
+// 		let dbCart = await Cart.findOne({ where: { UserID: user.UserID } });
 
-            userCart.TotalQuantity += cart.totalQuantity;
-            userCart.TotalPrice += cart.totalPrice;
-            await userCart.save();
-        }
+// 		// If no cart exists for the user, create a new one
+// 		if (!dbCart) {
+// 			dbCart = await Cart.create({
+// 				UserID: user.UserID,
+// 				TotalQuantity: 0,
+// 				TotalPrice: 0.0,
+// 			});
+// 		}
 
-        req.session.cart = null;
+// 		// Clear existing CartItems for this cart
+// 		await CartItem.destroy({ where: { CartID: dbCart.CartID } });
 
-        res.status(200).send({ message: "Cart saved to database successfully" });
-    } catch (err) {
-        res.status(500).send({ message: "Server error", error: err.message });
-    }
-};
+// 		// Add CartItems from session cart to the database cart
+// 		const cartItemsToInsert = sessionCart.items.map(item => ({
+// 			CartID: dbCart.CartID,
+// 			ProductID: item.productId,
+// 			RetailerID: item.retailerId,
+// 			Quantity: item.quantity,
+// 			TotalPrice: item.price * item.quantity, // Calculate total price for the item
+// 		}));
+
+// 		await CartItem.bulkCreate(cartItemsToInsert);
+
+// 		// Update the cart's total quantity and total price
+// 		const totalQuantity = sessionCart.items.reduce((sum, item) => sum + item.quantity, 0);
+// 		const totalPrice = sessionCart.items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+
+// 		dbCart.TotalQuantity = totalQuantity;
+// 		dbCart.TotalPrice = totalPrice;
+// 		await dbCart.save();
+
+// 		return res.status(200).json({ message: 'Cart saved to database successfully.' });
+// 	} catch (error) {
+// 		console.error('Error saving cart to database:', error);
+// 		return res.status(500).json({ message: 'An error occurred while saving the cart.' });
+// 	}
+// };
+
 
 
 
@@ -204,7 +252,6 @@ exports.saveCartToDatabase = async (req, res) => {
 exports.viewCart = async (req, res) => {
 
 	try {
-
 		const cart = req.session.cart;
 
 		// Load additional product details (e.g., image) for each item in the cart

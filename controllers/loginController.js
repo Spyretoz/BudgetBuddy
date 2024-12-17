@@ -1,5 +1,7 @@
 const bcrypt = require('bcrypt');
 const User = require('../models/userModel'); // Adjust based on your User model path
+const Cart = require('../models/cartModel');
+const CartItem = require('../models/cartItemModel');
 
 
 exports.login = async (req, res) => {
@@ -21,8 +23,57 @@ exports.loginact = async (req, res) => {
 		}
 	
 		// Save user data in session
-		req.session.user = { id: user.userid, name: user.name, email: user.email };
-	
+		req.session.user = { id: user.UserID, name: user.name, email: user.email };
+
+		// Fetch or create the user's cart
+		const dbCart = await Cart.findOne({
+			attributes: ['CartID', 'UserID', 'TotalQuantity', 'TotalPrice'],
+			where: { UserID: user.UserID },
+		});
+		
+		
+
+		if (!dbCart) {
+			const dbCart = await Cart.create({
+				UserID: user.UserID,
+				TotalQuantity: 0, // Initialize TotalQuantity to 0
+				TotalPrice: 0.0,  // Initialize TotalPrice to 0.0
+			});
+		}
+
+
+		// Merge session cart with database cart
+		if (req.session.cart && req.session.cart.items.length > 0) {
+			for (const sessionItem of req.session.cart.items) {
+				const { productId, retailerId, quantity, price } = sessionItem;
+
+				let dbItem = await CartItem.findOne({
+					where: { CartID: dbCart.CartID, ProductID: productId, RetailerID: retailerId }
+				});
+
+				if (dbItem) {
+					dbItem.Quantity += quantity;
+					dbItem.TotalPrice = parseFloat(dbItem.TotalPrice) + (price * quantity);
+					await dbItem.save();
+				} else {
+					await CartItem.create({
+						CartID: dbCart.CartID,
+						ProductID: productId,
+						RetailerID: retailerId,
+						Quantity: quantity,
+						TotalPrice: price * quantity
+					});
+				}
+			}
+
+			// Update cart totals
+			dbCart.TotalQuantity += req.session.cart.totalQuantity;
+			dbCart.TotalPrice = parseFloat(dbCart.TotalPrice) + req.session.cart.totalPrice;
+			await dbCart.save();
+
+			req.session.cart = null; // Clear session cart after synchronization
+		}
+		
 		res.redirect('/');
 	} catch (error) {
 		console.error('Login error:', error);
@@ -80,11 +131,11 @@ exports.signupact = async (req, res) => {
 
 
 exports.logout = (req, res) => {
-    req.session.destroy((err) => {
+	req.session.destroy((err) => {
 		if (err) {
 			console.error('Error during logout:', err);
 			return res.status(500).send('Logout failed.');
 		}
 		res.redirect('/');
-    });
+	});
 };

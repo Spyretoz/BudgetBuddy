@@ -35,7 +35,7 @@ exports.getOrders = async (req, res) => {
 };
 
 
-exports.reviews = async (req, res) => {
+exports.getReviews = async (req, res) => {
 	try {
 		const email = req.session.user.email;	
 

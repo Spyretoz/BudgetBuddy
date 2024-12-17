@@ -11,9 +11,6 @@ router.post('/remove', cartController.removeFromCart);
 // Update cart item quantity
 router.post('/update', cartController.updateCart);
 
-// Save cart in db
-// router.post('/save', authMiddleware, cartController.saveCartToDatabase);
-
 // View cart
 router.get('/', cartController.viewCart);
 

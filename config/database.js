@@ -18,5 +18,7 @@ sequelize.authenticate()
 	console.error('Unable to connect to the PostgreSQL database: ', error);
 });
 
+// sequelize.sync({ force: true });
+
 
 module.exports = sequelize

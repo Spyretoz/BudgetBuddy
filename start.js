@@ -9,6 +9,7 @@ const app = express();
 process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = 0; // for connection with secure db
 
 
+
 app.use(
 	session({
 		secret: 'your-secret-key', // Used to sign session cookies (keep it secret!)
@@ -21,29 +22,36 @@ app.use(
 	})
 );
 
+const auth = module.exports = (req, res, next) => {
+	if (!req.session.user) {
+		return res.redirect('/login');
+	}
+	next();
+};
+
 
 app.use((req, res, next) => {
-    // Initialize cart if it doesn't exist in the session
-    if (!req.session.cart) {
-        req.session.cart = {
-            items: [],
-            totalQuantity: 0,
-            totalPrice: 0
-        };
-    }
-    next();
+	// Initialize cart if it doesn't exist in the session
+	if (!req.session.cart) {
+		req.session.cart = {
+			items: [],
+			totalQuantity: 0,
+			totalPrice: 0
+		};
+	}
+	next();
 });
 
 app.use((req, res, next) => {
 	// Make session data available in all views
-    res.locals.session = req.session;
-    next();
+	res.locals.session = req.session;
+	next();
 });
 
 app.use((req, res, next) => {
-    res.locals.message = req.session.message || null; // Set the message in res.locals
-    delete req.session.message; // Clear the message after passing it
-    next();
+	res.locals.message = req.session.message || null; // Set the message in res.locals
+	delete req.session.message; // Clear the message after passing it
+	next();
 });
 
 
@@ -106,12 +114,7 @@ app.use(function (req, res, next) {
 })
 
 
-const auth = module.exports = (req, res, next) => {
-	if (!req.session.user) {
-		return res.redirect('/login');
-	}
-	next();
-};
+
 
 
 var port = 8081;
