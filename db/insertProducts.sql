@@ -13,7 +13,7 @@ INSERT INTO Products (Name, Description, CategoryID, Brand, Year, IMAGEURL) VALU
 'Το Nintendo Switch μπορεί να προσαρμοστεί στις ανάγκες σας, καθώς συνδυάζει την υπολογιστική δύναμη μιας σταθερής κονσόλας με την ευκολία μιας φορητής. Μπορείτε να παίξετε τα παιχνίδια που θέλετε, όσο γεμάτη και να είναι η μέρα σας. H κονσόλα προσαρμόζεται για την κατάσταση που την χρειάζεστε. Απολαύστε τα παιχνίδια όποτε θέλετε, όπου θέλετε, παρέα με όποιον θέλετε με τις ευέλικτες καταστάσεις παιχνιδιού.',
  1, 'Nintendo', 2023, 'https://www.nintendo.com/ph/hardware/switch/regions/img/hardSwitch-nav-OpenMenu-pic03.png');
 --325,
-INSERT INTO Products (Name, Description, CategoryID, Brand, Year, IMAGEURL) VALUES ('Playstation 5', '', 1, 'Sony', 2023, 'https://gmedia.playstation.com/is/image/SIEPDC/ps5-product-thumbnail-01-en-14sep21?$facebook$');
+INSERT INTO Products (Name, Description, CategoryID, Brand, Year, IMAGEURL) VALUES ('Playstation 5', '', 1, 'Sony', 2023, 'https://www.xgame-stores.com/image/cache/catalog/2021/PS5%20slim%20disk%20edition%20pn2-550x550h.png');
 
 
 INSERT INTO Products (Name, Description, CategoryID, Brand, Year, IMAGEURL) VALUES ('Καθαρηστικό Αμαξώματος', 'Καθάρισμα σε βάθος και χωρίς κόπο', 3, 'Meguiar''s', 2022, 'https://cdn.shopify.com/s/files/1/0798/2845/1665/files/G17748.png?v=1718128165');
