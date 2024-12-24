@@ -3,7 +3,7 @@
 
 exports.getHome = async (req, res) => {
 	try {
-		res.status(200).render('home', { title: "Welcome to Skroutz" });
+		res.status(200).render('home', { title: "Welcome to BudgetBuddy" });
 	} catch (error) {
 		console.error(error);
 		res.status(500).send('Internal Server Error');
