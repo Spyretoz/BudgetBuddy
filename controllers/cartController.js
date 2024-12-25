@@ -188,66 +188,6 @@ exports.updateCart = async (req, res) => {
 
 
 
-
-// exports.saveCartToDatabase = async (req, res) => {
-// 	try {
-// 		const user = req.session.user;
-
-// 		if (!user) {
-// 			return res.status(401).json({ message: 'User is not logged in.' });
-// 		}
-
-// 		const sessionCart = req.session.cart;
-
-// 		if (!sessionCart || sessionCart.items.length === 0) {
-// 			return res.status(400).json({ message: 'No items in the session cart to save.' });
-// 		}
-
-// 		// Find the user's cart in the database
-// 		let dbCart = await Cart.findOne({ where: { UserID: user.UserID } });
-
-// 		// If no cart exists for the user, create a new one
-// 		if (!dbCart) {
-// 			dbCart = await Cart.create({
-// 				UserID: user.UserID,
-// 				TotalQuantity: 0,
-// 				TotalPrice: 0.0,
-// 			});
-// 		}
-
-// 		// Clear existing CartItems for this cart
-// 		await CartItem.destroy({ where: { CartID: dbCart.CartID } });
-
-// 		// Add CartItems from session cart to the database cart
-// 		const cartItemsToInsert = sessionCart.items.map(item => ({
-// 			CartID: dbCart.CartID,
-// 			ProductID: item.productId,
-// 			RetailerID: item.retailerId,
-// 			Quantity: item.quantity,
-// 			TotalPrice: item.price * item.quantity, // Calculate total price for the item
-// 		}));
-
-// 		await CartItem.bulkCreate(cartItemsToInsert);
-
-// 		// Update the cart's total quantity and total price
-// 		const totalQuantity = sessionCart.items.reduce((sum, item) => sum + item.quantity, 0);
-// 		const totalPrice = sessionCart.items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-
-// 		dbCart.TotalQuantity = totalQuantity;
-// 		dbCart.TotalPrice = totalPrice;
-// 		await dbCart.save();
-
-// 		return res.status(200).json({ message: 'Cart saved to database successfully.' });
-// 	} catch (error) {
-// 		console.error('Error saving cart to database:', error);
-// 		return res.status(500).json({ message: 'An error occurred while saving the cart.' });
-// 	}
-// };
-
-
-
-
-
 // Get cart contents
 exports.viewCart = async (req, res) => {
 

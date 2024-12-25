@@ -1,6 +1,3 @@
-// const client = require('../config/database.js');
-
-
 exports.getHome = async (req, res) => {
 	try {
 		res.status(200).render('home', { title: "Welcome to BudgetBuddy" });

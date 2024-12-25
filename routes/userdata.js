@@ -10,5 +10,4 @@ router.get('/orders', userController.getOrders);
 router.get('/reviews', userController.getReviews);
 
 
-
 module.exports = router;
