@@ -7,7 +7,7 @@
 
 body {
 	height: 100vh;
-	background-color: black;
+	/* background-color: black; */
 	background-image: url('https://images.unsplash.com/photo-1485470733090-0aae1788d5af?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1517&q=80');
 	background-size: cover;
 	background-position: center;
@@ -41,7 +41,7 @@ header {
 	max-width: 1200px;
 	font-size: 25px;
 	font-weight: bold;
-	margin: 0 auto;
+	margin: 0 30px;
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
@@ -52,10 +52,44 @@ header {
 	font-weight: bold;
 }
 
+
+
+/* From Uiverse.io by OnCloud125252 */ 
+.inputBox_container {
+	display: flex;
+	align-items: center;
+	flex-direction: row;
+	max-width: 9em;
+	background-color: #7c1919d7;
+	border-radius: 0.8em;
+	overflow: hidden;
+}
+  
+.search_icon {
+	height: 1em;
+	padding: 0 0.5em 0 0.8em;
+	fill: white;
+}
+  
+.inputBox {
+	background-color: transparent;
+	color: white;
+	outline: none;
+	width: 100%;
+	border: 0;
+}
+  
+.inputBox::placeholder {
+	color: rgba(255, 255, 255, 0.596);
+}
+
+
+
+
 .navbar .links {
 	display: flex;
 	gap: 2rem;
-	padding-left: 150;
+	padding-right: 100px;
 }
 
 .navbar .toggle_btn {
@@ -66,11 +100,11 @@ header {
 }
 
 .action_btn {
-    position: relative;
-    display: inline-block;
-    text-decoration: none;
+	position: relative;
+	display: inline-block;
+	text-decoration: none;
 	padding: 0.5rem 1rem;
-    
+	
 	background-color: #7c1919d7;
 	color: #fff;
 	border: none;
@@ -82,33 +116,33 @@ header {
 }
 
 .cart-count {
-    position: absolute;
-    top: 10px; /* Adjust to position the badge above the icon */
-    right: 10px; /* Adjust to position the badge to the right */
-    background-color: #ff4d4d; /* Bright red for visibility */
-    color: #ffffff; /* White text for contrast */
-    font-size: 12px;
-    font-weight: bold;
-    padding: 3px 6px;
-    border-radius: 50%; /* Makes the badge circular */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Adds subtle shadow */
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 10; /* Ensures the badge is on top */
-    transform: translate(50%, -50%); /* Center the badge on the corner */
+	position: absolute;
+	top: 10px; /* Adjust to position the badge above the icon */
+	right: 10px; /* Adjust to position the badge to the right */
+	background-color: #ff4d4d; /* Bright red for visibility */
+	color: #ffffff; /* White text for contrast */
+	font-size: 12px;
+	font-weight: bold;
+	padding: 3px 6px;
+	border-radius: 50%; /* Makes the badge circular */
+	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Adds subtle shadow */
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	z-index: 10; /* Ensures the badge is on top */
+	transform: translate(50%, -50%); /* Center the badge on the corner */
 }
 
 .cart-count::after {
-    content: ''; /* Optional: Adds a little flair */
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 8px;
-    height: 8px;
-    background-color: #ffffff;
-    border-radius: 50%;
-    opacity: 0.1;
+	content: ''; /* Optional: Adds a little flair */
+	position: absolute;
+	top: 0;
+	right: 0;
+	width: 8px;
+	height: 8px;
+	background-color: #ffffff;
+	border-radius: 50%;
+	opacity: 0.1;
 }
 
 
@@ -122,12 +156,12 @@ header {
 }
 
 /* .cart-count {
-    position: absolute;
-    background-color: red;
-    color: white;
-    font-size: 16px;
-    padding: 3px 6px;
-    border-radius: 50%;
+	position: absolute;
+	background-color: red;
+	color: white;
+	font-size: 16px;
+	padding: 3px 6px;
+	border-radius: 50%;
 } */
 
 /* DROPDOWN MENU */
@@ -188,94 +222,44 @@ header {
 
 
 
-.search {
-	width: 40%;
-	display: flex;
-	text-align: center;
-	margin: auto;
-}
 
-.searchTerm {
-	font-size: 20;
-	width: 100%;
-	border: solid #7c1919d7;
-	border-right: none;
-	border-left: none;
-	padding: 5px;
-	height: 46px;
-	outline: none;
-}
-
-.searchTerm:focus{
-	color: #7c1919d7;
-}
-
-.searchButton {
-	width: 60px;
-	height: 46px;
-	border: 1px solid #7c1919d7;
-	background: #7c1919d7;
-	text-align: center;
-	color: #fff;
-	border-radius: 5px 0 0 5px;
-	cursor: pointer;
-	font-size: 20px;
-}
-
-
-.listButton {
-	width: 60px;
-	height: 46px;
-	border: 1px solid #7c1919d7;
-	background: #7c1919d7;
-	text-align: center;
-	color: #fff;
-	border-radius: 5px 0 0 5px;
-	cursor: pointer;
-	font-size: 20px;
-}
-
-/*Resize the wrap to see the search bar change!*/
-/* .wrap {
-	width: 30%;
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%);
-} */
 
 /* Basic styling for search and drop-down */
 .search-container {
-    position: relative;
-    width: 100%;
-    max-width: 300px;
+	position: relative;
+	width: 100%;
+	max-width: 300px;
 	max-height: 50px;
 }
 
 #search-input {
-    width: 100%;
-    padding: 8px;
+	width: 100%;
+	padding: 8px;
 }
 
 #search-results {
-    position: absolute;
-    top: 120px;
-	max-width: 500px;
-    width: 100%;
-    max-height: 150px;
-    overflow-y: auto;
-    background-color: white;
-    border: 1px solid #ddd;
-    display: none;
+	position: absolute;
+	top: 60px;
+	max-width: 350px;
+	width: 350px;
+	max-height: 300px;
+	overflow-y: auto;
+	background-color: white;
+	border: 1px solid #ddd;
+	display: none;
+
+	font-size: small;
+
+	z-index: 2;
 }
 
 #search-results li {
-    padding: 8px;
-    cursor: pointer;
+	padding: 8px;
+	cursor: pointer;
 }
 
 #search-results li:hover {
-    background-color: #f1f1f1;
+	background-color: #f1f1f1;
 }
 
 
@@ -284,55 +268,55 @@ header {
 
 /* Profile Icon Dropdown */
 .dropdown {
-    position: relative;
+	position: relative;
 }
 
 .profile-btn {
-    background: none;
-    border: none;
-    color: white;
-    font-size: 24px;
-    cursor: pointer;
+	background: none;
+	border: none;
+	color: white;
+	font-size: 24px;
+	cursor: pointer;
 }
 
 .dropdown-menu {
-    display: none;
-    position: absolute;
-    right: -60;
-    top: 40px;
-    background-color: #3333339a;
-    color: white;
-    padding: 10px;
-    border-radius: 5px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    z-index: 1000;
+	display: none;
+	position: absolute;
+	right: -60;
+	top: 40px;
+	background-color: #3333339a;
+	color: white;
+	padding: 10px;
+	border-radius: 5px;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+	z-index: 1000;
 	width: 150px;
 }
 
 .dropdown-menu a {
-    display: block;
-    color: white;
-    text-decoration: none;
-    margin: 5px 0;
+	display: block;
+	color: white;
+	text-decoration: none;
+	margin: 5px 0;
 	text-align: center;
 }
 
 .dropdown-menu a:hover {
-    color: #7c1919d7;
+	color: #7c1919d7;
 }
 
 .dropdown:hover .dropdown-menu {
-    display: block;
+	display: block;
 }
 
 /* Logout Button */
 .logout-btn {
-    background: #e41818;
-    color: white;
-    padding: 5px 10px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    width: 100%;
-    text-align: center;
+	background: #e41818;
+	color: white;
+	padding: 5px 10px;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+	width: 100%;
+	text-align: center;
 }

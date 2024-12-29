@@ -9,23 +9,7 @@
 	<div class="categories-container" id="categories-container">
 		<!-- Categories will be added here dynamically -->
 
-		<section class="index-category" id="index-category">
-			<p>Categories</p>
-
-
-			<!-- <a href="" class="index-category-box">
-				<div class="dark-overlay"></div>
-				<h3>Electronics</h3>
-			</a>
-			<a href="" class="index-category-box">
-				<div class="dark-overlay"></div>
-				<h3>Cars & Moto</h3>
-			</a>
-			<a href="" class="index-category-box">
-				<div class="dark-overlay"></div>
-				<h3>Medical</h3>
-			</a> -->
-		</section>
+		<section class="index-category" id="index-category"></section>
 	</div>
 
 	<br><br><br>
@@ -36,11 +20,6 @@
 		 	try {
 
 				const categories = <%- JSON.stringify(categories).replace(/</g, '\\u003c') %>; // Embed data without HTML entities
-
-				// console.log(categories);
-
-				
-	
 		 		const categoriesContainer = document.getElementById('index-category');
 
 				

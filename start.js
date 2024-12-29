@@ -83,9 +83,6 @@ const products = require('./routes/products.js');
 app.use('/categories', products);
 
 
-const insertproduct = require('./routes/insertproduct.js');
-app.use('/insertnewproduct', insertproduct);
-
 const cart = require('./routes/cart.js');
 app.use('/cart', cart);
 

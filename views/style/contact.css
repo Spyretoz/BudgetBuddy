@@ -91,7 +91,7 @@
 }
 
 
-input {
+.contactForm input {
 	height: 20px;
 	width: 100%;
 	padding: 12px;
@@ -101,6 +101,7 @@ input {
 	/* margin-top: 6px;
 	margin-bottom: 16px; */
 	resize: vertical;
+	color: #686262;
 }
 
 textarea {
