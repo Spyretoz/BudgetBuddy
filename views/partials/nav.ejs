@@ -62,27 +62,6 @@
 		<li><a href="/categories">Categories</a></li>
 		<li><a href="/contact">Contact</a></li>
 
-		<!-- Dynamic Sign In/Sign Up or Profile Icon -->
-		<% if (session.user) { %>
-			<!-- User Logged In: Profile Icon -->
-			<li class="dropdown">
-				<button class="profile-btn">
-					<i class="fa fa-user-circle" aria-hidden="true"></i>
-				</button>
-				<div class="dropdown-menu">
-					<a href="/profile">My Profile</a>
-					<a href="/orders">My Orders</a>
-					<a href="/reviews">My Reviews</a>
-					<form action="/login/logout" method="POST">
-						<button type="submit" class="logout-btn">Logout</button>
-					</form>
-				</div>
-			</li>
-		<% } else { %>
-			<!-- User Not Logged In: Sign In/Sign Up Buttons -->
-			<li><a href="/login" class="nav-btn">Sign In</a></li>
-		<% } %>
-
 
 		<li><a href="/cart" class="action_btn"><i class="fa fa-shopping-cart" style="font-size:16px"></i>
 			<% if (session.cart && session.cart.totalQuantity > 0) { %>

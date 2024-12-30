@@ -26,20 +26,12 @@
 		 		// Render categories dynamically
 		 		categories.forEach(category => {
 
-					// console.log(`Category Name: ${category.name}`);
-
 		 			const categoryDiv = document.createElement('a');
-
 					categoryDiv.href = window.location.href + "/" + `${category.name}`;
-
 					categoryDivBox = categoryDiv.classList.add('index-category-box');
-
 					categoryDiv.style.backgroundImage = `url(${category.imageurl})`; // Set background image
-
 					categoryDiv.innerHTML = `<div class="dark-overlay"></div><h3>${category.name}</h3>`;
-
 					categoriesContainer.appendChild(categoryDiv);
-
 		 		});
 
 		 	} catch (error) {
