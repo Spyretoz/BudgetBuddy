@@ -7,7 +7,6 @@
 
 body {
 	height: 100vh;
-	/* background-color: black; */
 	background-image: url('https://images.unsplash.com/photo-1485470733090-0aae1788d5af?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1517&q=80');
 	background-size: cover;
 	background-position: center;
@@ -41,7 +40,7 @@ header {
 	max-width: 1200px;
 	font-size: 25px;
 	font-weight: bold;
-	margin: 0 30px;
+	margin: 0 auto;
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
@@ -52,7 +51,9 @@ header {
 	font-weight: bold;
 }
 
-
+.svg:hover {
+	pointer-events: visible;
+}
 
 /* From Uiverse.io by OnCloud125252 */ 
 .inputBox_container {
@@ -83,13 +84,12 @@ header {
 	color: rgba(255, 255, 255, 0.596);
 }
 
-
-
-
 .navbar .links {
 	display: flex;
-	gap: 2rem;
+	gap: 1.5rem;
 	padding-right: 100px;
+	justify-content: center;
+	/* flex: 1; */
 }
 
 .navbar .toggle_btn {
@@ -113,6 +113,8 @@ header {
 	font-size: 0.8rem;
 	font-weight: bold;
 	cursor: pointer;
+
+	margin-right: 100px;
 }
 
 .cart-count {
@@ -145,7 +147,6 @@ header {
 	opacity: 0.1;
 }
 
-
 .action_btn:hover {
 	scale: 1.05;
 	color: #fff;
@@ -154,15 +155,6 @@ header {
 .action_btn:active {
 	scale: 0.95;
 }
-
-/* .cart-count {
-	position: absolute;
-	background-color: red;
-	color: white;
-	font-size: 16px;
-	padding: 3px 6px;
-	border-radius: 50%;
-} */
 
 /* DROPDOWN MENU */
 .dropdown_menu {
@@ -217,12 +209,7 @@ header {
 		left: 2rem;
 		width: unset;
 	}
-
 }
-
-
-
-
 
 /* Basic styling for search and drop-down */
 .search-container {
@@ -261,10 +248,6 @@ header {
 #search-results li:hover {
 	background-color: #f1f1f1;
 }
-
-
-
-
 
 /* Profile Icon Dropdown */
 .dropdown {
