@@ -58,14 +58,19 @@
 	overflow: hidden;
 	outline: none;
 	padding: 0.7rem;
-	text-transform: uppercase;
 	transition: 0.4s ease;
-	width: auto;
-	display: inline-flex;
-	margin-top: 20%;
-	margin-right: 10%;
+	width: 100%;
+	/* display: inline-flex; */
+	margin-top: 50%;
+	/* margin-right: 0; */
+	/* margin-left: 10%; */
+	/* float: right; */
 
-	margin-left: 20px;
+	/* margin-left: auto;  */
+	/* margin-right: 0; */
+
+	font-size: 30px;
+	/* position: relative; */
 
 	background: #e6a247;
 	border: none;
@@ -76,14 +81,6 @@
 	display: flex; 
 	font-family: 'Ubuntu', sans-serif;
 	justify-content: space-around;
-	min-width: 55px;
-	overflow: hidden;
-	outline: none;
-	padding: 0.7rem;
-	position: relative;
-	text-transform: uppercase;
-	transition: 0.4s ease;
-	width: auto;
 }
 
 .add-to-cart-button:active {

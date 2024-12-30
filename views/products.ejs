@@ -42,8 +42,13 @@
 					<img src="${product.imageurl}">
 					<h2>${product.name}</h2>
 					<div class="price">${product.minprice}</div>
-				`;
 
+					<a title="Add for powerfull search" href="/add_to_search"><i class="fa-solid fa-magnifying-glass-plus" style="font-size: 20px; background: linear-gradient(to left,violet,indigo, blue, green, orange, red); -webkit-background-clip: text; color: transparent;"></i></a>
+					
+				`;
+				// <i class="fa-solid fa-cart-plus"></i>
+
+				
 				productDivBox = productDiv.classList.add('index-product-box');
 				productsContainer.appendChild(productDiv);
 			});
