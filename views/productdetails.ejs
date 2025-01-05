@@ -1,6 +1,6 @@
 <%- include('./partials/header.ejs') %>
 
-<link href="/eachproduct.css" rel="stylesheet" type="text/css">
+<link href="/productdetails.css" rel="stylesheet" type="text/css">
 <body>
 	<%- include('./partials/nav.ejs') %>
 
@@ -30,7 +30,7 @@
 	async function fetchProductDetails() {
 		try {
 			const productdetails = <%- JSON.stringify(productDetail).replace(/</g, '\\u003c') %>; // Embed data without HTML entities
-			console.log(productdetails);
+			// console.log(productdetails);
 
 			const productdetailContainer = document.getElementById('index-product');
 

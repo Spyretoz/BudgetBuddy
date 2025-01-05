@@ -35,17 +35,19 @@
 			// // Render categories dynamically
 			products.forEach(product => {
 
+
 				const productDiv = document.createElement('a');
-				productDiv.href = window.location.href + "/" + `${product.productid}`;
+				productDiv.href = "/products/" + `${product["Category.name"]}` + "/" + `${product.productid}`;
 
 				productDiv.innerHTML = `
 					<img src="${product.imageurl}">
 					<h2>${product.name}</h2>
 					<div class="price">${product.minprice}</div>
 
-					<a title="Add for powerfull search" href="/add_to_search"><i class="fa-solid fa-magnifying-glass-plus" style="font-size: 20px; background: linear-gradient(to left,violet,indigo, blue, green, orange, red); -webkit-background-clip: text; color: transparent;"></i></a>
-					
+					<button onclick="addToCompare('product-id')" title="Add for powerfull search"> <i class="fa-solid fa-magnifying-glass-plus" style="margin-top: 10px; font-size: 25px; background: linear-gradient(to left,violet,indigo, blue, green, orange, red); -webkit-background-clip: text; color: transparent;"></i> </button>
 				`;
+				// <a title="Add for powerfull search" href="/search/add_to_search"><i class="fa-solid fa-magnifying-glass-plus" style="margin-top: 10px; font-size: 25px; background: linear-gradient(to left,violet,indigo, blue, green, orange, red); -webkit-background-clip: text; color: transparent;"></i></a>
+
 				// <i class="fa-solid fa-cart-plus"></i>
 
 				
@@ -56,6 +58,27 @@
 			console.error('Error fetching products: ', error);
 		}
 	}
+
+
+	function addToCompare(productId) {
+		fetch('/search/add_to_search', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({ productId }),
+		})
+		.then(response => response.json())
+		.then(data => {
+			if (data.error) {
+				alert(data.error);
+			} else {
+				alert('Product added to comparison list');
+			}
+		})
+		.catch(err => console.error(err));
+	}
+
 
 	// Call the function to fetch and display products when the page loads
 	fetchProducts();

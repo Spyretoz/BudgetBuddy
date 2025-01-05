@@ -26,7 +26,7 @@ exports.getProducts = async (req, res) => {
 			include: [
 				{
 					model: Category,
-					attributes: [],
+					attributes: ['name'],
 					where: {
 						name: categoryName
 					},
@@ -38,7 +38,7 @@ exports.getProducts = async (req, res) => {
 
 				}
 			],
-			group: ['Product.ProductID', 'Product.name', 'Product.imageurl'], // Group by ProductID and CategoryId
+			group: ['Product.ProductID', 'Product.name', 'Product.imageurl', 'Category.name'], // Group by ProductID and CategoryId
 		});
 
 		res.status(200).render('products', { products, title: `${categoryName}` });

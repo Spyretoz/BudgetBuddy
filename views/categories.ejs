@@ -27,7 +27,7 @@
 		 		categories.forEach(category => {
 
 		 			const categoryDiv = document.createElement('a');
-					categoryDiv.href = window.location.href + "/" + `${category.name}`;
+					categoryDiv.href = "/products/" + `${category.name}`;
 					categoryDivBox = categoryDiv.classList.add('index-category-box');
 					categoryDiv.style.backgroundImage = `url(${category.imageurl})`; // Set background image
 					categoryDiv.innerHTML = `<div class="dark-overlay"></div><h3>${category.name}</h3>`;

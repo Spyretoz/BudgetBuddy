@@ -30,6 +30,15 @@ const auth = module.exports = (req, res, next) => {
 };
 
 
+
+app.use((req, res, next) => {
+	if (!req.session.compare) {
+		req.session.compare = [];
+	}
+	next();
+});
+
+
 app.use((req, res, next) => {
 	// Initialize cart if it doesn't exist in the session
 	if (!req.session.cart) {
@@ -68,19 +77,25 @@ app.set('view engine', 'ejs');
 app.use('/assets', express.static('style'));
 app.use(express.static(path.join(__dirname, './views/style/')));
 
+// JS Files Path
+app.use(express.static(path.join(__dirname, './scripts')));
+
 
 // Set routes
 const home = require('./routes/home.js');
 app.use('/', home);
 
 const navbar = require('./routes/navbar.js');
-app.use('/search', navbar);
+app.use('/navsearch', navbar);
+
+const search = require('./routes/search.js');
+app.use('/search', search);
 
 const categories = require('./routes/categories.js');
-app.use('/', categories);
+app.use('/categories', categories);
 
 const products = require('./routes/products.js');
-app.use('/categories', products);
+app.use('/products', products);
 
 
 const cart = require('./routes/cart.js');
@@ -108,10 +123,7 @@ app.use(require('connect-flash')());
 app.use(function (req, res, next) {
 	res.locals.messages = require('express-messages')(req, res);
 	next();
-})
-
-
-
+});
 
 
 var port = 8081;
