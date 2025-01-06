@@ -35,7 +35,11 @@
 			const productdetailContainer = document.getElementById('index-product');
 
 			productdetailContainer.innerHTML = `
+
 				<img src="${productdetails[0].prdimg}">
+
+				<button title="Add for powerfull search" onclick="addToSearchList(${productdetails[0].productid})"><i class="fa-solid fa-magnifying-glass-plus" style="margin-top: 10px; font-size: 25px; background: linear-gradient(to left,violet,indigo, blue, green, orange, red); -webkit-background-clip: text; color: transparent;"></i></button>
+
 				<h2>${productdetails[0].name}</h2>
 				<dic class="descr">${productdetails[0].description}</div>
 			`;
@@ -80,6 +84,30 @@
 			
 		} catch (error) {
 			console.error('Error fetching product details: ', error);
+		}
+	}
+
+
+	function addToSearchList(productId) {
+		try {
+			fetch('/search/add_to_search', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify({ productId }),
+			})
+			.then(response => response.json())
+			.then(data => {
+				if (data.error) {
+					alert(data.error);
+				} else {
+					alert('Product added to search list');
+				}
+			})
+			.catch(err => console.error(err));
+		} catch (error) {
+			console.error('Error adding products to search list: ', error);
 		}
 	}
 

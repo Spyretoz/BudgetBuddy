@@ -7,7 +7,65 @@
 
 	<br><br><br>
 
+	
+
     <h1>Search</h1>
+
+	<h3>Products with ids <%= session.compare %> in your search</h3>
+
+
+	<select id="searchOption">
+		<option value="lowest-price">Lowest Prices</option>
+		<option value="best-reviews">Best Reviews</option>
+	</select>
+	<button onclick="fetchSearchData()">Search</button>
+	<div id="searchList"></div>
+
+
+
+	<ul>
+		{{#each results}}
+		<li>
+			<img src="{{this.productImg}}" alt="{{this.productName}}" />
+			<span>{{this.productName}}</span>
+			<span>{{this.retailerName}}</span>
+			<span>\${{this.price}}</span>
+			<button data-id="{{this.productId}}">Remove</button>
+		</li>
+		{{/each}}
+	  </ul>
+	  
+
+
+
+	<script>
+		async function fetchSearchData() {
+			const option = document.getElementById('searchOption').value;
+
+			const response = await fetch(`/search?option=${option}`);
+			const data = await response.json();
+
+			if (data.error) {
+				alert(data.error);
+				return;
+			}
+
+			// Render the comparison data
+			const listHtml = data.results.map(product => `
+				<div class="product">
+					<h3>${product.productName}</h3>
+					<ul>
+						${product.retailers.map(retailer => `
+							<li>${retailer.name}: $${retailer.price}${retailer.reviews ? ` (Reviews: ${retailer.reviews})` : ''}</li>
+						`).join('')}
+					</ul>
+				</div>
+			`).join('');
+
+			document.getElementById('searchList').innerHTML = listHtml;
+		}
+
+	</script>
 
 	
 </body>

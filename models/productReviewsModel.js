@@ -1,7 +1,7 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/database');
 
-const Review = sequelize.define('Review', {
+const ProductReviews = sequelize.define('ProductReviews', {
 	ReviewID: {
 		type: DataTypes.INTEGER,
 		autoIncrement: true,
@@ -24,7 +24,7 @@ const Review = sequelize.define('Review', {
 		},
 	},
 	Rating: {
-		type: DataTypes.INTEGER,
+		type: DataTypes.DECIMAL(2, 1),
 		allowNull: false,
 		validate: {
 			min: 1,
@@ -37,8 +37,8 @@ const Review = sequelize.define('Review', {
 	}
 }, 
 {
-	tableName: 'Reviews',
+	tableName: 'ProductReviews',
 	timestamps: true // Automatically adds `createdAt` and `updatedAt` fields
 });
 
-module.exports = Review;
+module.exports = ProductReviews;

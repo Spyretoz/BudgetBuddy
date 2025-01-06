@@ -44,7 +44,7 @@
 					<h2>${product.name}</h2>
 					<div class="price">${product.minprice}</div>
 
-					<button onclick="addToCompare('product-id')" title="Add for powerfull search"> <i class="fa-solid fa-magnifying-glass-plus" style="margin-top: 10px; font-size: 25px; background: linear-gradient(to left,violet,indigo, blue, green, orange, red); -webkit-background-clip: text; color: transparent;"></i> </button>
+					<button onclick="addToSearchList(${product.productid})" title="Add for powerfull search"> <i class="fa-solid fa-magnifying-glass-plus" style="margin-top: 10px; font-size: 25px; background: linear-gradient(to left,violet,indigo, blue, green, orange, red); -webkit-background-clip: text; color: transparent;"></i> </button>
 				`;
 				// <a title="Add for powerfull search" href="/search/add_to_search"><i class="fa-solid fa-magnifying-glass-plus" style="margin-top: 10px; font-size: 25px; background: linear-gradient(to left,violet,indigo, blue, green, orange, red); -webkit-background-clip: text; color: transparent;"></i></a>
 
@@ -60,23 +60,27 @@
 	}
 
 
-	function addToCompare(productId) {
-		fetch('/search/add_to_search', {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json',
-			},
-			body: JSON.stringify({ productId }),
-		})
-		.then(response => response.json())
-		.then(data => {
-			if (data.error) {
-				alert(data.error);
-			} else {
-				alert('Product added to comparison list');
-			}
-		})
-		.catch(err => console.error(err));
+	function addToSearchList(productId) {
+		try {
+			fetch('/search/add_to_search', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify({ productId }),
+			})
+			.then(response => response.json())
+			.then(data => {
+				if (data.error) {
+					alert(data.error);
+				} else {
+					alert('Product added to search list');
+				}
+			})
+			.catch(err => console.error(err));
+		} catch (error) {
+			console.error('Error adding products to search list: ', error);
+		}
 	}
 
 
