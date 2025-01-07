@@ -11,58 +11,78 @@
 
     <h1>Search</h1>
 
-	<h3>Products with ids <%= session.compare %> in your search</h3>
+	<% if (session.compare && session.compare.length > 0) { %>
+		<!-- <h3>Products with ids <%= session.compare %> in your search</h3> -->
+		<div class="search-container">
+			<select id="searchOption" class="styled-select">
+			  <option value="lowest-price">Lowest Prices</option>
+			  <option value="best-reviews">Best Reviews</option>
+			</select>
+			<button class="search-btn" onclick="fetchSearchData()">Search</button>
+		</div>
+
+		<ul class="search-items">
+			<% results.forEach(result => { %>
+				<li class="search-item">
+					<!-- Product Image -->
+					<img src="<%= result.productImg %>" alt="<%= result.productName %>" class="product-image">
+					
+					<!-- Product Name and Retailer Name -->
+					<div class="product-details">
+						<p class="product-name"><%= result.productName %></p>
+						<p class="retailer-name">By: <%= result.retailerName %></p>
+					</div>
 
 
-	<select id="searchOption">
-		<option value="lowest-price">Lowest Prices</option>
-		<option value="best-reviews">Best Reviews</option>
-	</select>
-	<button onclick="fetchSearchData()">Search</button>
-	<div id="searchList"></div>
-
-
-
-	<ul>
-		{{#each results}}
-		<li>
-			<img src="{{this.productImg}}" alt="{{this.productName}}" />
-			<span>{{this.productName}}</span>
-			<span>{{this.retailerName}}</span>
-			<span>\${{this.price}}</span>
-			<button data-id="{{this.productId}}">Remove</button>
-		</li>
-		{{/each}}
-	  </ul>
+					<p>(<%= result.averageRating %>)⭐</p>
+		
+					<!-- Price -->
+					<p class="item-price">$<%= result.price.toFixed(2) %></p>
+		
+					<!-- Trash Button -->
+					<button class="trash-btn" onclick="deleteItem('<%= result.productid %>')">
+						<i class="fa fa-trash"></i>
+					</button>
+				</li>
+			<% }) %>
+		</ul>
+	
+	
+		<!-- Total Price Display -->
+		<div class="search-total">
+			<p>Total: $<%= totalPrice.toFixed(2) %></p>
+		</div>
+			
+		<% } else { %>
+			<h3>Your search is empty</h3>
+		<% } %>
 	  
 
 
 
 	<script>
 		async function fetchSearchData() {
-			const option = document.getElementById('searchOption').value;
+			const option = document.getElementById('searchOption').value; 
+			window.location.href = `/search?option=${option}`;
+		}
 
-			const response = await fetch(`/search?option=${option}`);
-			const data = await response.json();
 
-			if (data.error) {
-				alert(data.error);
-				return;
-			}
 
-			// Render the comparison data
-			const listHtml = data.results.map(product => `
-				<div class="product">
-					<h3>${product.productName}</h3>
-					<ul>
-						${product.retailers.map(retailer => `
-							<li>${retailer.name}: $${retailer.price}${retailer.reviews ? ` (Reviews: ${retailer.reviews})` : ''}</li>
-						`).join('')}
-					</ul>
-				</div>
-			`).join('');
+		function deleteItem(productId) {
 
-			document.getElementById('searchList').innerHTML = listHtml;
+			fetch('/search/remove_from_search', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify({ productId })
+			})
+			.then(response => response.json())
+			.then(data => {
+				if (data.success) {
+					location.reload(); // Refresh the cart
+				}
+			});
 		}
 
 	</script>

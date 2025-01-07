@@ -1,6 +1,6 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/database');
-const ProductRetailer = require('./productRetailerModel');
+const RetailerReview = require('./retailerReviewsModel');
 
 
 const Retailer = sequelize.define('Retailer', {
@@ -32,9 +32,10 @@ const Retailer = sequelize.define('Retailer', {
 	}
 }, 
 {
-	tableName: 'RETAILERS', // Ensure the table name matches exactly, as it's case-sensitive in PostgreSQL
+	tableName: 'Retailers', // Ensure the table name matches exactly, as it's case-sensitive in PostgreSQL
 	timestamps: false, // Disable timestamps if not needed
 });
 
+Retailer.hasMany(RetailerReview, { foreignKey: 'RetailerID' });
 
 module.exports = Retailer;

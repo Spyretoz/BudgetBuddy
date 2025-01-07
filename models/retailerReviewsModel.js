@@ -7,12 +7,12 @@ const RetailerReviews = sequelize.define('RetailerReviews', {
 		autoIncrement: true,
 		primaryKey: true,
 	},
-	ProductID: {
+	RetailerID: {
 		type: DataTypes.INTEGER,
 		allowNull: false,
 		references: {
-			model: 'Products', // References the Products table
-			key: 'ProductID',
+			model: 'Retailer', // References the Retailers table
+			key: 'RetailerID',
 		},
 	},
 	UserID: {
@@ -40,5 +40,6 @@ const RetailerReviews = sequelize.define('RetailerReviews', {
 	tableName: 'RetailerReviews',
 	timestamps: true // Automatically adds `createdAt` and `updatedAt` fields
 });
+
 
 module.exports = RetailerReviews;

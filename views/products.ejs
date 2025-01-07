@@ -43,11 +43,9 @@
 					<img src="${product.imageurl}">
 					<h2>${product.name}</h2>
 					<div class="price">${product.minprice}</div>
-
-					<button onclick="addToSearchList(${product.productid})" title="Add for powerfull search"> <i class="fa-solid fa-magnifying-glass-plus" style="margin-top: 10px; font-size: 25px; background: linear-gradient(to left,violet,indigo, blue, green, orange, red); -webkit-background-clip: text; color: transparent;"></i> </button>
+					<a title="Add for powerfull search" onclick="event.stopPropagation(); event.preventDefault(); addToSearchList(${product.productid})"><i class="fa-solid fa-magnifying-glass-plus" style="margin-top: 10px; font-size: 25px; background: linear-gradient(to left,violet,indigo, blue, green, orange, red); -webkit-background-clip: text; color: transparent;"></i></a>
 				`;
-				// <a title="Add for powerfull search" href="/search/add_to_search"><i class="fa-solid fa-magnifying-glass-plus" style="margin-top: 10px; font-size: 25px; background: linear-gradient(to left,violet,indigo, blue, green, orange, red); -webkit-background-clip: text; color: transparent;"></i></a>
-
+				// <button onclick="addToSearchList(${product.productid})" title="Add for powerfull search"> <i class="fa-solid fa-magnifying-glass-plus" style="margin-top: 10px; font-size: 25px; background: linear-gradient(to left,violet,indigo, blue, green, orange, red); -webkit-background-clip: text; color: transparent;"></i> </button>
 				// <i class="fa-solid fa-cart-plus"></i>
 
 				

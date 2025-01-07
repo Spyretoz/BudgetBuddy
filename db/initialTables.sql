@@ -70,7 +70,7 @@ CREATE TABLE ProductReviews (
 
 CREATE TABLE RetailerReviews (
 	ReviewID SERIAL PRIMARY KEY,
-	ReatilerID INTEGER REFERENCES Retailers(RetailerID),
+	RetailerID INTEGER REFERENCES Retailers(RetailerID),
 	UserID INTEGER REFERENCES Users(UserID),
 	Rating DECIMAL(2, 1) NOT NULL,
 	Comment TEXT
