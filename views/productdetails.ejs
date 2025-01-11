@@ -30,7 +30,7 @@
 	async function fetchProductDetails() {
 		try {
 			const productdetails = <%- JSON.stringify(productDetail).replace(/</g, '\\u003c') %>; // Embed data without HTML entities
-			// console.log(productdetails);
+			console.log(productdetails);
 
 			const productdetailContainer = document.getElementById('index-product');
 
@@ -38,8 +38,7 @@
 
 				<img src="${productdetails[0].prdimg}">
 
-				<button title="Add for powerfull search" onclick="addToSearchList(${productdetails[0].productid})"><i class="fa-solid fa-magnifying-glass-plus" style="margin-top: 10px; font-size: 25px; background: linear-gradient(to left,violet,indigo, blue, green, orange, red); -webkit-background-clip: text; color: transparent;"></i></button>
-
+				<a title="Add for powerfull search" onclick="event.stopPropagation(); event.preventDefault(); addToSearchList(${productdetails[0].productid})"><i class="fa-solid fa-magnifying-glass-plus" style="cursor: pointer; margin-top: 10px; font-size: 25px; background: linear-gradient(to left,violet,indigo, blue, green, orange, red); -webkit-background-clip: text; color: transparent;"></i></a>
 				<h2>${productdetails[0].name}</h2>
 				<dic class="descr">${productdetails[0].description}</div>
 			`;
@@ -62,6 +61,9 @@
 					retailDiv.innerHTML = `
 						
 						<a href="${retailer["ProductRetailers.Retailer.Website"]}"><img src="${retailer["ProductRetailers.Retailer.retailerimg"]}"></a>
+						
+						<div class="rate">(${retailer["ProductRetailers.Retailer.avgRating"]})⭐</div>
+						
 						<a class="prdlink" href="${retailer["ProductRetailers.PRODUCTLINK"]}" target="_blank">
 							${retailer["ProductRetailers.Retailer.Name"]} - ${retailer.name}
 							<div class="price">${retailer["ProductRetailers.Price"]}</div>

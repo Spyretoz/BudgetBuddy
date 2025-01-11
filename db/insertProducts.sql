@@ -19,4 +19,12 @@ INSERT INTO Products (Name, Description, CategoryID, Brand, Year, IMAGEURL) VALU
 INSERT INTO Products (Name, Description, CategoryID, Brand, Year, IMAGEURL) VALUES ('Καθαρηστικό Αμαξώματος', 'Καθάρισμα σε βάθος και χωρίς κόπο', 3, 'Meguiar''s', 2022, 'https://cdn.shopify.com/s/files/1/0798/2845/1665/files/G17748.png?v=1718128165');
 --15.9,
 INSERT INTO Products (Name, Description, CategoryID, Brand, Year, IMAGEURL) VALUES ('Πατάκι Αυτοκινήτου Scirocoo', 'Πατάκι κομμένο ακριβώς στις διαστάσεις του αυτκινήτου', 3, 'Vortex', 2011, 'https://www.roofbox.co.uk/car-boot-liners-mats/images/low-sided-boot-liner.png');
---34.85, 
+--34.85,
+
+
+
+INSERT INTO Products (Name, Description, CategoryID, Brand, Year, IMAGEURL) VALUES ('Μαύρο Μπλουζάκι', 'Μαύρο αντρικό μπλουζάκι', 2, 'North Face', 2024, 'https://i.pinimg.com/originals/62/98/b0/6298b026a65cf80bcf9dce061e9b79c9.png');
+
+
+-- INSERT INTO Products (Name, Description, CategoryID, Brand, Year, IMAGEURL) VALUES ('Πατάκι Αυτοκινήτου Scirocoo', 'Πατάκι κομμένο ακριβώς στις διαστάσεις του αυτκινήτου', 3, 'Vortex', 2011, 'https://www.roofbox.co.uk/car-boot-liners-mats/images/low-sided-boot-liner.png');
+-- INSERT INTO Products (Name, Description, CategoryID, Brand, Year, IMAGEURL) VALUES ('Πατάκι Αυτοκινήτου Scirocoo', 'Πατάκι κομμένο ακριβώς στις διαστάσεις του αυτκινήτου', 3, 'Vortex', 2011, 'https://www.roofbox.co.uk/car-boot-liners-mats/images/low-sided-boot-liner.png');

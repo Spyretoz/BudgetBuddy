@@ -15,7 +15,7 @@ exports.getSearchProducts = async (req, res) => {
 
 		console.log(option);
 
-		const rows = await Product.findAll({
+		const products = await Product.findAll({
 			raw: true,
 			attributes: ['ProductId', 'name', 'imageurl'],
 			where: { ProductId: searchList },
@@ -27,63 +27,72 @@ exports.getSearchProducts = async (req, res) => {
 					include: [
 						{
 							model: Retailer,
-							attributes: ['name'],
+							attributes: ['name',
+								[
+									sequelize.fn( 'ROUND',
+										sequelize.fn('AVG', sequelize.col('ProductRetailers->Retailer->RetailerReviews.Rating'))
+									, 1),
+									'avgRating'
+								],
+							],
 							required: false,
 							include: [
 								{
 									model: RetailerReviews,
-									attributes: ['Rating'],
-									required: false,
-								},
-							],
-						},
-					],
-				},
+									attributes: [],
+									required: false
+								}
+							]
+						}
+					]
+				}
 			],
+			group: [
+				// Group by product columns
+				'Product.productid',
+				'Product.name',
+				'Product.imageurl',
+			
+				// Group by ProductRetailer columns + PK 
+				'ProductRetailers.Price',
+			
+				// Group by Retailer columns + PK
+				'ProductRetailers->Retailer.RetailerId',
+				'ProductRetailers->Retailer.Name'
+			]
 		});
 
-		// console.log(rows);
-
-		// const results = products.map(product => ({
-		// 	productName: product.name,
-		// 	productImg: product.imageurl,
-		// 	price: product['ProductRetailers.price'],
-		// 	retailerName: product['ProductRetailers.Retailer.name'],
-		// 	retailerRating: product['ProductRetailers.Retailer.RetailerReviews.Rating'],
-		// }));
-
-		// console.log(results);
+		// console.log(products);
 
 
-		// 1. Group rows by productName (and imageurl)
+
 		const productsMap = new Map();
-		for (const row of rows) {
-			const productId = row.productid;
-			const productName = row.name;
-			const productImg = row.imageurl;
-	  
+		products.forEach(product => {
+
+			const productId = product.productid;
+			const productName = product.name;
+			const productImg = product.imageurl;
+
 			const key = `${productId}::${productName}::${productImg}`;
 			if (!productsMap.has(key)) {
 				productsMap.set(key, []);
 			}
-			productsMap.get(key).push(row);
-		}
-	  
-		// 2. For each product, figure out retailers + reviews
+			productsMap.get(key).push(product); // fill products map
+		});
+
+
 		const results = [];
+
 		for (const [productKey, productRows] of productsMap.entries()) {
-			// productKey = "iPhone 13 Mini::imageurl"
-			const [pId, pName, pImg] = productKey.split('::');
-	  
-			// A map of retailers within THIS product
-			// key = retailerName + price
-			// value = { retailerName, price, ratings: [] }
+
+			const [productId, productName, productImg] = productKey.split('::');
+
 			const retailersMap = new Map();
-		
 			for (const row of productRows) {
-				const retailerName = row['ProductRetailers.Retailer.name'] || 'Unknown';
+
+				const retailerName = row['ProductRetailers.Retailer.name'] || 'N/A';
 				const price = parseFloat(row['ProductRetailers.price']) || 0;
-				const rating = parseFloat(row['ProductRetailers.Retailer.RetailerReviews.Rating']) || 0;
+				const rating = row['ProductRetailers.Retailer.avgRating'] || 0.0;
 		
 				// If there's no actual retailer in this row, skip
 				if (!row['ProductRetailers.price'] && !row['ProductRetailers.Retailer.name']) {
@@ -99,24 +108,23 @@ exports.getSearchProducts = async (req, res) => {
 						ratings: [],
 					});
 				}
-				retailersMap.get(rKey).ratings.push(rating);
-			}
-		
-			// 3. Compute average rating for each retailer entry
+				retailersMap.get(rKey).ratings.push(rating); // fill retailer map
+			};
+
 			const retailerEntries = [...retailersMap.values()].map(r => {
 				if (r.ratings.length === 0) {
-					r.averageRating = 0; 
-				} else {
-					const sum = r.ratings.reduce((acc, val) => acc + val, 0);
-					r.averageRating = sum / r.ratings.length;
+					r.averageRating = 0.0; 
+				}
+				else {
+					r.averageRating = r.ratings;
 				}
 				return r;
 			});
-		
-			// 4. Choose the "best" retailer for this product
+
+			// Choose the "best" retailer for this product
 			let chosen;
 			if (retailerEntries.length === 0) {
-				chosen = { retailerName: 'No retailer found', price: 0, averageRating: 0 };
+				chosen = { retailerName: 'No retailer found', price: 0, averageRating: 0.0 };
 			} else if (option === 'best-reviews') {
 				// Highest average rating
 				chosen = retailerEntries.reduce((best, current) =>
@@ -128,30 +136,29 @@ exports.getSearchProducts = async (req, res) => {
 					current.price < lowest.price ? current : lowest
 				);
 			}
-		
+
+
+
 			results.push({
-				productid: pId,
-				productName: pName,
-				productImg: pImg,
+				productid: productId,
+				productName: productName,
+				productImg: productImg,
 				retailerName: chosen.retailerName,
 				price: chosen.price,
-				averageRating: chosen.averageRating.toFixed(1),
+				averageRating: chosen.averageRating,
 			});
-		}
-	  
-		// 5. Compute total price across all products
-		const totalPrice = results.reduce((acc, item) => acc + item.price, 0);
+		};
 
-		// console.log(results, totalPrice);
+		console.log(results);
 
-
-		// If the request is AJAX (fetch, XHR), return JSON
-		if (req.xhr || req.headers.accept.indexOf('json') > -1) {
-			return res.json({ results, totalPrice });
-		}
-	  
 		
-		res.status(200).render('search', { title: "Advanced Search", results, totalPrice });
+			
+	  
+		// Compute total price across all products
+		const totalPrice = results.reduce((acc, item) => acc + item.price, 0);
+		console.log(totalPrice);
+
+		res.status(200).render('search', { title: "Advanced Search" , results, totalPrice });
 	} catch (error) {
 		console.error(error);
 		res.status(500).send('Internal Server Error');

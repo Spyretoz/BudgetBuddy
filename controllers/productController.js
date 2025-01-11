@@ -4,6 +4,8 @@ const Product = require('../models/productModel');
 const Category = require('../models/categoryModel');
 const ProductRetailer = require('../models/productRetailerModel');
 const Retailer = require('../models/retailerModel');
+const RetailerReviews = require('../models/retailerReviewsModel');
+
 
 
 exports.getProducts = async (req, res) => {
@@ -75,10 +77,42 @@ exports.getProduct = async (req, res) => {
 				required: false, // This will use LEFT OUTER JOIN
 				include: [{
 					model: Retailer,
-					attributes: [ 'Name','Website', 'Location', [ 'imageurl', 'retailerimg' ] ],
+					attributes: [ 'Name','Website', 'Location', [ 'imageurl', 'retailerimg' ],
+					[
+						sequelize.fn( 'ROUND',
+							sequelize.fn('AVG', sequelize.col('ProductRetailers->Retailer->RetailerReviews.Rating'))
+						, 1),
+						'avgRating'
+					],
+				],
+
+					include: [{
+						model: RetailerReviews,
+						attributes: [],
+						required: false,
+					}],
 				}]
 			}],
 			where : {productid: productId},
+
+			group: [
+				// Group by product columns
+				'Product.productid',
+				'Product.name',
+				'Product.description',
+				'Product.imageurl',
+			
+				// Group by ProductRetailer columns + PK 
+				'ProductRetailers.Price',
+				'ProductRetailers.PRODUCTLINK',
+			
+				// Group by Retailer columns + PK
+				'ProductRetailers->Retailer.RetailerId',
+				'ProductRetailers->Retailer.Name',
+				'ProductRetailers->Retailer.Website',
+				'ProductRetailers->Retailer.Location',
+				'ProductRetailers->Retailer.imageurl',
+			],
 
 			order: [[ProductRetailer, 'Price', 'ASC']], // Order by Product Name in ascending order
 		});
