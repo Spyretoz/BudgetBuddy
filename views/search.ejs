@@ -34,7 +34,7 @@
 					</div>
 
 
-					<p>(<%= result.averageRating %>)⭐</p>
+					<p>(<%= result.averageRating.toFixed(1) %>)⭐</p>
 		
 					<!-- Price -->
 					<p class="item-price">$<%= result.price.toFixed(2) %></p>
@@ -50,6 +50,7 @@
 	
 		<!-- Total Price Display -->
 		<div class="search-total">
+			<p>Shipping: $<%= shippingCost.toFixed(2) %></p>
 			<p>Total: $<%= totalPrice.toFixed(2) %></p>
 		</div>
 			

@@ -13,7 +13,9 @@ exports.getSearchProducts = async (req, res) => {
 		const { option } = req.query; // Get user option: 'lowest-price' or 'best-reviews'
 		const searchList = req.session.compare || [];
 
-		console.log(option);
+		const shipCost = parseFloat(process.env.SHIPPING_COST_PER_RETAILER);
+
+		// console.log(option);
 
 		const products = await Product.findAll({
 			raw: true,
@@ -68,97 +70,128 @@ exports.getSearchProducts = async (req, res) => {
 
 		const productsMap = new Map();
 		products.forEach(product => {
-
 			const productId = product.productid;
 			const productName = product.name;
 			const productImg = product.imageurl;
-
 			const key = `${productId}::${productName}::${productImg}`;
+
 			if (!productsMap.has(key)) {
 				productsMap.set(key, []);
 			}
 			productsMap.get(key).push(product); // fill products map
 		});
 
-
 		const results = [];
+		let bestTotalCost = Infinity;
+		let bestCombination = null;
 
-		for (const [productKey, productRows] of productsMap.entries()) {
+		// Prepare product data grouped by retailer
+		const retailerProductCosts = new Map(); // { retailerName -> { productId -> { price, avgRating } } }
 
-			const [productId, productName, productImg] = productKey.split('::');
+		productsMap.forEach((productRows, productKey) => {
+			const [productId] = productKey.split('::');
+			productRows.forEach(row => {
+				const retailerName = row['ProductRetailers.Retailer.name'];
+				const price = parseFloat(row['ProductRetailers.price'] || 0);
+				const avgRating = parseFloat(row['ProductRetailers.Retailer.avgRating'] || 0);
+				if (!retailerName || price === 0) return;
 
-			const retailersMap = new Map();
-			for (const row of productRows) {
-
-				const retailerName = row['ProductRetailers.Retailer.name'] || 'N/A';
-				const price = parseFloat(row['ProductRetailers.price']) || 0;
-				const rating = row['ProductRetailers.Retailer.avgRating'] || 0.0;
-		
-				// If there's no actual retailer in this row, skip
-				if (!row['ProductRetailers.price'] && !row['ProductRetailers.Retailer.name']) {
-					// Means no retailer at all
-					continue;
+				if (!retailerProductCosts.has(retailerName)) {
+					retailerProductCosts.set(retailerName, new Map());
 				}
-		
-				const rKey = `${retailerName}::${price}`;
-				if (!retailersMap.has(rKey)) {
-					retailersMap.set(rKey, {
-						retailerName,
-						price,
-						ratings: [],
-					});
-				}
-				retailersMap.get(rKey).ratings.push(rating); // fill retailer map
-			};
+				retailerProductCosts.get(retailerName).set(productId, { price, avgRating });
+			});
+		});
 
-			const retailerEntries = [...retailersMap.values()].map(r => {
-				if (r.ratings.length === 0) {
-					r.averageRating = 0.0; 
+		// Evaluate all possible combinations of retailers
+		const productIds = Array.from(productsMap.keys()).map(key => key.split('::')[0]);
+
+		function calculateCost(retailerSelection) {
+			let totalCost = 0;
+			const usedRetailers = new Set();
+
+			productIds.forEach(productId => {
+				const selectedRetailer = retailerSelection[productId];
+				const retailerData = retailerProductCosts.get(selectedRetailer)?.get(productId);
+
+				if (!retailerData) {
+					throw new Error(`Missing data for product ${productId} with retailer ${selectedRetailer}`);
 				}
-				else {
-					r.averageRating = r.ratings;
-				}
-				return r;
+
+				totalCost += retailerData.price;
+				usedRetailers.add(selectedRetailer);
 			});
 
-			// Choose the "best" retailer for this product
-			let chosen;
-			if (retailerEntries.length === 0) {
-				chosen = { retailerName: 'No retailer found', price: 0, averageRating: 0.0 };
-			} else if (option === 'best-reviews') {
-				// Highest average rating
-				chosen = retailerEntries.reduce((best, current) =>
-					current.averageRating > best.averageRating ? current : best
-				);
-			} else {
-				// Default = 'lowest-price'
-				chosen = retailerEntries.reduce((lowest, current) =>
-					current.price < lowest.price ? current : lowest
-				);
+			totalCost += usedRetailers.size * shipCost; // Add shipping cost for unique retailers
+			return { totalCost, usedRetailers };
+		}
+
+		// Generate combinations of retailers
+		function generateCombinations(productIds, retailersPerProduct) {
+			if (productIds.length === 0) return [{}];
+			const [currentProductId, ...remainingProductIds] = productIds;
+			const combinations = [];
+
+			(retailersPerProduct[currentProductId] || []).forEach(retailer => {
+				const subCombinations = generateCombinations(remainingProductIds, retailersPerProduct);
+				subCombinations.forEach(subCombination => {
+					combinations.push({ ...subCombination, [currentProductId]: retailer });
+				});
+			});
+
+			return combinations;
+		}
+
+		// Collect all possible retailers for each product
+		const retailersPerProduct = {};
+		productsMap.forEach((productRows, productKey) => {
+			const [productId] = productKey.split('::');
+			retailersPerProduct[productId] = productRows.map(row => row['ProductRetailers.Retailer.name']);
+		});
+
+		const allCombinations = generateCombinations(productIds, retailersPerProduct);
+
+		// Evaluate each combination to find the best one
+		allCombinations.forEach(combination => {
+			const { totalCost, usedRetailers } = calculateCost(combination);
+
+			if (totalCost < bestTotalCost) {
+				bestTotalCost = totalCost;
+				bestCombination = { combination, totalCost, usedRetailers };
 			}
+		});
 
+		// Populate results based on the best combination
+		if (bestCombination) {
+			productsMap.forEach((productRows, productKey) => {
+				const [productId, productName, productImg] = productKey.split('::');
+				const chosenRetailer = bestCombination.combination[productId];
+				const chosenData = retailerProductCosts.get(chosenRetailer).get(productId);
 
-
-			results.push({
-				productid: productId,
-				productName: productName,
-				productImg: productImg,
-				retailerName: chosen.retailerName,
-				price: chosen.price,
-				averageRating: chosen.averageRating,
+				results.push({
+					productid: productId,
+					productName,
+					productImg,
+					retailerName: chosenRetailer,
+					price: chosenData.price,
+					averageRating: chosenData.avgRating,
+				});
 			});
-		};
+		}
 
-		console.log(results);
+		// Render the results
+		res.status(200).render('search', {
+			title: "Advanced Search",
+			results,
+			totalPrice: bestTotalCost - (bestCombination.usedRetailers.size * shipCost), // Total product cost only
+			shippingCost: bestCombination.usedRetailers.size * shipCost,
+			totalWithShipping: bestTotalCost, // Total cost including shipping
+		});
 
-		
-			
-	  
-		// Compute total price across all products
-		const totalPrice = results.reduce((acc, item) => acc + item.price, 0);
-		console.log(totalPrice);
 
-		res.status(200).render('search', { title: "Advanced Search" , results, totalPrice });
+
+
+
 	} catch (error) {
 		console.error(error);
 		res.status(500).send('Internal Server Error');
