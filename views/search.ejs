@@ -50,8 +50,9 @@
 	
 		<!-- Total Price Display -->
 		<div class="search-total">
+			<p>Products: $<%= totalPrice.toFixed(2) %></p>
 			<p>Shipping: $<%= shippingCost.toFixed(2) %></p>
-			<p>Total: $<%= totalPrice.toFixed(2) %></p>
+			<p>Total: $<%= totalWithShipping.toFixed(2) %></p>
 		</div>
 			
 		<% } else { %>

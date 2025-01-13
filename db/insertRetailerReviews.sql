@@ -8,3 +8,7 @@ INSERT INTO RetailerReviews (RetailerID, UserID, Rating) VALUES (4, 1, 5);
 
 INSERT INTO RetailerReviews (RetailerID, UserID, Rating) VALUES (3, 2, 5);
 INSERT INTO RetailerReviews (RetailerID, UserID, Rating) VALUES (4, 2, 5);
+
+
+INSERT INTO RetailerReviews (RetailerID, UserID, Rating) VALUES (6, 1, 5);
+INSERT INTO RetailerReviews (RetailerID, UserID, Rating) VALUES (6, 2, 5);

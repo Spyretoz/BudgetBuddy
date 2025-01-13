@@ -5,3 +5,6 @@ INSERT INTO Retailers (Name, Location, Website, ContactInfo, IMAGEURL) VALUES ('
 INSERT INTO Retailers (Name, Location, Website, ContactInfo, IMAGEURL) VALUES ('Fraoulino Fashion', 'Εθ. Αντιστάσεως 47, Περιστέρι,  Τ.Κ. 12134', 'https://fraoulinofashion.gr/', '2105727820', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ4PAhkm1erYQsK-NHz4FButEHOeemYKG1VDQ&s');
 
 INSERT INTO Retailers (Name, Location, Website, ContactInfo, IMAGEURL) VALUES ('I-mob', 'Leoforos Pentelis 54&, Κύπρου, Βριλήσσια,  Τ.Κ. 15238', 'https://i-mob.gr/', '2110129341', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTpBzydcY4Bj1__5VJiy2Bj5N_2RgM9fUrH2g&s');
+
+
+INSERT INTO Retailers (Name, Location, Website, ContactInfo, IMAGEURL) VALUES ('DUOMO.gr', 'Αρκαδίου 124, Ρέθυμνο, Τ.Κ. 74100', 'https://www.duomo.gr/', '2105727820', 'https://c.scdn.gr/ds/shops/logos/1588/mid_20220617123939_c3e6f2ee.jpeg');

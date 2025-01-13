@@ -16,3 +16,5 @@ INSERT INTO productretailers (RETAILERID, PRODUCTID, PRICE, PRODUCTLINK) VALUES 
 
 INSERT INTO productretailers (RETAILERID, PRODUCTID, PRICE, PRODUCTLINK) VALUES (5, 1, 855, 'https://i-mob.gr/el/products/apple-iphone-15-5g-6gb256gb-black-3000appl1425');
 INSERT INTO productretailers (RETAILERID, PRODUCTID, PRICE, PRODUCTLINK) VALUES (5, 3, 240, 'https://i-mob.gr/el/products/apple-airpods-pro-2nd-generation-with-magsafe-charging-case-usb8209c-in-ear-bluetooth-handsfree?option_variant_id=0');
+
+INSERT INTO productretailers (RETAILERID, PRODUCTID, PRICE, PRODUCTLINK) VALUES (6, 8, 19.98, 'https://www.duomo.gr/el/antras/roycha/t-shirts/jack-jones-andriki-mplouza-jjebradley-tee-ss-o-neck-12249319-628758.html');

@@ -106,9 +106,11 @@ exports.getSearchProducts = async (req, res) => {
 		// Evaluate all possible combinations of retailers
 		const productIds = Array.from(productsMap.keys()).map(key => key.split('::')[0]);
 
-		function calculateCost(retailerSelection) {
+		function calculateCost(retailerSelection, option) {
 			let totalCost = 0;
 			const usedRetailers = new Set();
+			let avgRatingsSum = 0; // Sum of ratings to compare combinations for best-reviews
+			let productCount = 0;
 
 			productIds.forEach(productId => {
 				const selectedRetailer = retailerSelection[productId];
@@ -119,11 +121,18 @@ exports.getSearchProducts = async (req, res) => {
 				}
 
 				totalCost += retailerData.price;
+				avgRatingsSum += retailerData.avgRating;
+				productCount += 1;
 				usedRetailers.add(selectedRetailer);
 			});
 
 			totalCost += usedRetailers.size * shipCost; // Add shipping cost for unique retailers
-			return { totalCost, usedRetailers };
+
+			return {
+				totalCost,
+				avgRating: avgRatingsSum / productCount, // Average rating for the combination
+				usedRetailers,
+			};
 		}
 
 		// Generate combinations of retailers
@@ -153,11 +162,23 @@ exports.getSearchProducts = async (req, res) => {
 
 		// Evaluate each combination to find the best one
 		allCombinations.forEach(combination => {
-			const { totalCost, usedRetailers } = calculateCost(combination);
+			const { totalCost, avgRating, usedRetailers } = calculateCost(combination, option);
 
-			if (totalCost < bestTotalCost) {
-				bestTotalCost = totalCost;
-				bestCombination = { combination, totalCost, usedRetailers };
+			if (option === 'best-reviews') {
+				// Prioritize combinations with higher avgRating, then lower totalCost
+				if (
+					avgRating > (bestCombination?.avgRating || 0) ||
+					(avgRating === (bestCombination?.avgRating || 0) && totalCost < bestTotalCost)
+				) {
+					bestTotalCost = totalCost;
+					bestCombination = { combination, totalCost, avgRating, usedRetailers };
+				}
+			} else {
+				// Default: lowest-price
+				if (totalCost < bestTotalCost) {
+					bestTotalCost = totalCost;
+					bestCombination = { combination, totalCost, avgRating, usedRetailers };
+				}
 			}
 		});
 
@@ -187,10 +208,6 @@ exports.getSearchProducts = async (req, res) => {
 			shippingCost: bestCombination.usedRetailers.size * shipCost,
 			totalWithShipping: bestTotalCost, // Total cost including shipping
 		});
-
-
-
-
 
 	} catch (error) {
 		console.error(error);
