@@ -30,7 +30,7 @@
 	async function fetchProductDetails() {
 		try {
 			const productdetails = <%- JSON.stringify(productDetail).replace(/</g, '\\u003c') %>; // Embed data without HTML entities
-			console.log(productdetails);
+			// console.log(productdetails);
 
 			const productdetailContainer = document.getElementById('index-product');
 
@@ -52,17 +52,25 @@
 			else
 			{
 				// Render retailers dynamically
+				let retailerRating;
+
 				productdetails.forEach(retailer => {
 
 					const retailDiv = document.createElement('div');
 					retailDiv.classList.add('retailer');
+
+					if (retailer["ProductRetailers.Retailer.avgRating"] === null) {
+						retailerRating = "0.0";
+					} else {
+						retailerRating = retailer["ProductRetailers.Retailer.avgRating"];
+					}
 
 
 					retailDiv.innerHTML = `
 						
 						<a href="${retailer["ProductRetailers.Retailer.Website"]}"><img src="${retailer["ProductRetailers.Retailer.retailerimg"]}"></a>
 						
-						<div class="rate">(${retailer["ProductRetailers.Retailer.avgRating"]})⭐</div>
+						<div class="rate">(${retailerRating})⭐</div>
 						
 						<a class="prdlink" href="${retailer["ProductRetailers.PRODUCTLINK"]}" target="_blank">
 							${retailer["ProductRetailers.Retailer.Name"]} - ${retailer.name}
