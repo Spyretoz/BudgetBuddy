@@ -9,7 +9,7 @@ body {
     width: 900px;
     max-width: 90vw;
     margin: auto;
-    padding-top: 10px;
+    padding-top: 70px;
 }
 
 title {
@@ -25,19 +25,24 @@ title {
     margin-top: 20px;
 }
 
-.index-product-box img {
-	/* width: 90%; */
-    /* width: 100px; */
-    height: 100px;
-    filter: drop-shadow(0 50px 20px #0009);
-}
-
 .index-product-box {
     background-color: #eeeee6;
     border-radius: 20px;
     padding: 20px;
     margin-bottom: 50px;
     color: black;
+
+    max-height: 300px;
+    height: 300px;
+
+    width: 220px;
+
+    position: relative;
+}
+
+.index-product-box img {
+    height: 100px;
+    filter: drop-shadow(0 50px 20px #0009);
 }
 
 .index-product-box h2 {
@@ -55,4 +60,107 @@ title {
     margin-top: 5px;
     font-size: small;
     font-weight: bold;
+}
+
+
+
+.add_button {
+    color: black;
+    padding-top: 20px;
+    font-size: 12px;
+    margin-bottom: 5px;
+}
+
+.add_button:hover {
+    color: #eeeee6;
+}
+
+
+
+/* From Uiverse.io by andrew-demchenk0 */ 
+.button {
+    --main-focus: #2d8cf0;
+    --font-color: #dedede;
+    --bg-color-sub: #222;
+    --bg-color: #323232;
+    --main-color: #dedede;
+    position: relative;
+    width: 180px;
+    height: 80px;
+    max-height: 80px;
+
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+
+    border: 2px solid var(--main-color);
+    background-color: var(--bg-color);
+    border-radius: 10px;
+    overflow: hidden;
+
+    position: absolute; 
+    bottom: 10px;
+}
+
+.button, .button__icon, .button__text {
+    transition: all 0.3s;
+    text-align: center;
+}
+
+.button__text {
+    max-width: 110px;
+}
+
+.button .button__text {
+    transform: translateX(20px);
+    color: var(--font-color);
+    font-weight: 600;
+    font-size: 12;
+}
+
+.button .button__icon {
+    position: absolute;
+    transform: translateX(139px);
+    height: 100%;
+    width: 39px;
+    background-color: var(--bg-color-sub);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.button .svg {
+    width: 20px;
+    stroke: var(--main-color);
+}
+
+.button:hover {
+    background: var(--bg-color);
+}
+
+.button:hover .button__text {
+    color: transparent;
+}
+
+.button:hover .button__icon {
+    width: 180px;
+    transform: translateX(0);
+}
+
+.button:active {
+    transform: translate(3px, 3px);
+    box-shadow: 0px 0px var(--main-color);
+}
+
+
+.no_ret {
+    position: relative;
+    width: 100px;
+    height: 80px;
+    max-height: 80px;
+
+    position: absolute; 
+    bottom: 10px;
+
+    margin-left: 40px;
 }

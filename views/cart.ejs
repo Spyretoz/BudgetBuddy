@@ -24,7 +24,7 @@
 						<% if (item.lowerPrice) { %>
 							<p class="lower-price-warning">
 								<i class="fa fa-info-circle"></i>
-								Better price available: $<%= item.lowerPrice %> at <%= item.lowerPriceRetailerName %>
+								Better price available: <%= item.lowerPrice %>€ at <%= item.lowerPriceRetailerName %>
 							</p>
 						<% } %>
 					</div>
@@ -39,7 +39,7 @@
 							<i class="fa fa-plus-circle"></i>
 						</button>
 					</div>
-					<p class="item-price">$<%= item.total.toFixed(2) %></p>
+					<p class="item-price"><%= item.total.toFixed(2) %>€</p>
 		
 					<!-- Trash Button -->
 					<button class="trash-btn" onclick="deleteItem('<%= item.productId %>', '<%= item.retailerId %>')">
@@ -52,7 +52,7 @@
 
 		<!-- Total Price Display -->
 		<div class="cart-total">
-			<p>Total: $<%= cart.totalPrice.toFixed(2) %></p>
+			<p>Total: <%= cart.totalPrice.toFixed(2) %>€</p>
 			<p>Items in Cart: <%= cart.totalQuantity %></p>
 		</div>
 		

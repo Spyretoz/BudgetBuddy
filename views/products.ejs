@@ -4,17 +4,9 @@
 <body>
 	<%- include('./partials/nav.ejs') %>
 
-	<br><br><br>
-
-
-
 	<div class="products-container" id="products-container">
 		<!-- Categories will be added here dynamically -->
-		<h1>Products</h1>
-		<section class="index-product" id="index-product">
-			
-
-		
+		<section class="index-product" id="index-product">		
 		</section>
 	</div>
 </body>
@@ -39,14 +31,26 @@
 				const productDiv = document.createElement('a');
 				productDiv.href = "/products/" + `${product["Category.name"]}` + "/" + `${product.productid}`;
 
+				var prodPriceSection, buttonFunct;
+
+				if (product.minprice > 0) {
+					prodPriceSection = `From ${product.minprice}€`;
+					buttonFunct = `<button type="button" class="button" onclick="event.stopPropagation(); event.preventDefault(); addToSearchList(${product.productid})">
+						<span class="button__text">Add for best retailer choice</span>
+						<span class="button__icon"><svg xmlns="http://www.w3.org/2000/svg" width="200px" viewBox="0 0 24 24" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" stroke="currentColor" height="24" fill="none" class="svg"><line y2="19" y1="5" x2="12" x1="12"></line><line y2="12" y1="12" x2="19" x1="5"></line></svg></span>
+						</button>`;
+				} else {
+					prodPriceSection = `-`;
+					buttonFunct = `<div class="no_ret">No retailers sell this</div>`;
+				}
+
 				productDiv.innerHTML = `
 					<img src="${product.imageurl}">
 					<h2>${product.name}</h2>
-					<div class="price">${product.minprice}</div>
-					<a title="Add for powerfull search" onclick="event.stopPropagation(); event.preventDefault(); addToSearchList(${product.productid})"><i class="fa-solid fa-magnifying-glass-plus" style="cursor: pointer; margin-top: 10px; font-size: 25px; background: linear-gradient(to left,violet,indigo, blue, green, orange, red); -webkit-background-clip: text; color: transparent;"></i></a>
+					<div class="price">${prodPriceSection}</div>
+
+					${buttonFunct}
 				`;
-				// <button onclick="addToSearchList(${product.productid})" title="Add for powerfull search"> <i class="fa-solid fa-magnifying-glass-plus" style="margin-top: 10px; font-size: 25px; background: linear-gradient(to left,violet,indigo, blue, green, orange, red); -webkit-background-clip: text; color: transparent;"></i> </button>
-				// <i class="fa-solid fa-cart-plus"></i>
 
 				
 				productDivBox = productDiv.classList.add('index-product-box');
@@ -60,6 +64,9 @@
 
 	function addToSearchList(productId) {
 		try {
+
+			console.log(productId);
+			
 			fetch('/search/add_to_search', {
 				method: 'POST',
 				headers: {

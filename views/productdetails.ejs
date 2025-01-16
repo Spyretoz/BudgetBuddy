@@ -73,8 +73,9 @@
 						<div class="rate">(${retailerRating})⭐</div>
 						
 						<a class="prdlink" href="${retailer["ProductRetailers.PRODUCTLINK"]}" target="_blank">
-							${retailer["ProductRetailers.Retailer.Name"]} - ${retailer.name}
-							<div class="price">${retailer["ProductRetailers.Price"]}</div>
+							<p>${retailer["ProductRetailers.Retailer.Name"]}</p>
+							<p>${retailer.name}</p>
+							<div class="price">${retailer["ProductRetailers.Price"]}€</div>
 						</a>
 						<form action="/cart/add" method="POST">
 							<input type="hidden" name="productId" value="${productdetails[0].productid}" />
@@ -84,8 +85,6 @@
 								<i class="fa-solid fa-cart-plus"></i>
 							</button>
 						</form>
-						
-
 					`;
 
 					retailersContainer.appendChild(retailDiv);
@@ -126,4 +125,5 @@
 	
 </script>
 
+<%- include('./partials/footer.ejs') %>
 <%- include('./partials/footer.ejs') %>
