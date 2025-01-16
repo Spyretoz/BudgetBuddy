@@ -3,6 +3,10 @@ const User = require('../models/userModel'); // Adjust based on your User model 
 const Cart = require('../models/cartModel');
 const CartItem = require('../models/cartItemModel');
 
+const Product = require('../models/productModel');
+const Retailer = require('../models/retailerModel');
+
+
 
 exports.login = async (req, res) => {
 	try { 
@@ -15,71 +19,119 @@ exports.login = async (req, res) => {
 
 exports.loginact = async (req, res) => {
 	try {
-		const { email, password } = req.body;	
+		const { email, password } = req.body;
 
 		const user = await User.findOne({ where: { email } });
 		if (!user || !(await bcrypt.compare(password, user.password))) {
 			return res.status(401).send('Invalid email or password.');
 		}
-	
+
 		// Save user data in session
 		req.session.user = { id: user.UserID, name: user.name, email: user.email };
 
-		// Fetch or create the user's cart
-		const dbCart = await Cart.findOne({
-			attributes: ['CartID', 'UserID', 'TotalQuantity', 'TotalPrice'],
-			where: { UserID: user.UserID },
-		});
-		
-		
+		// Fetch or create the user's database cart
+		let dbCart = await Cart.findOne({ where: { UserID: user.UserID } });
 
 		if (!dbCart) {
-			const dbCart = await Cart.create({
+			// Create a new cart in the database if none exists
+			dbCart = await Cart.create({
 				UserID: user.UserID,
-				TotalQuantity: 0, // Initialize TotalQuantity to 0
-				TotalPrice: 0.0,  // Initialize TotalPrice to 0.0
+				TotalQuantity: 0,
+				TotalPrice: 0,
 			});
 		}
 
+		// console.log(dbCart);
 
-		// Merge session cart with database cart
-		if (req.session.cart && req.session.cart.items.length > 0) {
-			for (const sessionItem of req.session.cart.items) {
+		// Transfer database cart items to session cart
+		const dbCartItems = await CartItem.findAll({
+			raw: true,
+			where: { CartID: dbCart.CartID },
+			include: [
+                { model: Product, attributes: ['Name'] }, // Product name
+                { model: Retailer, attributes: ['Name'] }, // Retailer name
+            ]
+		});
+
+		// console.log(dbCartItems);
+
+
+
+		const sessionCart = req.session.cart;
+		// Merge session cart into database cart
+		if (sessionCart.items.length > 0) {
+			for (const sessionItem of sessionCart.items) {
 				const { productId, retailerId, quantity, price } = sessionItem;
 
+				// Check if item exists in the database cart
 				let dbItem = await CartItem.findOne({
-					where: { CartID: dbCart.CartID, ProductID: productId, RetailerID: retailerId }
+					where: { CartID: dbCart.CartID, ProductID: productId, RetailerID: retailerId },
 				});
 
+				// console.log(dbItem);
+
 				if (dbItem) {
-					dbItem.Quantity += quantity;
-					dbItem.TotalPrice = parseFloat(dbItem.TotalPrice) + (price * quantity);
+					// Update the quantity and price if item exists
+					dbItem.Quantity = parseInt(dbItem.Quantity) + parseInt(quantity);
+					dbItem.TotalPrice = parseFloat(dbItem.TotalPrice) + parseFloat(price) * quantity;
 					await dbItem.save();
 				} else {
+					// Add new item to the database cart
 					await CartItem.create({
 						CartID: dbCart.CartID,
 						ProductID: productId,
 						RetailerID: retailerId,
 						Quantity: quantity,
-						TotalPrice: price * quantity
+						TotalPrice: price * quantity,
 					});
 				}
 			}
 
-			// Update cart totals
-			dbCart.TotalQuantity += req.session.cart.totalQuantity;
-			dbCart.TotalPrice = parseFloat(dbCart.TotalPrice) + req.session.cart.totalPrice;
+			// Update the database cart totals
+			dbCart.TotalQuantity += sessionCart.totalQuantity;
+			dbCart.TotalPrice = parseFloat(dbCart.TotalPrice) + parseFloat(sessionCart.totalPrice);
 			await dbCart.save();
+		}
 
-			req.session.cart = null; // Clear session cart after synchronization
+		if(dbCartItems) {
+			// console.log("Got items from db");
+			// req.session.cart.items = dbCartItems.map((item) => ({
+			// 	productId: item.productid,
+			// 	productName: item['Product.Name'],
+			// 	retailerId: item.retailerid,
+			// 	retailerName: item['Retailer.Name'],
+			// 	price: parseFloat(item.totalprice),
+			// 	quantity: parseInt(item.quantity),
+			// 	total: parseFloat(item.totalprice)*item.quantity,
+			// }));
+
+			dbCartItems.forEach(cartItem => {
+				// console.log(cartItem);
+				req.session.cart.items.push({
+					productId: cartItem.productid,
+					productName: cartItem['Product.Name'],
+					retailerId: cartItem.retailerid,
+					retailerName: cartItem['Retailer.Name'],
+					price: cartItem.totalprice,
+					quantity: parseInt(cartItem.quantity),
+					total: parseInt(cartItem.quantity) * cartItem.totalprice,
+				});
+			});
+
+			req.session.cart.totalQuantity = dbCart.TotalQuantity;
+			req.session.cart.totalPrice = parseFloat(dbCart.TotalPrice);
 		}
 		
+		// console.log(req.session.cart);
+		// console.log(req.session.cart.items);
+
 		res.redirect('/');
 	} catch (error) {
 		console.error('Login error:', error);
 		res.status(500).send('An error occurred.');
 	}
 };
+
 
 
 // Signup Controller
@@ -136,6 +188,8 @@ exports.logout = (req, res) => {
 			console.error('Error during logout:', err);
 			return res.status(500).send('Logout failed.');
 		}
-		res.redirect('/');
+		// Redirect back to the previous page, or fallback to home if no referer
+		const previousPage = req.get('Referer') || '/';
+		res.redirect(previousPage);
 	});
 };

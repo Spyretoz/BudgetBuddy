@@ -60,36 +60,21 @@ exports.addToCart = async (req, res) => {
 		const user = req.session.user;
 
 		if (user) {
-			const dbCart = await Cart.findOne({
-				attributes: ['CartID', 'UserID', 'TotalQuantity', 'TotalPrice'], // Specify fields for Cart
-				where: { UserID: user.id },
-				
-			});
-
-			console.log(dbCart);
-
-			// if (!dbCart) {
-			// 	// Create a new cart for the user if none exists
-			// 	dbCart = await Cart.create({
-			// 		UserID: user.id,
-			// 		TotalQuantity: 0,
-			// 		TotalPrice: 0.0,
-			// 	});
-			// }
+			const dbCart = await Cart.findOne({ where: { UserID: user.id } });
 
 			// Check if item already exists in the database cart
 			let dbCartItem = await CartItem.findOne({
-				where: {
-					CartID: dbCart.CartID,
-					ProductID: productId,
-					RetailerID: retailerId,
-				},
+				where: { CartID: dbCart.CartID, ProductID: productId, RetailerID: retailerId },
 			});
+
+			// console.log(dbCart);
+			// console.log(dbCartItem);
+
 
 			if (dbCartItem) {
 				// Update quantity and total price if the item exists
-				dbCartItem.Quantity += quantity;
-				dbCartItem.TotalPrice += price * quantity;
+				dbCartItem.Quantity = parseInt(dbCartItem.Quantity) + parseInt(quantity);
+				dbCartItem.TotalPrice = parseFloat(dbCartItem.TotalPrice) + price * quantity;
 				await dbCartItem.save();
 			} else {
 				// Add new item to CartItem
@@ -103,18 +88,20 @@ exports.addToCart = async (req, res) => {
 			}
 
 			// Update cart totals in the database
-			dbCart.TotalQuantity += quantity;
-			dbCart.TotalPrice += price * quantity;
+			// console.log(price, quantity);
+
+			dbCart.TotalQuantity = parseInt(dbCart.TotalQuantity) + parseInt(quantity);
+			// dbCart.TotalPrice += price * quantity;
+			dbCart.TotalPrice = parseFloat(dbCart.TotalPrice) + price * quantity;
+
+			// console.log(dbCart.TotalPrice);
+
 			await dbCart.save();
 		}
 
-		//res.status(200).send({ message: "Product added to cart", cart });
-		// res.status(200).send({ message: "Product added to cart"});
 		// Redirect with a success message
 		req.session.message = "Item added to cart successfully!";
 		res.redirect(req.get("Referer") || "/"); // Safe redirect to the referring page or home
-		// res.redirect("back"); // Redirects to the previous page
-		// console.log(cart);
 	} catch (err) {
 		console.error(err);
 		req.session.message = "Failed to add item to cart.";
@@ -123,26 +110,70 @@ exports.addToCart = async (req, res) => {
 	}
 };
 
-exports.removeFromCart = (req, res) => {
+
+
+exports.removeFromCart = async (req, res) => {
 	const { productId, retailerId } = req.body;
 
-	const cart = req.session.cart;
-	const itemIndex = cart.items.findIndex(
-		item => item.productId === productId && item.retailerId === retailerId
-	);
+	try {
+		const cart = req.session.cart;
 
-	if (itemIndex >= 0) {
-		const item = cart.items[itemIndex];
-		cart.totalQuantity -= item.quantity;
-		cart.totalPrice -= item.total;
+		// Find the item in the session cart
+		const itemIndex = cart.items.findIndex(
+			(item) => item.productId === productId && item.retailerId === retailerId
+		);
 
-		cart.items.splice(itemIndex, 1);
+		if (itemIndex >= 0) {
+			// Update session cart totals
+			const item = cart.items[itemIndex];
+			cart.totalQuantity -= item.quantity;
+			cart.totalPrice -= item.total;
 
-		res.json({ success: true });
-	} else {
-		res.status(404).json({ success: false, message: 'Item not found in cart' });
+			// Remove the item from the session cart
+			cart.items.splice(itemIndex, 1);
+
+			// If the user is logged in, also update the database cart
+			const user = req.session.user;
+			if (user) {
+				const dbCart = await Cart.findOne({ where: { UserID: user.id } });
+
+				// console.log(dbCart);
+
+				if (dbCart) {
+					// Find the item in the database cart
+					const dbCartItem = await CartItem.findOne({
+						where: {
+							CartID: dbCart.CartID,
+							ProductID: productId,
+							RetailerID: retailerId,
+						},
+					});
+
+
+					if (dbCartItem) {
+						// Update database cart totals
+						dbCart.TotalQuantity = parseInt(dbCart.TotalQuantity) - parseInt(dbCartItem.Quantity);
+						dbCart.TotalPrice = parseFloat(dbCart.TotalPrice) - parseFloat(dbCartItem.TotalPrice);
+
+						// Delete the item from the database cart
+						await dbCartItem.destroy();
+
+						// Save updated totals in the database
+						await dbCart.save();
+					}
+				}
+			}
+
+			return res.json({ success: true });
+		} else {
+			return res.status(404).json({ success: false, message: 'Item not found in cart' });
+		}
+	} catch (error) {
+		console.error('Error removing item from cart:', error);
+		res.status(500).json({ success: false, message: 'Server error' });
 	}
 };
+
 
 
 exports.updateCart = async (req, res) => {
@@ -178,6 +209,53 @@ exports.updateCart = async (req, res) => {
 	// Update cart totals
 	cart.totalQuantity = cart.items.reduce((sum, item) => sum + item.quantity, 0);
 	cart.totalPrice = cart.items.reduce((sum, item) => sum + item.total, 0);
+
+
+
+	// Update database if the user is logged in
+	const user = req.session.user;
+	console.log(user);
+	if (user) {
+		try {
+			const dbCart = await Cart.findOne({ where: { UserID: user.id } });
+
+			if (!dbCart) {
+				return res.status(400).json({ success: false, message: "Database cart not found." });
+			}
+
+			console.log(dbCart.CartID, productId, retailerId);
+			// Find CartItem in database
+			const dbCartItem = await CartItem.findOne({
+				where: { CartID: dbCart.CartID, ProductID: productId, RetailerID: retailerId },
+			});
+
+			console.log(dbCartItem);
+			
+
+			if (!dbCartItem) {
+				return res.status(404).json({ success: false, message: "Item not found in database cart." });
+			}
+
+			// Update or remove the item in the database
+			if (item.quantity <= 0) {
+				// Remove the item from the database
+				await dbCartItem.destroy();
+			} else {
+				// Update the item's quantity and total price in the database
+				dbCartItem.Quantity = item.quantity;
+				dbCartItem.TotalPrice = item.total;
+				await dbCartItem.save();
+			}
+
+			// Update the cart totals in the database
+			dbCart.TotalQuantity = cart.totalQuantity;
+			dbCart.TotalPrice = cart.totalPrice;
+			await dbCart.save();
+		} catch (error) {
+			console.error('Error updating database cart:', error);
+			return res.status(500).json({ success: false, message: "Failed to update database cart." });
+		}
+	}
 
 	// Respond with updated cart data
 	res.json({

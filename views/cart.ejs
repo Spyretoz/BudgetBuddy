@@ -62,22 +62,6 @@
 
 
 	<script>
-		function updateQuantity(productId, retailerId, change) {
-			fetch('/cart/update', {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json',
-				},
-				body: JSON.stringify({ productId, retailerId, quantityChange: change })
-			})
-			.then(response => response.json())
-			.then(data => {
-				if (data.success) {
-					location.reload(); // Refresh the cart
-				}
-			});
-		}
-	
 		function deleteItem(productId, retailerId) {
 			fetch('/cart/remove', {
 				method: 'POST',
