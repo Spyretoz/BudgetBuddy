@@ -5,10 +5,6 @@
 
 	<%- include('./partials/nav.ejs') %>
 
-	<br><br><br>
-
-	
-
     <h1>Search</h1>
 
 	<% if (session.compare && session.compare.length > 0) { %>
@@ -21,13 +17,41 @@
 			<button class="search-btn" onclick="fetchSearchData()">Search</button>
 		</div>
 
-		<ul class="search-items">
+
+		<% Object.keys(groupedResults).forEach(retailer => { %>
+			<div class="retailer-section">
+				<!-- Retailer Name -->
+				<h2 class="retailer-name"><%= retailer %></h2>
+		
+				<!-- List of Products for this Retailer -->
+				<ul class="product-list">
+					<% groupedResults[retailer].forEach(product => { %>
+						<li class="product-item">
+							<!-- Product Image -->
+							<img src="<%= product.productImg %>" alt="<%= product.productName %>" class="product-image">
+							
+							<!-- Product Name -->
+							<div class="product-details">
+								<p class="product-name"><%= product.productName %></p>
+								<p class="item-price">$<%= product.price.toFixed(2) %></p>
+								<p>(<%= product.averageRating.toFixed(1) %>)⭐</p>
+							</div>
+		
+							<!-- Trash Button -->
+							<button class="trash-btn" onclick="deleteItem('<%= product.productid %>')">
+								<i class="fa fa-trash"></i>
+							</button>
+						</li>
+					<% }) %>
+				</ul>
+			</div>
+		<% }) %>
+
+		<!-- <ul class="search-items">
 			<% results.forEach(result => { %>
 				<li class="search-item">
-					<!-- Product Image -->
 					<img src="<%= result.productImg %>" alt="<%= result.productName %>" class="product-image">
 					
-					<!-- Product Name and Retailer Name -->
 					<div class="product-details">
 						<p class="product-name"><%= result.productName %></p>
 						<p class="retailer-name">By: <%= result.retailerName %></p>
@@ -36,16 +60,14 @@
 
 					<p>(<%= result.averageRating.toFixed(1) %>)⭐</p>
 		
-					<!-- Price -->
 					<p class="item-price">$<%= result.price.toFixed(2) %></p>
 		
-					<!-- Trash Button -->
 					<button class="trash-btn" onclick="deleteItem('<%= result.productid %>')">
 						<i class="fa fa-trash"></i>
 					</button>
 				</li>
 			<% }) %>
-		</ul>
+		</ul> -->
 	
 	
 		<!-- Total Price Display -->

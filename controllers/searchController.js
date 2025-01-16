@@ -200,10 +200,19 @@ exports.getSearchProducts = async (req, res) => {
 			});
 		}
 
+		const groupedResults = results.reduce((acc, product) => {
+			const retailer = product.retailerName;
+			if (!acc[retailer]) {
+				acc[retailer] = [];
+			}
+			acc[retailer].push(product);
+			return acc;
+		}, {});
+
 		// Render the results
 		res.status(200).render('search', {
 			title: "Advanced Search",
-			results,
+			results, groupedResults,
 			totalPrice: bestTotalCost - (bestCombination.usedRetailers.size * shipCost), // Total product cost only
 			shippingCost: bestCombination.usedRetailers.size * shipCost,
 			totalWithShipping: bestTotalCost, // Total cost including shipping

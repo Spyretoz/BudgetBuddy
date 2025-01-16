@@ -182,3 +182,82 @@ h3 {
 	margin-right: 5px;
 	color: #004085;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Retailer Section */
+.retailer-section {
+    margin: 20px auto;
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.9); /* Slightly transparent white */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Shadow effect */
+    max-width: 1000px;
+    width: 90%;
+}
+
+/* Retailer Name */
+.retailer-name {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #333;
+    text-align: left;
+}
+
+/* Product List */
+.product-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* Product Item */
+.product-item {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 10px;
+}
+
+/* Product Image */
+.product-image {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+/* Product Details */
+.product-details {
+    flex-grow: 1;
+    text-align: left;
+}
+
+.product-name {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #444;
+}
+
+.item-price {
+    color: #007BFF; /* Bootstrap primary color */
+    font-weight: bold;
+}
