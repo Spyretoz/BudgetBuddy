@@ -28,7 +28,6 @@ exports.addToCart = async (req, res) => {
 
 
 		const cart = req.session.cart;
-
 		// Check if product from the same retailer is already in cart
 		const existingItemIndex = cart.items.findIndex(
 			item => item.productId === productId && item.retailerId === retailerId
@@ -43,9 +42,9 @@ exports.addToCart = async (req, res) => {
 		} else {
 			// Add new product to cart
 			cart.items.push({
-				productId: productId,
+				productId: parseInt(productId),
 				productName: product.name, // Assuming `Name` field in Product
-				retailerId: retailerId,
+				retailerId: parseInt(retailerId),
 				retailerName: retailer.Name,
 				price: price,
 				quantity: parseInt(quantity),
@@ -119,8 +118,12 @@ exports.removeFromCart = async (req, res) => {
 		const cart = req.session.cart;
 
 		// Find the item in the session cart
-		const itemIndex = cart.items.findIndex(
-			(item) => item.productId === productId && item.retailerId === retailerId
+		// const itemIndex = cart.items.findIndex(
+		// 	(item) => item.productId === productId && item.retailerId === retailerId
+		// );
+		const itemIndex = cart.items.findIndex(item =>
+			item.productId === Number(productId) &&
+			item.retailerId === Number(retailerId)
 		);
 
 		if (itemIndex >= 0) {
@@ -184,15 +187,46 @@ exports.updateCart = async (req, res) => {
 	}
 
 	const cart = req.session.cart;
-	const itemIndex = cart.items.findIndex(
-		item => item.productId === productId && item.retailerId === retailerId
+	// console.log(cart);
+
+	// console.log("productId:", productId, "Type:", typeof productId);
+	// console.log("retailerId:", retailerId, "Type:", typeof retailerId);
+
+	// cart.items.forEach((item, index) => {
+	// 	console.log(
+	// 		`Item ${index}:`,
+	// 		`productId=${item.productId} (Type: ${typeof item.productId}),`,
+	// 		`retailerId=${item.retailerId} (Type: ${typeof item.retailerId})`
+	// 	);
+	// });
+
+	// console.log(
+	// 	"Matching Condition:",
+	// 	cart.items.map(
+	// 		item =>
+	// 			item.productId === Number(productId) &&
+	// 			item.retailerId === Number(retailerId)
+	// 	)
+	// );
+
+
+	const itemIndex = cart.items.findIndex(item =>
+		item.productId === Number(productId) &&
+		item.retailerId === Number(retailerId)
 	);
+	// const itemIndex = cart.items.findIndex(
+	// 	item =>
+	// 		String(item.productId) === String(productId) &&
+	// 		String(item.retailerId) === String(retailerId)
+	// );
 
 	if (itemIndex === -1) {
 		return res.status(404).json({ success: false, message: "Item not found in cart." });
 	}
 
 	const item = cart.items[itemIndex];
+
+	// console.log(item);
 
 	// Update the item's quantity
 	item.quantity += quantityChange;
@@ -210,11 +244,9 @@ exports.updateCart = async (req, res) => {
 	cart.totalQuantity = cart.items.reduce((sum, item) => sum + item.quantity, 0);
 	cart.totalPrice = cart.items.reduce((sum, item) => sum + item.total, 0);
 
-
-
 	// Update database if the user is logged in
 	const user = req.session.user;
-	console.log(user);
+	// console.log(user);
 	if (user) {
 		try {
 			const dbCart = await Cart.findOne({ where: { UserID: user.id } });
@@ -223,13 +255,13 @@ exports.updateCart = async (req, res) => {
 				return res.status(400).json({ success: false, message: "Database cart not found." });
 			}
 
-			console.log(dbCart.CartID, productId, retailerId);
+			// console.log(dbCart.CartID, productId, retailerId);
 			// Find CartItem in database
 			const dbCartItem = await CartItem.findOne({
 				where: { CartID: dbCart.CartID, ProductID: productId, RetailerID: retailerId },
 			});
 
-			console.log(dbCartItem);
+			// console.log(dbCartItem);
 			
 
 			if (!dbCartItem) {
@@ -242,14 +274,15 @@ exports.updateCart = async (req, res) => {
 				await dbCartItem.destroy();
 			} else {
 				// Update the item's quantity and total price in the database
+				// console.log(item.quantity);
 				dbCartItem.Quantity = item.quantity;
-				dbCartItem.TotalPrice = item.total;
+				dbCartItem.TotalPrice = parseFloat(item.total);
 				await dbCartItem.save();
 			}
 
 			// Update the cart totals in the database
 			dbCart.TotalQuantity = cart.totalQuantity;
-			dbCart.TotalPrice = cart.totalPrice;
+			dbCart.TotalPrice = parseFloat(cart.totalPrice);
 			await dbCart.save();
 		} catch (error) {
 			console.error('Error updating database cart:', error);
@@ -271,6 +304,8 @@ exports.viewCart = async (req, res) => {
 
 	try {
 		const cart = req.session.cart;
+
+		// console.log(cart);
 
 		// Load additional product details (e.g., image) for each item in the cart
 		await Promise.all(

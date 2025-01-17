@@ -94,7 +94,6 @@ exports.loginact = async (req, res) => {
 		}
 
 		if(dbCartItems) {
-			// console.log("Got items from db");
 			// req.session.cart.items = dbCartItems.map((item) => ({
 			// 	productId: item.productid,
 			// 	productName: item['Product.Name'],
@@ -112,9 +111,9 @@ exports.loginact = async (req, res) => {
 					productName: cartItem['Product.Name'],
 					retailerId: cartItem.retailerid,
 					retailerName: cartItem['Retailer.Name'],
-					price: cartItem.totalprice,
+					price: cartItem.totalprice / parseInt(cartItem.quantity),
 					quantity: parseInt(cartItem.quantity),
-					total: parseInt(cartItem.quantity) * cartItem.totalprice,
+					total: parseFloat(cartItem.totalprice),
 				});
 			});
 
