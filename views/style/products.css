@@ -48,7 +48,7 @@ title {
 .index-product-box h2 {
     margin-top: 10px;
     font-size: large;
-    font-weight: 500;
+    font-weight: 700;
 }
 
 .index-product-box:hover {
@@ -58,7 +58,7 @@ title {
 
 .index-product-box .price {
     margin-top: 5px;
-    font-size: small;
+    font-size: 15px;
     font-weight: bold;
 }
 

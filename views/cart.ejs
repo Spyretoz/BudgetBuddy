@@ -49,17 +49,15 @@
 					</button>
 				</li>
 			<% }) %>
+
+				<!-- Total Price Display -->
+			<div class="cart-total">
+				
+				<p><%= cart.totalQuantity %> items in cart with cost <%= cart.totalPrice.toFixed(2) %>€</p>
+				<p>Shipping: <%= shippingCost.toFixed(2) %>€</p>
+				<p>Total: <%= totalWithShipping.toFixed(2) %>€</p>
+			</div>
 		</ul>
-
-
-		<!-- Total Price Display -->
-		<div class="cart-total">
-			
-			<p><%= cart.totalQuantity %> items in cart with cost <%= cart.totalPrice.toFixed(2) %>€</p>
-			<p>Shipping: <%= shippingCost.toFixed(2) %>€</p>
-
-			<p>Total: <%= totalWithShipping.toFixed(2) %>€</p>
-		</div>
 		
 	<% } else { %>
 		<h3>Your cart is empty</h3>
