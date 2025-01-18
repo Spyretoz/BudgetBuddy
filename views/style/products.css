@@ -4,12 +4,13 @@ body {
 }
 
 .products-container {
-	text-align: center;
-	margin: auto;
-    width: 900px;
-    max-width: 90vw;
-    margin: auto;
     padding-top: 70px;
+    display: flex; /* Enable flexbox */
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    flex-direction: column; /* Ensure vertical alignment of children */
+    text-align: center; /* For consistent text alignment */
+    margin: auto; /* Center the container itself horizontally */
 }
 
 title {
@@ -24,6 +25,25 @@ title {
     gap: 20px;
     margin-top: 20px;
 }
+
+@media (max-width: 992px) {
+    .index-product {
+        grid-template-columns: repeat(3, 1fr); /* 3 columns for tablets */
+    }
+}
+
+@media (max-width: 768px) {
+    .index-product {
+        grid-template-columns: repeat(2, 1fr); /* 2 columns for smaller devices */
+    }
+}
+
+@media (max-width: 576px) {
+    .index-product {
+        grid-template-columns: 1fr; /* 1 column for phones */
+    }
+}
+
 
 .index-product-box {
     background-color: #eeeee6;
