@@ -4,6 +4,7 @@ const ProductRetailer = require('../models/productRetailerModel');
 
 const Cart = require('../models/cartModel');
 const CartItem = require('../models/cartItemModel');
+const Category = require('../models/categoryModel');
 
 
 exports.addToCart = async (req, res) => {
@@ -286,19 +287,26 @@ exports.viewCart = async (req, res) => {
 
 	try {
 		const cart = req.session.cart;
-
 		// console.log(cart);
 
 		// Load additional product details (e.g., image) for each item in the cart
 		await Promise.all(
 			cart.items.map(async (item) => {
 				const product = await Product.findOne({
+
+					include: {
+						model: Category,
+						attributes: ['name'],
+					},
 					where: { ProductID: item.productId },
 				});
 
 				// Update item with additional details
 				item.productImage = product ? product.imageurl : '/images/default-product.png'; // Provide a default image fallback
 				item.productName = product ? product.name : 'Unknown Product';
+				item.productCategory = product.Category.name || '';
+
+				console.log("Category with name: " + product.Category.name);
 			})
 		);
 
@@ -338,7 +346,18 @@ exports.viewCart = async (req, res) => {
 			items: cart.items
 		};
 
-		res.render('cart', { title: "Your Cart", cart: cartWithDetails });
+		console.log(cart.items);
+
+		// Get unique retailer IDs
+		const uniqueRetailers = [...new Set(cart.items.map(item => item.retailerId))];
+		const shipPerRetailer = parseFloat(process.env.SHIPPING_COST_PER_RETAILER || 0);
+
+    	const shippingCost = uniqueRetailers.length * shipPerRetailer;
+
+		const totalWithShipping = cart.totalPrice + shippingCost;
+
+
+		res.render('cart', { title: "Your Cart", cart: cartWithDetails, shippingCost, totalWithShipping });
 	} catch (error) {
 		console.error('Error loading cart:', error);
 		res.status(500).send('An error occurred while loading the cart.');

@@ -14,11 +14,13 @@
 			<% cart.items.forEach(item => { %>
 				<li class="cart-item">
 					<!-- Product Image -->
-					<img src="<%= item.productImage %>" alt="<%= item.productName %>" class="product-image">
+					<a alt="<%= item.productName %>" href="/products/<%= item.productCategory %>/<%= item.productId %>">
+						<img src="<%= item.productImage %>" class="product-image" >
+					</a>
 					
 					<!-- Product Name and Retailer Name -->
 					<div class="product-details">
-						<p class="product-name"><%= item.productName %></p>
+						<a class="product-name" href="/products/<%= item.productCategory %>/<%= item.productId %>"><%= item.productName %></a>
 						<p class="retailer-name">By: <%= item.retailerName %></p>
 
 						<% if (item.lowerPrice) { %>
@@ -52,8 +54,11 @@
 
 		<!-- Total Price Display -->
 		<div class="cart-total">
-			<p>Total: <%= cart.totalPrice.toFixed(2) %>€</p>
-			<p>Items in Cart: <%= cart.totalQuantity %></p>
+			
+			<p><%= cart.totalQuantity %> items in cart with cost <%= cart.totalPrice.toFixed(2) %>€</p>
+			<p>Shipping: <%= shippingCost.toFixed(2) %>€</p>
+
+			<p>Total: <%= totalWithShipping.toFixed(2) %>€</p>
 		</div>
 		
 	<% } else { %>
