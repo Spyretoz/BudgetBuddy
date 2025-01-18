@@ -306,7 +306,7 @@ exports.viewCart = async (req, res) => {
 				item.productName = product ? product.name : 'Unknown Product';
 				item.productCategory = product.Category.name || '';
 
-				console.log("Category with name: " + product.Category.name);
+				// console.log("Category with name: " + product.Category.name);
 			})
 		);
 
@@ -346,7 +346,7 @@ exports.viewCart = async (req, res) => {
 			items: cart.items
 		};
 
-		console.log(cart.items);
+		// console.log(cart.items);
 
 		// Get unique retailer IDs
 		const uniqueRetailers = [...new Set(cart.items.map(item => item.retailerId))];
