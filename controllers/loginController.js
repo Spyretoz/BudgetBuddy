@@ -9,8 +9,9 @@ const Retailer = require('../models/retailerModel');
 
 
 exports.login = async (req, res) => {
-	try { 
-		res.render('login', { title: "Login" } );
+	try {
+		const errors = [];
+		res.render('login', { title: "Login", errors } );
 	} catch (error) {
 		console.error(error);
 		res.status(500).send('Internal Server Error');
@@ -21,11 +22,19 @@ exports.loginact = async (req, res) => {
 	try {
 		const { email, password } = req.body;
 
-		console.log(req.session.cart.items);
+		// Collect errors in an array
+		const errors = [];
+
+		// console.log(req.session.cart.items);
 
 		const user = await User.findOne({ where: { email } });
 		if (!user || !(await bcrypt.compare(password, user.password))) {
-			return res.status(401).send('Invalid email or password.');
+			errors.push('Email or password is incorrect.');
+		}
+
+		// If errors exist
+		if (errors.length > 0) {
+			return res.status(400).render('login', { title: "Login", errors });
 		}
 
 		// Save user data in session
