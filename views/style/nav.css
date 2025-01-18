@@ -57,7 +57,7 @@ header {
 }
 
 .enh_search {
-	font-size: 30px;
+	font-size: 40px;
 	background: linear-gradient(to left,violet,indigo, blue, green, yellow, orange, red);
 	-webkit-background-clip: text;
 	color: transparent;

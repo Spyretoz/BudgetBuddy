@@ -35,9 +35,12 @@
 
 				if (product.minprice > 0) {
 					prodPriceSection = `From ${product.minprice}€`;
-					buttonFunct = `<button type="button" class="button" onclick="event.stopPropagation(); event.preventDefault(); addToSearchList(${product.productid})">
+					buttonFunct = `<button type="button" class="button" id="add-button-${product.productid}" onclick="event.stopPropagation(); event.preventDefault(); addToSearchList(${product.productid})">
 						<span class="button__text">Add for best retailer choice</span>
-						<span class="button__icon"><svg xmlns="http://www.w3.org/2000/svg" width="200px" viewBox="0 0 24 24" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" stroke="currentColor" height="24" fill="none" class="svg"><line y2="19" y1="5" x2="12" x1="12"></line><line y2="12" y1="12" x2="19" x1="5"></line></svg></span>
+						<span class="button__icon"><svg xmlns="http://www.w3.org/2000/svg" width="200px" viewBox="0 0 24 24" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" stroke="currentColor" height="24" fill="none" class="svg">
+							<line y2="19" y1="5" x2="12" x1="12"></line>
+							<line y2="12" y1="12" x2="19" x1="5"></line>
+						</svg></span>
 						</button>`;
 				} else {
 					prodPriceSection = `-`;
@@ -62,31 +65,163 @@
 	}
 
 
-	function addToSearchList(productId) {
-		try {
 
-			console.log(productId);
-			
-			fetch('/search/add_to_search', {
+	async function addToSearchList(productId) {
+		try {
+			const button = document.getElementById(`add-button-${productId}`);
+
+			// Add loading state (optional)
+			button.disabled = true;
+			button.style.backgroundColor = '#ccc'; // Gray for loading state
+
+			const response = await fetch('/search/add_to_search', {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
 				},
 				body: JSON.stringify({ productId }),
-			})
-			.then(response => response.json())
-			.then(data => {
-				if (data.error) {
-					alert(data.error);
-				} else {
-					alert('Product added to search list');
+			});
+
+			const data = await response.json();
+
+			if (response.status === 400) {
+				if (data.alreadyInList) {
+					// Product is already in the list
+					button.style.backgroundColor = 'orange';
+					button.querySelector('.button__icon').innerHTML = `
+						<svg xmlns="http://www.w3.org/2000/svg" width="200px" viewBox="0 0 24 24" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" stroke="currentColor" height="24" fill="none" class="svg">
+							<line x1="12" y1="4" x2="12" y2="12"></line>
+							<circle cx="12" cy="18" r="1.5"></circle>
+						</svg>
+					`;
+					button.querySelector('.button__text').textContent = 'Already in list';
+					button.disabled = true;
+				} else if (data.moreThan) {
+					// More than 5 products in the list
+					button.style.backgroundColor = 'orange';
+					button.querySelector('.button__icon').innerHTML = `
+						<svg xmlns="http://www.w3.org/2000/svg" width="200px" viewBox="0 0 24 24" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" stroke="currentColor" height="24" fill="none" class="svg">
+							<line x1="12" y1="4" x2="12" y2="12"></line>
+							<circle cx="12" cy="18" r="1.5"></circle>
+						</svg>
+					`;
+					button.querySelector('.button__text').textContent = 'More than 5 products!';
+					button.disabled = true;
+				}else {
+					// Other error case
+					throw new Error(data.error);
 				}
-			})
-			.catch(err => console.error(err));
+			} else if (data.success) {
+				// On success, update button to green checkmark
+				button.style.backgroundColor = 'green';
+				button.querySelector('.button__icon').innerHTML = `
+					<svg xmlns="http://www.w3.org/2000/svg" width="200px" viewBox="0 0 24 24" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" stroke="currentColor" height="24" fill="none" class="svg">
+						<polyline points="20 6 9 17 4 12"></polyline>
+					</svg>
+				`;
+				button.querySelector('.button__text').textContent = 'Added!';
+				button.disabled = true; // Prevent further clicks
+			}
 		} catch (error) {
-			console.error('Error adding products to search list: ', error);
+			console.error('Error adding product:', error);
+
+			// On failure, update button to red X
+			const button = document.getElementById(`add-button-${productId}`);
+			button.style.backgroundColor = 'red';
+			button.querySelector('.button__icon').innerHTML = `
+				<svg xmlns="http://www.w3.org/2000/svg" width="200px" viewBox="0 0 24 24" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" stroke="currentColor" height="24" fill="none" class="svg">
+					<line x1="18" y1="6" x2="6" y2="18"></line>
+					<line x1="6" y1="6" x2="18" y2="18"></line>
+				</svg>
+			`;
+			button.querySelector('.button__text').textContent = 'Failed!';
+		} finally {
+			// Optionally reset button state after a delay
+			setTimeout(() => {
+				if (!button.disabled) {
+					button.style.backgroundColor = ''; // Reset to original
+					button.querySelector('.button__text').textContent = 'Add for best retailer choice';
+					button.querySelector('.button__icon').innerHTML = `
+						<svg xmlns="http://www.w3.org/2000/svg" width="200px" viewBox="0 0 24 24" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" stroke="currentColor" height="24" fill="none" class="svg">
+							<line y2="19" y1="5" x2="12" x1="12"></line>
+							<line y2="12" y1="12" x2="19" x1="5"></line>
+						</svg>
+					`;
+				}
+			}, 2000);
 		}
 	}
+
+
+
+	// function addToSearchList(productId) {
+	// 	try {
+
+	// 		console.log(productId);
+
+	// 		const button = document.getElementById(`add-button-${productId}`);
+
+	// 		// Add loading state (optional)
+	// 		button.disabled = true;
+	// 		button.style.backgroundColor = '#ccc'; // Gray for loading state
+
+	// 		fetch('/search/add_to_search', {
+	// 			method: 'POST',
+	// 			headers: {
+	// 				'Content-Type': 'application/json',
+	// 			},
+	// 			body: JSON.stringify({ productId }),
+	// 		})
+    //         .then(response => response.json())
+    //         .then(data => {
+    //             if (data.error) {
+    //                 throw new Error(data.error); // Trigger the catch block
+    //             }
+
+    //             // On success, update button to green checkmark
+    //             button.style.backgroundColor = 'green';
+    //             button.querySelector('.button__icon').innerHTML = `
+    //                 <svg xmlns="http://www.w3.org/2000/svg" width="200px" viewBox="0 0 24 24" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" stroke="currentColor" height="24" fill="none" class="svg">
+    //                     <polyline points="20 6 9 17 4 12"></polyline>
+    //                 </svg>
+    //             `;
+    //             button.querySelector('.button__text').textContent = 'Added!';
+    //             button.disabled = true; // Prevent further clicks
+    //         })
+    //         .catch(err => {
+    //             console.error(err);
+
+    //             // On failure, update button to red X
+    //             button.style.backgroundColor = 'red';
+    //             button.querySelector('.button__icon').innerHTML = `
+    //                 <svg xmlns="http://www.w3.org/2000/svg" width="200px" viewBox="0 0 24 24" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" stroke="currentColor" height="24" fill="none" class="svg">
+    //                     <line x1="18" y1="6" x2="6" y2="18"></line>
+    //                     <line x1="6" y1="6" x2="18" y2="18"></line>
+    //                 </svg>
+    //             `;
+    //             button.querySelector('.button__text').textContent = 'Failed!';
+    //         })
+    //         .finally(() => {
+    //             // Reset after a delay, only for non-disabled buttons
+    //             setTimeout(() => {
+    //                 if (!button.disabled) {
+    //                     button.style.backgroundColor = ''; // Reset to original
+    //                     button.querySelector('.button__text').textContent = 'Add for best retailer choice';
+    //                     button.querySelector('.button__icon').innerHTML = `
+    //                         <svg xmlns="http://www.w3.org/2000/svg" width="200px" viewBox="0 0 24 24" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" stroke="currentColor" height="24" fill="none" class="svg">
+    //                             <line y2="19" y1="5" x2="12" x1="12"></line>
+    //                             <line y2="12" y1="12" x2="19" x1="5"></line>
+    //                         </svg>
+    //                     `;
+    //                     button.disabled = false;
+    //                 }
+    //             }, 2000); // Reset after 2 seconds
+    //         });
+
+	// 	} catch (error) {
+	// 		console.error('Error adding products to search list: ', error);
+	// 	}
+	// }
 
 
 	// Call the function to fetch and display products when the page loads

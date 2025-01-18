@@ -5,6 +5,7 @@ const ProductRetailer = require('../models/productRetailerModel');
 const Retailer = require('../models/retailerModel');
 const RetailerReviews = require('../models/retailerReviewsModel');
 
+const Category = require('../models/categoryModel');
 
 
 exports.getSearchProducts = async (req, res) => {
@@ -22,6 +23,10 @@ exports.getSearchProducts = async (req, res) => {
 			attributes: ['ProductId', 'name', 'imageurl'],
 			where: { ProductId: searchList },
 			include: [
+				{
+					model: Category,
+					attributes: ['name']
+				},
 				{
 					model: ProductRetailer,
 					attributes: ['price'],
@@ -54,6 +59,9 @@ exports.getSearchProducts = async (req, res) => {
 				'Product.productid',
 				'Product.name',
 				'Product.imageurl',
+
+				// Group by categoty columns
+				'Category.name',
 			
 				// Group by ProductRetailer columns + PK 
 				'ProductRetailers.Price',
@@ -73,7 +81,9 @@ exports.getSearchProducts = async (req, res) => {
 			const productId = product.productid;
 			const productName = product.name;
 			const productImg = product.imageurl;
-			const key = `${productId}::${productName}::${productImg}`;
+			const categoryName = product['Category.name'];
+
+			const key = `${productId}::${productName}::${productImg}::${categoryName}`;
 
 			if (!productsMap.has(key)) {
 				productsMap.set(key, []);
@@ -185,7 +195,7 @@ exports.getSearchProducts = async (req, res) => {
 		// Populate results based on the best combination
 		if (bestCombination) {
 			productsMap.forEach((productRows, productKey) => {
-				const [productId, productName, productImg] = productKey.split('::');
+				const [productId, productName, productImg, categoryName] = productKey.split('::');
 				const chosenRetailer = bestCombination.combination[productId];
 				const chosenData = retailerProductCosts.get(chosenRetailer).get(productId);
 
@@ -193,6 +203,7 @@ exports.getSearchProducts = async (req, res) => {
 					productid: productId,
 					productName,
 					productImg,
+					categoryName,
 					retailerName: chosenRetailer,
 					price: chosenData.price,
 					averageRating: chosenData.avgRating,
@@ -235,12 +246,12 @@ exports.addSearchProduct = async (req, res) => {
 
 	// Check if the product is already in the compare list
 	if (req.session.compare.includes(productId)) {
-		return res.status(400).json({ error: 'Product is already in the search list' });
+		return res.status(400).json({ error: 'Product is already in the search list', alreadyInList: true });
 	}
 
 	// Optional: Limit the number of products to compare
 	if (req.session.compare.length >= 5) {
-		return res.status(400).json({ error: 'You can only compare up to 5 products' });
+		return res.status(400).json({ error: 'You can only compare up to 5 products', moreThan: true });
 	}
 
 	// Add product to the compare list

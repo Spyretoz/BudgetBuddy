@@ -77,7 +77,6 @@ title {
 
 
 
-/* From Uiverse.io by andrew-demchenk0 */ 
 .button {
     --main-focus: #2d8cf0;
     --font-color: #dedede;
@@ -151,6 +150,19 @@ title {
     transform: translate(3px, 3px);
     box-shadow: 0px 0px var(--main-color);
 }
+
+
+.button.orange {
+    background-color: orange;
+    color: white;
+    cursor: not-allowed;
+}
+
+.button[disabled] {
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
 
 
 .no_ret {

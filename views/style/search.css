@@ -16,7 +16,6 @@ h3 {
 
 
   
-/* Overall container for the dropdown + button */
 .search-container {
 	display: flex;
 	align-items: center;
@@ -131,13 +130,13 @@ h3 {
 	background: none;
 	border: none;
 	font-size: 1.5rem;
-	color: white; /* Bootstrap primary color */
+	color: white;
 	cursor: pointer;
 	transition: color 0.3s;
 }
 
 .quantity-btn:hover {
-	color: #0056b3; /* Darker shade for hover */
+	color: #0056b3;
 }
 
 .quantity {
@@ -165,24 +164,6 @@ h3 {
 	font-weight: bold;
 	color: #fff;
 }
-
-
-.lower-price-warning {
-	background-color: #cce5ff; /* Light blue background */
-	color: #004085; /* Dark blue text */
-	font-size: 14px;
-	padding: 5px 10px;
-	border-radius: 5px;
-	margin-top: 5px;
-	display: inline-block;
-	box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.lower-price-warning i {
-	margin-right: 5px;
-	color: #004085;
-}
-
 
 
 
@@ -216,7 +197,7 @@ h3 {
     font-weight: bold;
     margin-bottom: 10px;
     color: #333;
-    text-align: left;
+    text-align: center;
 }
 
 /* Product List */
@@ -258,6 +239,6 @@ h3 {
 }
 
 .item-price {
-    color: #007BFF; /* Bootstrap primary color */
+    color: #7c1919d7;
     font-weight: bold;
 }

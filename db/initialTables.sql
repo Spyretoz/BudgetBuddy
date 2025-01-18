@@ -77,13 +77,13 @@ CREATE TABLE RetailerReviews (
 );
 
 -- Create PriceHistory table
-CREATE TABLE PriceHistory (
-	PriceHistoryID SERIAL PRIMARY KEY,
-	ProductID INTEGER REFERENCES Products(ProductID),
-	RetailerID INTEGER REFERENCES Retailers(RetailerID),
-	Price DECIMAL(10, 2) NOT NULL,
-	Date DATE NOT NULL
-);
+-- CREATE TABLE PriceHistory (
+-- 	PriceHistoryID SERIAL PRIMARY KEY,
+-- 	ProductID INTEGER REFERENCES Products(ProductID),
+-- 	RetailerID INTEGER REFERENCES Retailers(RetailerID),
+-- 	Price DECIMAL(10, 2) NOT NULL,
+-- 	Date DATE NOT NULL
+-- );
 
 
 
