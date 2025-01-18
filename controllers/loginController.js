@@ -21,6 +21,8 @@ exports.loginact = async (req, res) => {
 	try {
 		const { email, password } = req.body;
 
+		console.log(req.session.cart.items);
+
 		const user = await User.findOne({ where: { email } });
 		if (!user || !(await bcrypt.compare(password, user.password))) {
 			return res.status(401).send('Invalid email or password.');
@@ -42,20 +44,6 @@ exports.loginact = async (req, res) => {
 		}
 
 		// console.log(dbCart);
-
-		// Transfer database cart items to session cart
-		const dbCartItems = await CartItem.findAll({
-			raw: true,
-			where: { CartID: dbCart.CartID },
-			include: [
-                { model: Product, attributes: ['Name'] }, // Product name
-                { model: Retailer, attributes: ['Name'] }, // Retailer name
-            ]
-		});
-
-		// console.log(dbCartItems);
-
-
 
 		const sessionCart = req.session.cart;
 		// Merge session cart into database cart
@@ -93,33 +81,53 @@ exports.loginact = async (req, res) => {
 			await dbCart.save();
 		}
 
+
+		// Transfer database cart items to session cart
+		const dbCartItems = await CartItem.findAll({
+			raw: true,
+			where: { CartID: dbCart.CartID },
+			include: [
+                { model: Product, attributes: ['Name'] }, // Product name
+                { model: Retailer, attributes: ['Name'] }, // Retailer name
+            ]
+		});
+
+		console.log(dbCartItems);
+
 		if(dbCartItems) {
-			// req.session.cart.items = dbCartItems.map((item) => ({
-			// 	productId: item.productid,
-			// 	productName: item['Product.Name'],
-			// 	retailerId: item.retailerid,
-			// 	retailerName: item['Retailer.Name'],
-			// 	price: parseFloat(item.totalprice),
-			// 	quantity: parseInt(item.quantity),
-			// 	total: parseFloat(item.totalprice)*item.quantity,
-			// }));
+			req.session.cart.items = dbCartItems.map((item) => ({
+				productId: item.productid,
+				productName: item['Product.Name'],
+				retailerId: item.retailerid,
+				retailerName: item['Retailer.Name'],
+				price: parseFloat(item.totalprice) / parseInt(item.quantity),
+				quantity: parseInt(item.quantity),
+				total: parseFloat(item.totalprice),
+			}));
 
-			dbCartItems.forEach(cartItem => {
-				// console.log(cartItem);
-				req.session.cart.items.push({
-					productId: cartItem.productid,
-					productName: cartItem['Product.Name'],
-					retailerId: cartItem.retailerid,
-					retailerName: cartItem['Retailer.Name'],
-					price: cartItem.totalprice / parseInt(cartItem.quantity),
-					quantity: parseInt(cartItem.quantity),
-					total: parseFloat(cartItem.totalprice),
-				});
-			});
+			// dbCartItems.forEach(cartItem => {
+			// 	// console.log(cartItem);
+			// 	req.session.cart.items.push({
+			// 		productId: cartItem.productid,
+			// 		productName: cartItem['Product.Name'],
+			// 		retailerId: cartItem.retailerid,
+			// 		retailerName: cartItem['Retailer.Name'],
+			// 		price: cartItem.totalprice / parseInt(cartItem.quantity),
+			// 		quantity: parseInt(cartItem.quantity),
+			// 		total: parseFloat(cartItem.totalprice),
+			// 	});
+			// });
 
-			req.session.cart.totalQuantity = dbCart.TotalQuantity;
-			req.session.cart.totalPrice = parseFloat(dbCart.TotalPrice);
+			
 		}
+
+		req.session.cart.totalQuantity = dbCart.TotalQuantity;
+		req.session.cart.totalPrice = parseFloat(dbCart.TotalPrice);
+
+		console.log("Cart items: " + JSON.stringify(req.session.cart));
+
+		// console.log("Cart total quantity: " + req.session.cart.totalQuantity);
+		// console.log("Cart total totalPrice: " + req.session.cart.TotalPrice);
 		
 		// console.log(req.session.cart);
 		// console.log(req.session.cart.items);

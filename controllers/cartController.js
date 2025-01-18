@@ -29,8 +29,12 @@ exports.addToCart = async (req, res) => {
 
 		const cart = req.session.cart;
 		// Check if product from the same retailer is already in cart
-		const existingItemIndex = cart.items.findIndex(
-			item => item.productId === productId && item.retailerId === retailerId
+		// const existingItemIndex = cart.items.findIndex(
+		// 	item => item.productId === productId && item.retailerId === retailerId
+		// );
+		const existingItemIndex = cart.items.findIndex(item =>
+			item.productId === Number(productId) &&
+			item.retailerId === Number(retailerId)
 		);
 
 		const price = parseFloat(productRetailer.Price);
@@ -187,38 +191,15 @@ exports.updateCart = async (req, res) => {
 	}
 
 	const cart = req.session.cart;
-	// console.log(cart);
-
-	// console.log("productId:", productId, "Type:", typeof productId);
-	// console.log("retailerId:", retailerId, "Type:", typeof retailerId);
-
-	// cart.items.forEach((item, index) => {
-	// 	console.log(
-	// 		`Item ${index}:`,
-	// 		`productId=${item.productId} (Type: ${typeof item.productId}),`,
-	// 		`retailerId=${item.retailerId} (Type: ${typeof item.retailerId})`
-	// 	);
-	// });
-
-	// console.log(
-	// 	"Matching Condition:",
-	// 	cart.items.map(
-	// 		item =>
-	// 			item.productId === Number(productId) &&
-	// 			item.retailerId === Number(retailerId)
-	// 	)
-	// );
-
-
-	const itemIndex = cart.items.findIndex(item =>
-		item.productId === Number(productId) &&
-		item.retailerId === Number(retailerId)
-	);
 	// const itemIndex = cart.items.findIndex(
 	// 	item =>
 	// 		String(item.productId) === String(productId) &&
 	// 		String(item.retailerId) === String(retailerId)
 	// );
+	const itemIndex = cart.items.findIndex(item =>
+		item.productId === Number(productId) &&
+		item.retailerId === Number(retailerId)
+	);
 
 	if (itemIndex === -1) {
 		return res.status(404).json({ success: false, message: "Item not found in cart." });
@@ -237,6 +218,7 @@ exports.updateCart = async (req, res) => {
 		cart.items.splice(itemIndex, 1);
 	} else {
 		// Update the item's total price
+		// item.total = item.quantity * item.price;
 		item.total = item.quantity * item.price;
 	}
 
@@ -336,7 +318,7 @@ exports.viewCart = async (req, res) => {
 				order: [['price', 'ASC']], // Get the lowest price
 			});
 
-	
+
 			// Check if a lower price offer exists
 			if (lowerPriceOffer && lowerPriceOffer.Price < item.price) {
 				// If the current item's price is higher than the lowest price, add the lower price warning
