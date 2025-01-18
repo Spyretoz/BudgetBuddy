@@ -45,3 +45,24 @@ button.signup-btn, button.login-btn {
 button.signup-btn:hover, button.login-btn:hover {
 	background-color: #5e1515;
 }
+
+
+
+.error-container {
+    background-color: #ffe5e5;
+    color: #d9534f;
+    border: 1px solid #d9534f;
+    border-radius: 5px;
+    padding: 15px;
+	margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.error-container ul {
+    list-style: none;
+    padding: 0;
+}
+
+.error-container li {
+    margin-bottom: 5px;
+}

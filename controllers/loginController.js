@@ -87,9 +87,9 @@ exports.loginact = async (req, res) => {
 			raw: true,
 			where: { CartID: dbCart.CartID },
 			include: [
-                { model: Product, attributes: ['Name'] }, // Product name
-                { model: Retailer, attributes: ['Name'] }, // Retailer name
-            ]
+				{ model: Product, attributes: ['Name'] }, // Product name
+				{ model: Retailer, attributes: ['Name'] }, // Retailer name
+			]
 		});
 
 		console.log(dbCartItems);
@@ -143,8 +143,9 @@ exports.loginact = async (req, res) => {
 
 // Signup Controller
 exports.signup = async (req, res) => {
-	try { 
-		res.render('signup', { title: "Sign Up" } );
+	try {
+		const errors = [];
+		res.render('signup', { title: "Sign Up", errors } );
 	} catch (error) {
 		console.error(error);
 		res.status(500).send('Internal Server Error');
@@ -155,19 +156,28 @@ exports.signup = async (req, res) => {
 exports.signupact = async (req, res) => {
 	try {
 		const { name, email, password, confirmPassword } = req.body;
-  
+
+		// Collect errors in an array
+		const errors = [];
+
+
 		// Validate input
 		if (!name || !email || !password || !confirmPassword) {
-			return res.render('signup', { error: 'All fields are required.' });
+			errors.push('All fields are required.');
 		}
 		if (password !== confirmPassword) {
-			return res.render('signup', { error: 'Passwords do not match.' });
+			errors.push('Passwords do not match.');
 		}
   
 		// Check if user already exists
 		const existingUser = await User.findOne({ where: { email } });
 		if (existingUser) {
-			return res.render('signup', { error: 'Email is already registered.' });
+			errors.push('Email is already registered.');
+		}
+
+		// If errors exist, render them
+		if (errors.length > 0) {
+			return res.status(400).render('signup', { title: "Sign Up Problem", errors });
 		}
   
 		// Hash the password
@@ -179,12 +189,21 @@ exports.signupact = async (req, res) => {
 			email,
 			password: hashedPassword,
 		});
+
+		const user = await User.findOne({ where: { email } });
+		// console.log(user);
+
+		await Cart.create({
+			UserID: user.UserID,
+			TotalQuantity: 0,
+			TotalPrice: 0,
+		});
   
 		// Redirect to login page after successful signup
 		res.redirect('/login');
 	} catch (error) {
 		console.error('Signup error:', error);
-		res.status(500).render('signup', { error: 'An error occurred during signup.' });
+		res.status(500).render('signup', { title: "Sign Up Problem", error: 'An error occurred during signup.' });
 	}
 };
 
