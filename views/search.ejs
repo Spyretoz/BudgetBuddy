@@ -6,79 +6,80 @@
 	<%- include('./partials/nav.ejs') %>
 
 	<% if (session.compare && session.compare.length > 0) { %>
-		<!-- <h3>Products with ids <%= session.compare %> in your search</h3> -->
-		<div class="search-container">
-			<select id="searchOption" class="styled-select">
-			  <option value="lowest-price">Lowest Prices</option>
-			  <option value="best-reviews">Best Reviews</option>
-			</select>
-			<button class="search-btn" onclick="fetchSearchData()">Search</button>
-		</div>
-
-
-		<% Object.keys(groupedResults).forEach(retailer => { %>
-			<div class="retailer-section">
-				<!-- Retailer Name -->
-				<h2 class="retailer-name"><%= retailer %></h2>
-		
-				<!-- List of Products for this Retailer -->
-				<ul class="product-list">
-					<% groupedResults[retailer].forEach(product => { %>
-						<li class="product-item">
-							<!-- Product Image -->
-							<a href="/products/<%= product.categoryName %>/<%= product.productid %>"><img src="<%= product.productImg %>" alt="<%= product.productName %>" class="product-image"></a>
-							
-							<!-- Product Name -->
-							<div class="product-details">
-								<a class="product-name" href="/products/<%= product.categoryName %>/<%= product.productid %>"><%= product.productName %></a>
-								<p class="item-price">$<%= product.price.toFixed(2) %></p>
-								<p>(<%= product.averageRating.toFixed(1) %>)⭐</p>
-							</div>
-		
-							<!-- Trash Button -->
-							<button class="trash-btn" onclick="deleteItem('<%= product.productid %>')">
-								<i class="fa fa-trash"></i>
-							</button>
-						</li>
-					<% }) %>
-				</ul>
+		<div class="shared-container">
+			<!-- <h3>Products with ids <%= session.compare %> in your search</h3> -->
+			<div class="search-container">
+				<select id="searchOption" class="styled-select">
+				<option value="lowest-price">Lowest Prices</option>
+				<option value="best-reviews">Best Reviews</option>
+				</select>
+				<button class="search-btn" onclick="fetchSearchData()">Search</button>
 			</div>
-		<% }) %>
-
-		<!-- <ul class="search-items">
-			<% results.forEach(result => { %>
-				<li class="search-item">
-					<img src="<%= result.productImg %>" alt="<%= result.productName %>" class="product-image">
-					
-					<div class="product-details">
-						<p class="product-name"><%= result.productName %></p>
-						<p class="retailer-name">By: <%= result.retailerName %></p>
-					</div>
 
 
-					<p>(<%= result.averageRating.toFixed(1) %>)⭐</p>
-		
-					<p class="item-price">$<%= result.price.toFixed(2) %></p>
-		
-					<button class="trash-btn" onclick="deleteItem('<%= result.productid %>')">
-						<i class="fa fa-trash"></i>
-					</button>
-				</li>
-			<% }) %>
-		</ul> -->
-	
-	
-		<!-- Total Price Display -->
-		<div class="search-total">
-			<p>Products: $<%= totalPrice.toFixed(2) %></p>
-			<p>Shipping: $<%= shippingCost.toFixed(2) %></p>
-			<p>Total: $<%= totalWithShipping.toFixed(2) %></p>
-		</div>
+			<% Object.keys(groupedResults).forEach(retailer => { %>
+				<div class="retailer-section">
+					<!-- Retailer Name -->
+					<h2 class="retailer-name"><%= retailer %></h2>
 			
-		<% } else { %>
-			<h3>Your search is empty</h3>
-		<% } %>
-	  
+					<!-- List of Products for this Retailer -->
+					<ul class="product-list">
+						<% groupedResults[retailer].forEach(product => { %>
+							<li class="product-item">
+								<!-- Product Image -->
+								<a href="/products/<%= product.categoryName %>/<%= product.productid %>"><img src="<%= product.productImg %>" alt="<%= product.productName %>" class="product-image"></a>
+								
+								<!-- Product Name -->
+								<div class="product-details">
+									<a class="product-name" href="/products/<%= product.categoryName %>/<%= product.productid %>"><%= product.productName %></a>
+									<p class="item-price"><%= product.price.toFixed(2) %>€</p>
+									<p>(<%= product.averageRating.toFixed(1) %>)⭐</p>
+								</div>
+			
+								<!-- Trash Button -->
+								<button class="trash-btn" onclick="deleteItem('<%= product.productid %>')">
+									<i class="fa fa-trash"></i>
+								</button>
+							</li>
+						<% }) %>
+					</ul>
+				</div>
+			<% }) %>
+
+			<!-- <ul class="search-items">
+				<% results.forEach(result => { %>
+					<li class="search-item">
+						<img src="<%= result.productImg %>" alt="<%= result.productName %>" class="product-image">
+						
+						<div class="product-details">
+							<p class="product-name"><%= result.productName %></p>
+							<p class="retailer-name">By: <%= result.retailerName %></p>
+						</div>
+
+
+						<p>(<%= result.averageRating.toFixed(1) %>)⭐</p>
+			
+						<p class="item-price">$<%= result.price.toFixed(2) %></p>
+			
+						<button class="trash-btn" onclick="deleteItem('<%= result.productid %>')">
+							<i class="fa fa-trash"></i>
+						</button>
+					</li>
+				<% }) %>
+			</ul> -->
+	
+	
+			<!-- Total Price Display -->
+			<div class="search-total">
+				<p>Products: <%= totalPrice.toFixed(2) %>€</p>
+				<p>Shipping: <%= shippingCost.toFixed(2) %>€</p>
+				<p>Total: <%= totalWithShipping.toFixed(2) %>€</p>
+			</div>
+				
+			<% } else { %>
+				<h3>Your search is empty</h3>
+			<% } %>
+		</div>
 
 
 
