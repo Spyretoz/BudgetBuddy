@@ -197,6 +197,8 @@ header {
 	border-radius: 10px;
 	overflow: hidden;
 	transition: height 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+
+	z-index: 2;
 }
 
 .dropdown_menu.open {
@@ -303,6 +305,8 @@ header {
 	border-radius: 5px;
 	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 	width: 100px;
+
+	z-index: 3;
 }
 
 .dropdown-menu {
