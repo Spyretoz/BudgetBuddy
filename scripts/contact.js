@@ -40,5 +40,5 @@ function showToast(message, type) {
 	// Remove the toast after 4 seconds
 	setTimeout(() => {
 		toast.remove();
-	}, 4000);
+	}, 20000);
 }

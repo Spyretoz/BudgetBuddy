@@ -10,7 +10,6 @@
 		<div class="logo"><a href="/"><img src="/pictures/logo.png" alt="BudgetBuddy" style="width:100px;height:100px;"></a></div>
 
 
-		
 
 		<div class="inputBox_container">
 			<svg onclick="searchRedirect()" class="search_icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" alt="search icon" >
@@ -30,8 +29,12 @@
 			<li><a href="/contact">Contact</a></li>
 		</ul>
 
-		<a href="/search">
-			<img class="enh_search" src="/pictures/magnif-glass.png" alt="BudgetBuddy" style="width:70px;margin-top: 10px;">
+		<a href="/search" class="search-link">
+			<img class="enh_search" src="/pictures/magnif-glass.png" alt="Enhanced Search">
+
+			<div class="jumping-icon hidden" id="jumping-arrow">
+				<i class="fa-solid fa-up-long"></i>
+			</div>
 		</a>
 
 		<!-- Dynamic Sign In/Sign Up or Profile Icon -->
@@ -77,5 +80,7 @@
 		</a></li>
 	</div>
 </header>
+
+<div id="toast-container" class="toast-container"></div>
 
 <script type="text/javascript" src="/nav_search.js"></script>

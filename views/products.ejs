@@ -3,10 +3,8 @@
 <link href="/products.css" rel="stylesheet" type="text/css">
 <body>
 	<%- include('./partials/nav.ejs') %>
-
+	
 	<!-- Filters Toggle Button -->
-    <!-- <button class="filters-toggle" onclick="toggleFilters()">Filters</button> -->
-
 	<!-- From Uiverse.io by vinodjangid07 --> 
 	<button title="filter" class="filters-toggle" onclick="toggleFilters()">
 		<svg viewBox="0 0 512 512" height="1em">
@@ -116,6 +114,7 @@
 	async function addToSearchList(productId) {
 		try {
 			const button = document.getElementById(`add-button-${productId}`);
+			const arrow = document.getElementById('jumping-arrow'); // Select the arrow element
 
 			// Add loading state (optional)
 			button.disabled = true;
@@ -141,6 +140,13 @@
 							<circle cx="12" cy="18" r="1.5"></circle>
 						</svg>
 					`;
+
+					arrow.classList.remove('hidden');
+					setTimeout(() => {
+						arrow.classList.add('hidden');
+					}, 20000); // 20 seconds
+					showToast('Product already in search list!', 'warning');
+
 					button.querySelector('.button__text').textContent = 'Already in list';
 					button.disabled = true;
 				} else if (data.moreThan) {
@@ -152,10 +158,19 @@
 							<circle cx="12" cy="18" r="1.5"></circle>
 						</svg>
 					`;
+					
+					// Show the arrow for 20 seconds
+					arrow.classList.remove('hidden');
+					setTimeout(() => {
+						arrow.classList.add('hidden');
+					}, 20000); // 20 seconds
+					showToast('No more than 5 products can be added in list!', 'warning');
+
 					button.querySelector('.button__text').textContent = 'More than 5 products!';
 					button.disabled = true;
-				}else {
+				} else {
 					// Other error case
+					showToast('Failed product did not added to search list!.', 'error');
 					throw new Error(data.error);
 				}
 			} else if (data.success) {
@@ -166,6 +181,14 @@
 						<polyline points="20 6 9 17 4 12"></polyline>
 					</svg>
 				`;
+
+				// Show the arrow for 20 seconds
+                arrow.classList.remove('hidden');
+                setTimeout(() => {
+                    arrow.classList.add('hidden');
+                }, 20000); // 20 seconds
+				showToast('Product added to search list!', 'success');
+
 				button.querySelector('.button__text').textContent = 'Added!';
 				button.disabled = true; // Prevent further clicks
 			}
@@ -181,6 +204,9 @@
 					<line x1="6" y1="6" x2="18" y2="18"></line>
 				</svg>
 			`;
+
+			showToast('Failed product did not added to search list!.', 'error');
+
 			button.querySelector('.button__text').textContent = 'Failed!';
 		} finally {
 			// Optionally reset button state after a delay
@@ -200,19 +226,6 @@
 	}
 
 
-	// function filterProducts() {
-	// 	const selectedBrand = document.getElementById('brand-filter').value.toLowerCase();
-	// 	const productElements = document.querySelectorAll('.index-product-box');
-
-	// 	productElements.forEach(product => {
-	// 		const brand = product.getAttribute('data-brand').toLowerCase();
-	// 		if (selectedBrand === "" || brand === selectedBrand) {
-	// 			product.style.display = "block"; // Show product
-	// 		} else {
-	// 			product.style.display = "none"; // Hide product
-	// 		}
-	// 	});
-	// }
 	function filterProducts() {
 		const selectedBrands = Array.from(document.querySelectorAll('.brand-filter:checked')).map(checkbox =>
 			checkbox.value.toLowerCase()
@@ -241,6 +254,21 @@
 			filters.classList.remove('visible');
 			filters.classList.add('hidden');
 		}
+	}
+
+
+	function showToast(message, type) {
+		const toastContainer = document.getElementById('toast-container');
+		const toast = document.createElement('div');
+		toast.className = `toast ${type}`; // Add success or error styling
+		toast.textContent = message;
+
+		toastContainer.appendChild(toast);
+
+		// Remove the toast after 20 seconds
+		setTimeout(() => {
+			toast.remove();
+		}, 20000);
 	}
 
 

@@ -6,7 +6,7 @@
 }
 
 html, body {
-    height: 100%;
+	height: 100%;
 }
 
 body {
@@ -39,6 +39,14 @@ header {
 	padding: 0 2rem;
 }
 
+.logo {
+	margin-top: 10px;
+}
+
+.logo:hover {
+	transform: scale(1.1); /* Slightly enlarge */
+}
+
 .navbar {
 	width: 100%;
 	height: 60px;
@@ -56,10 +64,7 @@ header {
 	font-weight: bold;
 }
 
-.enh_search {
-	font-size: 40px;
-	/* margin-right: 40px; */
-}
+
 
 /* From Uiverse.io by OnCloud125252 */ 
 .inputBox_container {
@@ -326,4 +331,85 @@ header {
 	cursor: pointer;
 	width: 100%;
 	text-align: center;
+}
+
+
+
+.toast-container {
+	position: fixed;
+	top: 70px;
+	right: 230px;
+	z-index: 1000;
+}
+
+.toast {
+	margin-bottom: 10px;
+	padding: 10px 20px;
+	border-radius: 5px;
+	font-size: 1rem;
+	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+	animation: fadeOut 20s forwards; /* Disappears after 20 seconds */
+}
+
+.toast.success {
+	background-color: #28a745;
+	color: #fff;
+}
+
+.toast.error {
+	background-color: #dc3545;
+	color: #fff;
+}
+
+.toast.warning {
+	background-color: orange;
+	color: #fff;
+}
+
+
+/* Parent Link Styling */
+.search-link {
+	display: flex; /* Flexbox for vertical alignment */
+	flex-direction: column; /* Arrange children in a column */
+	align-items: center; /* Center align the arrow and image */
+	text-decoration: none; /* Remove underline from the link */
+	position: relative; /* Ensure child positioning remains relative to this */
+	
+	margin-top: 20px;
+}
+
+
+
+.enh_search {
+	width:70px;
+	font-size: 40px;
+}
+
+/* On Hover: Circle Effect */
+.enh_search:hover {
+	transform: scale(1.4); /* Slightly enlarge */
+}
+
+
+/* Jumping Icon */
+.jumping-icon {
+	font-size: 24px; /* Size of the arrow */
+	color: #333; /* Default arrow color */
+	animation: jump 1s ease-in-out infinite; /* Jump animation */
+
+	margin-top: -27px;
+}
+
+.hidden {
+	display: none;
+}
+
+/* Jump Animation */
+@keyframes jump {
+	0%, 100% {
+		transform: translateY(40px); /* Default position */
+	}
+	50% {
+		transform: translateY(20px); /* Move up by 10px */
+	}
 }
