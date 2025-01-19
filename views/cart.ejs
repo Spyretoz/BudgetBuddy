@@ -5,111 +5,65 @@
 
 	<%- include('./partials/nav.ejs') %>
 
-	<br><br><br>
+	<div class="cart-items">
+		<% if (session.cart && session.cart.totalQuantity > 0) { %>
 
-	<% if (session.cart && session.cart.totalQuantity > 0) { %>
-		<h3><%= session.cart.totalQuantity %> item(s) in your cart</h3>
+			<ul>
+				<% cart.items.forEach(item => { %>
+					<li class="cart-item">
+						<!-- Product Image -->
+						<a alt="<%= item.productName %>" href="/products/<%= item.productCategory %>/<%= item.productId %>">
+							<img src="<%= item.productImage %>" class="product-image" >
+						</a>
+						
+						<!-- Product Name and Retailer Name -->
+						<div class="product-details">
+							<a class="product-name" href="/products/<%= item.productCategory %>/<%= item.productId %>"><%= item.productName %></a>
+							<p class="retailer-name">By: <%= item.retailerName %></p>
 
-		<ul class="cart-items">
-			<% cart.items.forEach(item => { %>
-				<li class="cart-item">
-					<!-- Product Image -->
-					<a alt="<%= item.productName %>" href="/products/<%= item.productCategory %>/<%= item.productId %>">
-						<img src="<%= item.productImage %>" class="product-image" >
-					</a>
+							<% if (item.lowerPrice) { %>
+								<p class="lower-price-warning">
+									<i class="fa fa-info-circle"></i>
+									Better price available: <%= item.lowerPrice %>€ at <%= item.lowerPriceRetailerName %>
+								</p>
+							<% } %>
+						</div>
+			
+						<!-- Quantity and Price -->
+						<div class="quantity-controls">
+							<button class="quantity-btn" onclick="updateQuantity('<%= item.productId %>', '<%= item.retailerId %>', -1)">
+								<i class="fa fa-minus-circle"></i>
+							</button>
+							<span class="quantity"><%= item.quantity %></span>
+							<button class="quantity-btn" onclick="updateQuantity('<%= item.productId %>', '<%= item.retailerId %>', 1)">
+								<i class="fa fa-plus-circle"></i>
+							</button>
+						</div>
+						<p class="item-price"><%= item.total.toFixed(2) %>€</p>
+			
+						<!-- Trash Button -->
+						<button class="trash-btn" onclick="deleteItem('<%= item.productId %>', '<%= item.retailerId %>')">
+							<i class="fa fa-trash"></i>
+						</button>
+					</li>
+				<% }) %>
+
+					<!-- Total Price Display -->
+				<div class="cart-total">
 					
-					<!-- Product Name and Retailer Name -->
-					<div class="product-details">
-						<a class="product-name" href="/products/<%= item.productCategory %>/<%= item.productId %>"><%= item.productName %></a>
-						<p class="retailer-name">By: <%= item.retailerName %></p>
+					<p><%= cart.totalQuantity %> items in cart with cost <%= cart.totalPrice.toFixed(2) %>€</p>
+					<p>Shipping: <%= shippingCost.toFixed(2) %>€</p>
+					<p>Total: <%= totalWithShipping.toFixed(2) %>€</p>
+				</div>
+			</ul>
+			
+		<% } else { %>
+			<h3>Your cart is empty</h3>
+		<% } %>
+	</div>
 
-						<% if (item.lowerPrice) { %>
-							<p class="lower-price-warning">
-								<i class="fa fa-info-circle"></i>
-								Better price available: <%= item.lowerPrice %>€ at <%= item.lowerPriceRetailerName %>
-							</p>
-						<% } %>
-					</div>
-		
-					<!-- Quantity and Price -->
-					<div class="quantity-controls">
-						<button class="quantity-btn" onclick="updateQuantity('<%= item.productId %>', '<%= item.retailerId %>', -1)">
-							<i class="fa fa-minus-circle"></i>
-						</button>
-						<span class="quantity"><%= item.quantity %></span>
-						<button class="quantity-btn" onclick="updateQuantity('<%= item.productId %>', '<%= item.retailerId %>', 1)">
-							<i class="fa fa-plus-circle"></i>
-						</button>
-					</div>
-					<p class="item-price"><%= item.total.toFixed(2) %>€</p>
-		
-					<!-- Trash Button -->
-					<button class="trash-btn" onclick="deleteItem('<%= item.productId %>', '<%= item.retailerId %>')">
-						<i class="fa fa-trash"></i>
-					</button>
-				</li>
-			<% }) %>
-
-				<!-- Total Price Display -->
-			<div class="cart-total">
-				
-				<p><%= cart.totalQuantity %> items in cart with cost <%= cart.totalPrice.toFixed(2) %>€</p>
-				<p>Shipping: <%= shippingCost.toFixed(2) %>€</p>
-				<p>Total: <%= totalWithShipping.toFixed(2) %>€</p>
-			</div>
-		</ul>
-		
-	<% } else { %>
-		<h3>Your cart is empty</h3>
-	<% } %>
-
-
-	<script>
-		function deleteItem(productId, retailerId) {
-			fetch('/cart/remove', {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json',
-				},
-				body: JSON.stringify({ productId, retailerId })
-			})
-			.then(response => response.json())
-			.then(data => {
-				if (data.success) {
-					location.reload(); // Refresh the cart
-				}
-			});
-		}
-
-
-		async function updateQuantity(productId, retailerId, change) {
-			try {
-				const response = await fetch('/cart/update', {
-					method: 'POST',
-					headers: {
-						'Content-Type': 'application/json',
-					},
-					body: JSON.stringify({ productId, retailerId, quantityChange: change })
-				});
-
-				const data = await response.json();
-
-				if (data.success) {
-					location.reload(); // Refresh the cart dynamically (or update UI without reload)
-				} else {
-					alert(data.message || "Failed to update quantity.");
-				}
-			} catch (error) {
-				console.error("Error updating quantity:", error);
-				alert("An error occurred while updating the quantity.");
-			}
-		}
-
-	</script>
+	<script type="text/javascript" src="/cart.js"></script>
 </body>
-
-<br><br>
-
 	   
 <%- include('./partials/footer.ejs') %>
 

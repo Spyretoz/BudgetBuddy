@@ -17,7 +17,7 @@ function searchProducts() {
 
 	if (query.length > 0) {
 		// Updated fetch URL to match the backend route
-		fetch(`/search?query=${query}`)
+		fetch(`/navsearch?query=${query}`)
 			.then(response => response.json())
 			.then(data => {
 				let resultsContainer = document.getElementById("search-results");
@@ -63,6 +63,15 @@ function searchProducts() {
 function searchRedirect() {
 	let query = document.getElementById("search-input").value;
 	if (query.length > 0) {
-		window.location.href = `/products?q=${encodeURIComponent(query)}`;
+		// window.location.href = `/products/search/for/name?q=${encodeURIComponent(query)}`;
+		window.location.href = `/navsearch/products?q=${encodeURIComponent(query)}`;
 	}
 }
+
+function getSessionSearch() {
+	var sessLength = session.compare.length;
+	console.log(sessLength);
+}
+
+
+getSessionSearch();

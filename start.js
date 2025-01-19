@@ -74,10 +74,11 @@ app.set('view engine', 'ejs');
 
 // CSS Files Path
 app.use('/assets', express.static('style'));
+app.use(express.static(path.join(__dirname, './scripts/')));
+
 app.use(express.static(path.join(__dirname, './views/style/')));
 
 // JS Files Path
-app.use(express.static(path.join(__dirname, './scripts')));
 
 
 // Set routes
@@ -103,18 +104,11 @@ app.use('/cart', cart);
 const login = require('./routes/login.js');
 app.use('/login', login);
 
-
 const userdata = require('./routes/userdata.js');
 app.get('/user', auth, userdata);
 
-
-
-
 const contact = require('./routes/contact.js');
 app.use('/contact', contact);
-
-const mail = require('./routes/mail.js');
-app.use('/send-email', mail);
 
 
 // Express Messages Middleware

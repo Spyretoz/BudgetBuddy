@@ -1,16 +1,16 @@
 html, body {
-    height: 100%;
+	height: 100%;
 }
 
 body {
-    display: flex;
-    flex-direction: column;
-    font-family: Arial, sans-serif;
+	display: flex;
+	flex-direction: column;
+	font-family: Arial, sans-serif;
 }
 
 /* Content should take up remaining space */
 .content {
-    flex: 1;
+	flex: 1;
 }
 
 
@@ -26,30 +26,30 @@ footer {
 	font-weight: bold;
 	margin-bottom: 10px;
 }
-  
+
 footer p {
 	font-size: 12px;
 	line-height: 1.5;
 	margin-bottom: 20px;
 }
-  
+
 footer ul {
 	list-style: none;
 	margin: 0;
 	padding: 0;
 }
-  
+
 footer li {
 	font-size: 16px;
 	line-height: 1.5;
 	margin-bottom: 10px;
 	
 }
-  
+
 footer a {
 	padding-left: 15px;
 }
-  
+
 .social-icons {
 	list-style: none;
 	margin: 0;

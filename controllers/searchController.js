@@ -257,6 +257,8 @@ exports.addSearchProduct = async (req, res) => {
 	// Add product to the compare list
 	req.session.compare.push(productId);
 
+	console.log(req.session.compare);
+
 	res.json({ message: 'Product added to search list', compareList: req.session.compare, success: true });
 };
 

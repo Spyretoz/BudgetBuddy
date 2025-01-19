@@ -4,10 +4,56 @@
 <body>
 	<%- include('./partials/nav.ejs') %>
 
-	<div class="products-container" id="products-container">
-		<!-- Categories will be added here dynamically -->
-		<section class="index-product" id="index-product">		
-		</section>
+	<!-- Filters Toggle Button -->
+    <!-- <button class="filters-toggle" onclick="toggleFilters()">Filters</button> -->
+
+	<!-- From Uiverse.io by vinodjangid07 --> 
+	<button title="filter" class="filters-toggle" onclick="toggleFilters()">
+		<svg viewBox="0 0 512 512" height="1em">
+		<path
+			d="M0 416c0 17.7 14.3 32 32 32l54.7 0c12.3 28.3 40.5 48 73.3 48s61-19.7 73.3-48L480 448c17.7 0 32-14.3 32-32s-14.3-32-32-32l-246.7 0c-12.3-28.3-40.5-48-73.3-48s-61 19.7-73.3 48L32 384c-17.7 0-32 14.3-32 32zm128 0a32 32 0 1 1 64 0 32 32 0 1 1 -64 0zM320 256a32 32 0 1 1 64 0 32 32 0 1 1 -64 0zm32-80c-32.8 0-61 19.7-73.3 48L32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l246.7 0c12.3 28.3 40.5 48 73.3 48s61-19.7 73.3-48l54.7 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-54.7 0c-12.3-28.3-40.5-48-73.3-48zM192 128a32 32 0 1 1 0-64 32 32 0 1 1 0 64zm73.3-64C253 35.7 224.8 16 192 16s-61 19.7-73.3 48L32 64C14.3 64 0 78.3 0 96s14.3 32 32 32l86.7 0c12.3 28.3 40.5 48 73.3 48s61-19.7 73.3-48L480 128c17.7 0 32-14.3 32-32s-14.3-32-32-32L265.3 64z"
+		></path>
+		</svg>
+	</button>
+  
+
+	<div class="filters hidden" id="filters">
+		<h2>Filters</h2>
+		<h3>Brand</h3>
+		<% brands.forEach(brand => { %>
+			<div>
+				<label class="custom-checkbox">
+					<input name="dummy" type="checkbox" id="brand-<%= brand %>" class="brand-filter" value="<%= brand %>" onchange="filterProducts()">
+					<span class="checkmark"></span>
+					<%= brand %>
+				</label>
+			</div>
+		<% }) %>
+	</div>
+	
+
+	<!-- Filters Section -->
+	<div class="products-page">
+		<!-- Filters Section -->
+		<div class="filters">
+			<h2>Filters</h2>
+			<h3>Brand</h3>
+			<% brands.forEach(brand => { %>
+				<div>
+					<label class="custom-checkbox">
+						<input name="dummy" type="checkbox" id="brand-<%= brand %>" class="brand-filter" value="<%= brand %>" onchange="filterProducts()">
+						<span class="checkmark"></span>
+						<%= brand %>
+					</label>
+				</div>
+			<% }) %>
+		</div>
+	
+		<!-- Products Section -->
+		<div class="products-container">
+			<section class="index-product" id="index-product">
+			</section>
+		</div>
 	</div>
 </body>
 
@@ -28,7 +74,9 @@
 
 
 				const productDiv = document.createElement('a');
-				productDiv.href = "/products/" + `${product["Category.name"]}` + "/" + `${product.productid}`;
+				productDiv.href = "/products/" + `${product.categName}` + "/" + `${product.productid}`;
+				productDiv.classList.add('index-product-box');
+				productDiv.setAttribute('data-brand', product.brand); // Add data-brand attribute
 
 				var prodPriceSection, buttonFunct;
 
@@ -152,75 +200,48 @@
 	}
 
 
+	// function filterProducts() {
+	// 	const selectedBrand = document.getElementById('brand-filter').value.toLowerCase();
+	// 	const productElements = document.querySelectorAll('.index-product-box');
 
-	// function addToSearchList(productId) {
-	// 	try {
-
-	// 		console.log(productId);
-
-	// 		const button = document.getElementById(`add-button-${productId}`);
-
-	// 		// Add loading state (optional)
-	// 		button.disabled = true;
-	// 		button.style.backgroundColor = '#ccc'; // Gray for loading state
-
-	// 		fetch('/search/add_to_search', {
-	// 			method: 'POST',
-	// 			headers: {
-	// 				'Content-Type': 'application/json',
-	// 			},
-	// 			body: JSON.stringify({ productId }),
-	// 		})
-    //         .then(response => response.json())
-    //         .then(data => {
-    //             if (data.error) {
-    //                 throw new Error(data.error); // Trigger the catch block
-    //             }
-
-    //             // On success, update button to green checkmark
-    //             button.style.backgroundColor = 'green';
-    //             button.querySelector('.button__icon').innerHTML = `
-    //                 <svg xmlns="http://www.w3.org/2000/svg" width="200px" viewBox="0 0 24 24" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" stroke="currentColor" height="24" fill="none" class="svg">
-    //                     <polyline points="20 6 9 17 4 12"></polyline>
-    //                 </svg>
-    //             `;
-    //             button.querySelector('.button__text').textContent = 'Added!';
-    //             button.disabled = true; // Prevent further clicks
-    //         })
-    //         .catch(err => {
-    //             console.error(err);
-
-    //             // On failure, update button to red X
-    //             button.style.backgroundColor = 'red';
-    //             button.querySelector('.button__icon').innerHTML = `
-    //                 <svg xmlns="http://www.w3.org/2000/svg" width="200px" viewBox="0 0 24 24" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" stroke="currentColor" height="24" fill="none" class="svg">
-    //                     <line x1="18" y1="6" x2="6" y2="18"></line>
-    //                     <line x1="6" y1="6" x2="18" y2="18"></line>
-    //                 </svg>
-    //             `;
-    //             button.querySelector('.button__text').textContent = 'Failed!';
-    //         })
-    //         .finally(() => {
-    //             // Reset after a delay, only for non-disabled buttons
-    //             setTimeout(() => {
-    //                 if (!button.disabled) {
-    //                     button.style.backgroundColor = ''; // Reset to original
-    //                     button.querySelector('.button__text').textContent = 'Add for best retailer choice';
-    //                     button.querySelector('.button__icon').innerHTML = `
-    //                         <svg xmlns="http://www.w3.org/2000/svg" width="200px" viewBox="0 0 24 24" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" stroke="currentColor" height="24" fill="none" class="svg">
-    //                             <line y2="19" y1="5" x2="12" x1="12"></line>
-    //                             <line y2="12" y1="12" x2="19" x1="5"></line>
-    //                         </svg>
-    //                     `;
-    //                     button.disabled = false;
-    //                 }
-    //             }, 2000); // Reset after 2 seconds
-    //         });
-
-	// 	} catch (error) {
-	// 		console.error('Error adding products to search list: ', error);
-	// 	}
+	// 	productElements.forEach(product => {
+	// 		const brand = product.getAttribute('data-brand').toLowerCase();
+	// 		if (selectedBrand === "" || brand === selectedBrand) {
+	// 			product.style.display = "block"; // Show product
+	// 		} else {
+	// 			product.style.display = "none"; // Hide product
+	// 		}
+	// 	});
 	// }
+	function filterProducts() {
+		const selectedBrands = Array.from(document.querySelectorAll('.brand-filter:checked')).map(checkbox =>
+			checkbox.value.toLowerCase()
+		);
+		const productElements = document.querySelectorAll('.index-product-box');
+
+		productElements.forEach(product => {
+			const brand = product.getAttribute('data-brand').toLowerCase();
+
+			// Show the product if its brand is in the selected brands or no brands are selected
+			if (selectedBrands.length === 0 || selectedBrands.includes(brand)) {
+				product.style.display = "block";
+			} else {
+				product.style.display = "none";
+			}
+		});
+	}
+
+
+	function toggleFilters() {
+		const filters = document.getElementById('filters');
+		if (filters.classList.contains('hidden')) {
+			filters.classList.remove('hidden');
+			filters.classList.add('visible');
+		} else {
+			filters.classList.remove('visible');
+			filters.classList.add('hidden');
+		}
+	}
 
 
 	// Call the function to fetch and display products when the page loads

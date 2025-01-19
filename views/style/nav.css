@@ -58,30 +58,7 @@ header {
 
 .enh_search {
 	font-size: 40px;
-	background: linear-gradient(to left,violet,indigo, blue, green, yellow, orange, red);
-	-webkit-background-clip: text;
-	color: transparent;
-
-
-	-webkit-mask-image: linear-gradient(45deg,#000 25%,rgba(0,0,0,.2) 50%,#000 75%);
-	mask-image: linear-gradient(45deg,#000 25%,rgba(0,0,0,.2) 50%,#000 75%);
-	-webkit-mask-size: 800%;
-	mask-size: 800%;
-	-webkit-mask-position: 0;
-	mask-position: 0;
-	
-}
-
-.enh_search:hover {
-	transition: mask-position 1s ease,-webkit-mask-position 1s ease;
-	-webkit-mask-position: 120%;
-	mask-position: 120%;
-	opacity: 1;
-	color: transparent;
-}
-
-.svg:hover {
-	pointer-events: visible;
+	/* margin-right: 40px; */
 }
 
 /* From Uiverse.io by OnCloud125252 */ 
@@ -204,7 +181,7 @@ header {
 
 .dropdown_menu.open {
 	height: 200px;
-	width: 200px;
+	width: 90%;
 }
 
 .dropdown_menu li {
@@ -239,7 +216,7 @@ header {
 
 @media (max-width: 576px) {
 	.dropdown_menu {
-		left: 2rem;
+		left: 1rem;
 		width: unset;
 	}
 }

@@ -38,7 +38,12 @@
 
 				<img src="${productdetails[0].prdimg}">
 
-				<a title="Add for powerfull search" onclick="event.stopPropagation(); event.preventDefault(); addToSearchList(${productdetails[0].productid})"><i class="fa-solid fa-magnifying-glass-plus" style="cursor: pointer; margin-top: 10px; font-size: 25px; background: linear-gradient(to left,violet,indigo, blue, green, orange, red); -webkit-background-clip: text; color: transparent;"></i></a>
+
+				<!-- From Uiverse.io by mrhyddenn --> 
+				<button class="icon-btn add-btn" onclick="event.stopPropagation(); event.preventDefault(); addToSearchList(${productdetails[0].productid})">
+					<div class="add-icon"></div>
+					<div class="btn-txt">Add for best retailer</div>
+				</button>
 				<h2>${productdetails[0].name}</h2>
 				<dic class="descr">${productdetails[0].description}</div>
 			`;

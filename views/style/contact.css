@@ -139,3 +139,44 @@ textarea {
 .submitButton:hover {
 	background-color: #45a049;
 }
+
+
+
+.toast-container {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    z-index: 1000;
+}
+
+.toast {
+    margin-bottom: 10px;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 1rem;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    animation: fadeOut 4s forwards; /* Disappears after 4 seconds */
+}
+
+.toast.success {
+    background-color: #28a745;
+    color: #fff;
+}
+
+.toast.error {
+    background-color: #dc3545;
+    color: #fff;
+}
+
+@keyframes fadeOut {
+    0% {
+        opacity: 1;
+    }
+    90% {
+        opacity: 0.9;
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+}

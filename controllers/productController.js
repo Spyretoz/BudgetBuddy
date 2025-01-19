@@ -14,11 +14,12 @@ exports.getProducts = async (req, res) => {
 
 	// Fetch all products with associated categories
 	try {
-		const products = await Product.findAll({
+		const results = await Product.findAll({
 			raw: true,
 			attributes: [
 				'ProductId',
 				'name',
+				'brand',
 				'imageurl',
 				[sequelize.fn('COALESCE',
 					sequelize.fn('MIN', sequelize.col('ProductRetailers.Price')), // Minimum price
@@ -35,17 +36,45 @@ exports.getProducts = async (req, res) => {
 				},
 				{
 					model: ProductRetailer,
-					attributes: [],
+					attributes: ['RetailerID'],
 					required: false, // This will use LEFT OUTER JOIN
-
 				}
 			],
-			group: ['Product.ProductID', 'Product.name', 'Product.imageurl', 'Category.name'], // Group by ProductID and CategoryId
+			group: ['Product.ProductID', 'Product.name', 'Product.brand', 'Product.imageurl', 'Category.name', 'ProductRetailers.RetailerID'], // Group by ProductID and CategoryId
 		});
 
-		res.status(200).render('products', { products, title: `${categoryName}` });
+		// Extract unique products & retailers
+		const products = [];
+		// Add retailers to the unique list
+		const uniqueRetailers = [...new Set(results.map(row => row['ProductRetailers.RetailerID']).filter(id => id))];
+
+		results.forEach(row => {
+			// Check if product is already added
+			if (!products.some(product => product.productid === row.productid)) {
+				products.push({
+					productid: row.productid,
+					name: row.name,
+					brand: row.brand,
+					imageurl: row.imageurl,
+					minprice: parseFloat(row.minprice),
+					categName: row['Category.name']
+				});
+			}
+		});
+
+		const brands = [...new Set(products.map(p => p.brand))]; // Extract unique brand
+
+		// console.log(uniqueRetailers);
+		// console.log(products);
 
 
+		// const Retailers = await Retailers.findAll({
+		// 	raw: true,
+		// 	attributes: ['name]
+		// 	where: 
+		// });
+
+		res.status(200).render('products', { products, brands, title: `${categoryName}` });
 	} catch (error) {
 		console.error(error);
 		res.status(500).send('Internal Server Error');
