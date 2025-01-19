@@ -67,11 +67,3 @@ function searchRedirect() {
 		window.location.href = `/navsearch/products?q=${encodeURIComponent(query)}`;
 	}
 }
-
-function getSessionSearch() {
-	var sessLength = session.compare.length;
-	console.log(sessLength);
-}
-
-
-getSessionSearch();

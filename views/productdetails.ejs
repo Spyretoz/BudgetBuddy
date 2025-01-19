@@ -22,6 +22,8 @@
 			<section class="index-retailer" id="index-retailer"></section>
 		</div>
 	</div>
+
+	<div id="toast-container" class="toast-container"></div>
 	
 </body>
 
@@ -42,7 +44,7 @@
 				<!-- From Uiverse.io by mrhyddenn --> 
 				<button class="icon-btn add-btn" onclick="event.stopPropagation(); event.preventDefault(); addToSearchList(${productdetails[0].productid})">
 					<div class="add-icon"></div>
-					<div class="btn-txt">Add for best retailer</div>
+					<div class="btn-txt">Add for best retailer choice</div>
 				</button>
 				<h2>${productdetails[0].name}</h2>
 				<dic class="descr">${productdetails[0].description}</div>
@@ -114,15 +116,30 @@
 			.then(response => response.json())
 			.then(data => {
 				if (data.error) {
-					alert(data.error);
+					showToast('Failed product did not added to search list!.', 'error');
 				} else {
-					alert('Product added to search list');
+					showToast('Product added to search list!', 'success');
 				}
 			})
 			.catch(err => console.error(err));
 		} catch (error) {
 			console.error('Error adding products to search list: ', error);
 		}
+	}
+
+
+	function showToast(message, type) {
+		const toastContainer = document.getElementById('toast-container');
+		const toast = document.createElement('div');
+		toast.className = `toast ${type}`; // Add success or error styling
+		toast.textContent = message;
+
+		toastContainer.appendChild(toast);
+
+		// Remove the toast after 4 seconds
+		setTimeout(() => {
+			toast.remove();
+		}, 4000);
 	}
 
 	// Call the function to fetch and display products when the page loads
