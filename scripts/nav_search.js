@@ -34,7 +34,7 @@ function searchProducts() {
 						productInfo.innerHTML = `
 							<img src="${product.imageurl}" alt="${product.name}" style="width: 50px; height: 50px; object-fit: cover;">
 							<p>${product.name}</p>
-							<p>Price: $${product.minprice}</p>
+							<p>Price: ${product.minprice}€</p>
 						`;
 						
 						listItem.appendChild(productInfo);

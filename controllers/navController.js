@@ -15,6 +15,7 @@ exports.searchProducts = async (req, res) => {
 			attributes: [
 				'ProductId',
 				'name',
+				'brand',
 				'imageurl',
 				[
 					Sequelize.fn(
@@ -42,7 +43,7 @@ exports.searchProducts = async (req, res) => {
 					[Op.iLike]: `%${query}%` // Use ILIKE for case-insensitive search
 				}
 			},
-			group: ['Product.ProductID', 'Product.name', 'Product.imageurl', 'Category.name'], // Group by ProductID and CategoryId
+			group: ['Product.ProductID', 'Product.name', 'Product.brand', 'Product.imageurl', 'Category.name'], // Group by ProductID and CategoryId
 		});
 		
 		res.json(products);
@@ -60,6 +61,7 @@ exports.getSearchResults = async (req, res) => {
 			attributes: [
 				'ProductId',
 				'name',
+				'brand',
 				'imageurl',
 				[
 					Sequelize.fn(
@@ -87,12 +89,13 @@ exports.getSearchResults = async (req, res) => {
 					[Op.iLike]: `%${query}%` // Use ILIKE for case-insensitive search
 				}
 			},
-			group: ['Product.ProductID', 'Product.name', 'Product.imageurl', 'Category.name'], // Group by ProductID and CategoryId
+			group: ['Product.ProductID', 'Product.name', 'Product.brand', 'Product.imageurl', 'Category.name'] // Group by ProductID and CategoryId
 		});
 
+		const brands = [...new Set(products.map(p => p.brand))]; // Extract unique brand
 
-		// res.status(200).render('search', { products, query, title: query });
-		res.status(200).render('products', { products, query, title: query });
+
+		res.status(200).render('products', { products, brands, query, title: query });
 	} catch (error) {
 		res.status(500).json({ message: 'Error fetching search results', error });
 	}
