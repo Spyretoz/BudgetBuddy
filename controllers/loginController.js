@@ -41,7 +41,7 @@ exports.loginact = async (req, res) => {
 		req.session.user = { id: user.UserID, name: user.name, email: user.email };
 
 		// Fetch or create the user's database cart
-		let dbCart = await Cart.findOne({ where: { UserID: user.UserID } });
+		var dbCart = await Cart.findOne({ where: { UserID: user.UserID } });
 
 		if (!dbCart) {
 			// Create a new cart in the database if none exists
