@@ -12,7 +12,7 @@ exports.getSearchProducts = async (req, res) => {
 	try {
 
 		const { option } = req.query; // Get user option: 'lowest-price' or 'best-reviews'
-		const searchList = req.session.compare || [];
+		const searchList = req.session.compare.items || [];
 
 		const shipCost = parseFloat(process.env.SHIPPING_COST_PER_RETAILER);
 
@@ -240,26 +240,38 @@ exports.getSearchProducts = async (req, res) => {
 exports.addSearchProduct = async (req, res) => {
 	const { productId } = req.body;
 
+
+	if (!req.session.compare) {
+		req.session.compare = { items: [], totalItems: 0 };
+	}
+
 	if (!productId) {
 		return res.status(400).json({ error: 'Product ID is required' });
 	}
 
 	// Check if the product is already in the compare list
-	if (req.session.compare.includes(productId)) {
+	if (req.session.compare.items.includes(productId)) {
 		return res.status(400).json({ error: 'Product is already in the search list', alreadyInList: true });
 	}
 
 	// Optional: Limit the number of products to compare
-	if (req.session.compare.length >= 5) {
+	if (req.session.compare.totalItems >= 5) {
 		return res.status(400).json({ error: 'You can only compare up to 5 products', moreThan: true });
 	}
 
 	// Add product to the compare list
-	req.session.compare.push(productId);
+	req.session.compare.items.push(productId);
+	req.session.compare.totalItems += 1;
 
 	console.log(req.session.compare);
 
-	res.json({ message: 'Product added to search list', compareList: req.session.compare, success: true });
+	
+	res.json({ 
+		message: 'Product added to search list', 
+		compareList: req.session.compare.items, 
+		totalItems: req.session.compare.totalItems, 
+		success: true 
+	});
 };
 
 
@@ -275,8 +287,13 @@ exports.delSearchProduct = async (req, res) => {
 	}
 
 	const productIdNum = parseInt(productId, 10);
-	req.session.compare = req.session.compare.filter(id => id !== productIdNum);
+	req.session.compare.items = req.session.compare.items.filter(id => id !== productIdNum);
+	req.session.compare.totalItems -= 1;
 
-	// req.session.compare = req.session.compare.filter(id => id !== productId);
-	res.json({ message: 'Product removed from comparison list', compareList: req.session.compare, success: true });
+	res.json({ 
+        message: 'Product removed from comparison list', 
+        compareList: req.session.compare.items, 
+        totalItems: req.session.compare.totalItems, 
+        success: true 
+    });
 };

@@ -105,7 +105,7 @@ exports.addToCart = async (req, res) => {
 
 		// Redirect with a success message
 		req.session.message = "Item added to cart successfully!";
-		res.redirect(req.get("Referer") || "/"); // Safe redirect to the referring page or home
+		res.redirect(req.get("Referer") || "/");
 	} catch (err) {
 		console.error(err);
 		req.session.message = "Failed to add item to cart.";

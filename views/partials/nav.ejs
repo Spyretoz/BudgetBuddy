@@ -30,7 +30,10 @@
 		</ul>
 
 		<a href="/search" class="search-link">
-			<img class="enh_search" src="/pictures/magnif-glass.png" alt="Enhanced Search">
+			<div class="enh-search-container">
+				<img class="enh_search" src="/pictures/magnif-glass.png" alt="Enhanced Search">
+				<span class="search-count" id="total-items-count"><%= session.compare.totalItems %></span>
+			</div>
 
 			<div class="jumping-icon hidden" id="jumping-arrow">
 				<i class="fa-solid fa-up-long"></i>

@@ -17,7 +17,7 @@ function deleteItem(productId) {
     .then(response => response.json())
     .then(data => {
         if (data.success) {
-            location.reload(); // Refresh the cart
+            location.reload();
         }
     });
 }

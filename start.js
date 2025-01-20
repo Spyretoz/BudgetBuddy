@@ -32,7 +32,10 @@ const auth = module.exports = (req, res, next) => {
 
 app.use((req, res, next) => {
 	if (!req.session.compare) {
-		req.session.compare = [];
+		req.session.compare = {
+			items: [],
+			totalItems: 0
+		};
 	}
 	next();
 });

@@ -7,7 +7,7 @@
 
 	
 		<div class="shared-container">
-			<% if (session.compare && session.compare.length > 0) { %>
+			<% if (session.compare.items && session.compare.items.length > 0) { %>
 				<!-- <h3>Products with ids <%= session.compare %> in your search</h3> -->
 				<div class="search-container">
 					<select id="searchOption" class="styled-select">
@@ -46,28 +46,6 @@
 						</ul>
 					</div>
 				<% }) %>
-
-				<!-- <ul class="search-items">
-					<% results.forEach(result => { %>
-						<li class="search-item">
-							<img src="<%= result.productImg %>" alt="<%= result.productName %>" class="product-image">
-							
-							<div class="product-details">
-								<p class="product-name"><%= result.productName %></p>
-								<p class="retailer-name">By: <%= result.retailerName %></p>
-							</div>
-
-
-							<p>(<%= result.averageRating.toFixed(1) %>)⭐</p>
-				
-							<p class="item-price">$<%= result.price.toFixed(2) %></p>
-				
-							<button class="trash-btn" onclick="deleteItem('<%= result.productid %>')">
-								<i class="fa fa-trash"></i>
-							</button>
-						</li>
-					<% }) %>
-				</ul> -->
 		
 		
 				<!-- Total Price Display -->
