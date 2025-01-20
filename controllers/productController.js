@@ -43,7 +43,7 @@ exports.getProducts = async (req, res) => {
 			group: ['Product.ProductID', 'Product.name', 'Product.brand', 'Product.imageurl', 'Category.name', 'ProductRetailers.RetailerID'], // Group by ProductID and CategoryId
 		});
 
-		// Extract unique products & retailers
+		// Extract products & unique retailers
 		const products = [];
 		// Add retailers to the unique list
 		const uniqueRetailers = [...new Set(results.map(row => row['ProductRetailers.RetailerID']).filter(id => id))];

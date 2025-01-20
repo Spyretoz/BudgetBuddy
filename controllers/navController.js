@@ -56,7 +56,7 @@ exports.searchProducts = async (req, res) => {
 exports.getSearchResults = async (req, res) => {
 	const query = req.query.q;
 	try {
-		const products = await Product.findAll({
+		const results = await Product.findAll({
 			raw: true,
 			attributes: [
 				'ProductId',
@@ -90,6 +90,23 @@ exports.getSearchResults = async (req, res) => {
 				}
 			},
 			group: ['Product.ProductID', 'Product.name', 'Product.brand', 'Product.imageurl', 'Category.name'] // Group by ProductID and CategoryId
+		});
+
+		const products = [];
+
+
+		results.forEach(row => {
+			// Check if product is already added
+			if (!products.some(product => product.productid === row.productid)) {
+				products.push({
+					productid: row.productid,
+					name: row.name,
+					brand: row.brand,
+					imageurl: row.imageurl,
+					minprice: parseFloat(row.minprice),
+					categName: row['Category.name']
+				});
+			}
 		});
 
 		const brands = [...new Set(products.map(p => p.brand))]; // Extract unique brand
