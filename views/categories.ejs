@@ -8,40 +8,15 @@
 	<br><br><br>
 	<div class="categories-container" id="categories-container">
 		<!-- Categories will be added here dynamically -->
-
-		<section class="index-category" id="index-category"></section>
+		<section class="index-category" id="index-category">
+			<% categories.forEach(category => { %>
+				<a href="/products/<%= category.name %>" class="index-category-box" style="background-image: url('<%= category.imageurl %>');">
+					<div class="dark-overlay"></div>
+					<h3><%= category.name %></h3>
+				</a>
+			<% }) %>
+		</section>
 	</div>
-
-	<br><br><br>
-	
-	<script>
-		// Fetch categories from the server and render them on the page
-		async function fetchCategories() {
-		 	try {
-
-				const categories = <%- JSON.stringify(categories).replace(/</g, '\\u003c') %>; // Embed data without HTML entities
-		 		const categoriesContainer = document.getElementById('index-category');
-
-				
-		 		// Render categories dynamically
-		 		categories.forEach(category => {
-
-		 			const categoryDiv = document.createElement('a');
-					categoryDiv.href = "/products/" + `${category.name}`;
-					categoryDivBox = categoryDiv.classList.add('index-category-box');
-					categoryDiv.style.backgroundImage = `url(${category.imageurl})`; // Set background image
-					categoryDiv.innerHTML = `<div class="dark-overlay"></div><h3>${category.name}</h3>`;
-					categoriesContainer.appendChild(categoryDiv);
-		 		});
-
-		 	} catch (error) {
-		 		console.error('Error fetching categories:', error);
-		 	}
-		}
-	
-		// // Call the function to fetch and display categories when the page loads
-		fetchCategories();
-	</script>
 </body>
 	   
 <%- include('./partials/footer.ejs') %>

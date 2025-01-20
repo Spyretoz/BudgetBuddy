@@ -336,10 +336,11 @@ header {
 
 
 .toast-container {
-	position: fixed;
-	top: 70px;
-	right: 230px;
-	z-index: 1000;
+	position: absolute;
+    top: 0;
+    left: 100%;
+    margin-left: 10px;
+    z-index: 1000;
 }
 
 .toast {
@@ -349,7 +350,13 @@ header {
 	font-size: 1rem;
 	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 	animation: fadeOut 20s forwards; /* Disappears after 20 seconds */
+
+	min-width: fit-content;
+	width: 200px;
+
+	z-index: 1000;
 }
+
 
 .toast.success {
 	background-color: #28a745;
@@ -399,8 +406,8 @@ header {
 	font-size: 24px; /* Size of the arrow */
 	color: #333; /* Default arrow color */
 	animation: jump 1s ease-in-out infinite; /* Jump animation */
-
 	margin-top: -27px;
+	z-index: 1000;
 }
 
 .hidden {

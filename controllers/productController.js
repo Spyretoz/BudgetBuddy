@@ -150,9 +150,32 @@ exports.getProduct = async (req, res) => {
 		if ((!productDetail) || (productDetail.length === 0)) {
 		 	return res.status(404).send('Product not found');
 		}
-		else {
-			res.status(200).render('productdetails', { productDetail, title: productDetail[0].name });
-		}
+
+		// console.log(productDetail);
+
+		// Transform the data into the desired structure
+		const product = {
+			productid: productDetail[0].productid,
+			name: productDetail[0].name,
+			description: productDetail[0].description,
+			prdimg: productDetail[0].prdimg
+		};
+
+		const retailers = productDetail.map(item => ({
+			RetailerId: item['ProductRetailers.Retailer.RetailerId'],
+			Name: item['ProductRetailers.Retailer.Name'],
+			Website: item['ProductRetailers.Retailer.Website'],
+			Location: item['ProductRetailers.Retailer.Location'],
+			Price: item['ProductRetailers.Price'],
+			PrdctLink: item['ProductRetailers.PRODUCTLINK'],
+			AvgRating: parseFloat(item['ProductRetailers.Retailer.avgRating'] ?? 0.0),
+			RetailerImg: item['ProductRetailers.Retailer.retailerimg']
+		}));
+
+		// console.log(product);
+		// console.log(retailers);
+
+		res.status(200).render('productdetails', { product, retailers, title: product.name });
 	} catch (error) {
 		console.error(error);
 		res.status(500).send('Internal Server Error');
