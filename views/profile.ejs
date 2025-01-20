@@ -1,0 +1,36 @@
+<%- include('./partials/header.ejs') %>
+
+<link href="/profile.css" rel="stylesheet" type="text/css">
+<body>
+	<%- include('./partials/nav.ejs') %>
+    
+
+    <form action="/user/profile" class="user-form" method="POST" class="profile-form">
+
+        <h1>User Profile</h1>
+        
+        <div class="form-group">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" value="<%= user.name %>">
+        </div>
+
+        <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" value="<%= user.email %>">
+        </div>
+
+        <div class="form-group">
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" placeholder="••••••••">
+        </div>
+
+        <!-- <div class="form-group">
+            <label for="isretailer">Are you a retailer?</label>
+            <input type="checkbox" id="isretailer" name="isretailer" <%= user.isretailer ? 'checked' : '' %>>
+        </div> -->
+
+        <button type="submit" class="save-btn">Save</button>
+    </form>
+</body>
+
+<%- include('./partials/footer.ejs') %>

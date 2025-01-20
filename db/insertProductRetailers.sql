@@ -6,7 +6,7 @@ INSERT INTO productretailers (RETAILERID, PRODUCTID, PRICE, PRODUCTLINK) VALUES 
 INSERT INTO productretailers (RETAILERID, PRODUCTID, PRICE, PRODUCTLINK) VALUES (2, 3, 270, 'https://www.istorm.gr/airpods-pro-2nd-gen-usb-c.html');
 
 
--- INSERT INTO productretailers (RETAILERID, PRODUCTID, PRICE, PRODUCTLINK) VALUES (1, 7, 469, 'https://www.electroholic.gr/el/product/GAMSON00292');
+INSERT INTO productretailers (RETAILERID, PRODUCTID, PRICE, PRODUCTLINK) VALUES (, 7, 46.9, '');
 
 
 INSERT INTO productretailers (RETAILERID, PRODUCTID, PRICE, PRODUCTLINK) VALUES (3, 8, 19.99, 'https://squareshop.gr/index.php/man/clothes/t-shirts/302495-t-shirt-jjebradley-tee-ss-o-neck-12249319-c-n10-black-detail');

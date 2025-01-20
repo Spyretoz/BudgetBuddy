@@ -4,7 +4,6 @@
 <body>
 	<%- include('./partials/nav.ejs') %>
 
-	<br><br><br>
 
 	<% if (message) { %>
 		<div class="alert alert-success">
@@ -20,10 +19,14 @@
 
 
 				<!-- From Uiverse.io by mrhyddenn --> 
-				<button class="icon-btn add-btn" onclick="event.stopPropagation(); event.preventDefault(); addToSearchList(<%= product.productid %>)">
-					<div class="add-icon"></div>
-					<div class="btn-txt">Add for best retailer choice</div>
-				</button>
+
+				<% if (retailers[0].Price !== null && retailers[0].Price !== "undefined") { %>
+					<button class="icon-btn add-btn" onclick="event.stopPropagation(); event.preventDefault(); addToSearchList(<%= product.productid %>)">
+						<div class="add-icon"></div>
+						<div class="btn-txt">Add for best retailer choice</div>
+					</button>
+				<% } %>
+				
 				<h2><%= product.name %></h2>
 				<div class="descr"><%= product.description %></div>
 			</section>
@@ -32,7 +35,7 @@
 		<div class="details" id="details">
 			<section class="index-retailer" id="index-retailer">
 				
-				<% if (retailers[0]["ProductRetailers.Price"] === null || retailers[0]["ProductRetailers.Price"] === "undefined") { %>
+				<% if (retailers[0].Price === null || retailers[0].Price === "undefined") { %>
 
 					<h2>Retailers not found</h2>
 

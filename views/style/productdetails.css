@@ -1,5 +1,6 @@
 .prod-retail {
 	display: flex;
+	padding-top: 70px;
 }
 
 
@@ -238,4 +239,14 @@
         opacity: 0;
         transform: translateY(-10px);
     }
+}
+
+
+
+.index-product h2 {
+	margin: auto;
+	width: 550px;
+    white-space: nowrap; /* Prevent text wrapping to multiple lines */
+    overflow: hidden; /* Hide the overflowed text */
+    text-overflow: ellipsis; /* Add "..." to indicate truncated text */
 }

@@ -101,7 +101,7 @@ exports.loginact = async (req, res) => {
 			]
 		});
 
-		console.log(dbCartItems);
+		// console.log(dbCartItems);
 
 		if(dbCartItems) {
 			req.session.cart.items = dbCartItems.map((item) => ({
@@ -133,7 +133,7 @@ exports.loginact = async (req, res) => {
 		req.session.cart.totalQuantity = dbCart.TotalQuantity;
 		req.session.cart.totalPrice = parseFloat(dbCart.TotalPrice);
 
-		console.log("Cart items: " + JSON.stringify(req.session.cart));
+		// console.log("Cart items: " + JSON.stringify(req.session.cart));
 
 		// console.log("Cart total quantity: " + req.session.cart.totalQuantity);
 		// console.log("Cart total totalPrice: " + req.session.cart.TotalPrice);

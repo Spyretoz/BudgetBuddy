@@ -264,7 +264,7 @@ exports.addSearchProduct = async (req, res) => {
 	req.session.compare.items.push(productId);
 	req.session.compare.totalItems += 1;
 
-	console.log(req.session.compare);
+	// console.log(req.session.compare);
 
 	
 	res.json({ 

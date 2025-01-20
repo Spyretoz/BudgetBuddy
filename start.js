@@ -108,7 +108,7 @@ const login = require('./routes/login.js');
 app.use('/login', login);
 
 const userdata = require('./routes/userdata.js');
-app.get('/user', auth, userdata);
+app.use('/user', auth, userdata);
 
 const contact = require('./routes/contact.js');
 app.use('/contact', contact);
