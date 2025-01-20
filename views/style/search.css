@@ -15,22 +15,10 @@ body {
 }
 
 
-
-  
-.search-container {
-	display: flex;
-	align-items: center;
-	justify-content: flex-end; /* Move to the right */
-	gap: 0.2rem;
-	margin: 2rem;
-
-	margin: auto;
-    padding-top: 70px;
-	padding-bottom: 20px;
-}
   
 /* Styled select dropdown */
 .styled-select {
+	margin-top: 70px;
 	padding: 0.5rem 1rem;
 	border-radius: 4px;
 	border: 1px solid #ccc;
@@ -165,9 +153,23 @@ body {
 .search-total {
 	margin-top: 20px;
 	font-weight: bold;
-	color: #fff;
+	color: black;
 }
 
+
+.items-price {
+	border-bottom: 2px solid black;
+	width: fit-content;
+
+	text-align: center;
+	margin: auto;
+
+	padding-bottom: 5px;
+}
+
+.items-total-price {
+	margin-top: 10px;
+}
 
 
 

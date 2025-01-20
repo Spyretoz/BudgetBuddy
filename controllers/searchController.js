@@ -227,6 +227,7 @@ exports.getSearchProducts = async (req, res) => {
 			totalPrice: bestTotalCost - (bestCombination.usedRetailers.size * shipCost), // Total product cost only
 			shippingCost: bestCombination.usedRetailers.size * shipCost,
 			totalWithShipping: bestTotalCost, // Total cost including shipping
+			selectedOption: option
 		});
 
 	} catch (error) {

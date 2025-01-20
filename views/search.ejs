@@ -8,14 +8,11 @@
 	
 		<div class="shared-container">
 			<% if (session.compare.items && session.compare.items.length > 0) { %>
-				<!-- <h3>Products with ids <%= session.compare %> in your search</h3> -->
-				<div class="search-container">
-					<select id="searchOption" class="styled-select">
-					<option value="lowest-price">Lowest Prices</option>
-					<option value="best-reviews">Best Reviews</option>
-					</select>
-					<button class="search-btn" onclick="fetchSearchData()">Search</button>
-				</div>
+
+				<select id="searchOption" class="styled-select" onchange="fetchSearchData()">
+					<option value="lowest-price" <%= selectedOption === 'lowest-price' ? 'selected' : '' %>>Lowest Price</option>
+					<option value="best-reviews" <%= selectedOption === 'best-reviews' ? 'selected' : '' %>>Best Reviews</option>
+				</select>
 
 
 				<% Object.keys(groupedResults).forEach(retailer => { %>
@@ -44,16 +41,23 @@
 								</li>
 							<% }) %>
 						</ul>
+
+						<!-- Total Price Display -->
+						<div class="search-total">
+							<div class="items-price">
+								<p>Products: <%= totalPrice.toFixed(2) %>€</p>
+								<p>Shipping: <%= shippingCost.toFixed(2) %>€</p>
+							</div>
+							
+							<div class="items-total-price">
+								<p>Total: <%= totalWithShipping.toFixed(2) %>€</p>
+							</div>
+						</div>
 					</div>
 				<% }) %>
 		
 		
-				<!-- Total Price Display -->
-				<div class="search-total">
-					<p>Products: <%= totalPrice.toFixed(2) %>€</p>
-					<p>Shipping: <%= shippingCost.toFixed(2) %>€</p>
-					<p>Total: <%= totalWithShipping.toFixed(2) %>€</p>
-				</div>
+				
 				
 			<% } else { %>
 				<h3>Your search is empty</h3>
