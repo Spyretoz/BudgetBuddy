@@ -105,9 +105,16 @@ h3 {
 
 
 .cart-total {
-	margin-top: 20px;
+	margin: 20px auto;
 	font-weight: bold;
 	color: #fff;
+
+	background-color: rgba(0, 0, 0, 0.7); /* Dark overlay */
+	padding: 20px;
+	width: fit-content;
+
+	border-radius: 5px;
+	border: 1px solid #ddd;
 }
 
 

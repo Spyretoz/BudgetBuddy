@@ -14,49 +14,48 @@
 					<option value="best-reviews" <%= selectedOption === 'best-reviews' ? 'selected' : '' %>>Best Reviews</option>
 				</select>
 
-
-				<% Object.keys(groupedResults).forEach(retailer => { %>
-					<div class="retailer-section">
-						<!-- Retailer Name -->
-						<h2 class="retailer-name"><%= retailer %></h2>
-				
-						<!-- List of Products for this Retailer -->
-						<ul class="product-list">
-							<% groupedResults[retailer].forEach(product => { %>
-								<li class="product-item">
-									<!-- Product Image -->
-									<a href="/products/<%= product.categoryName %>/<%= product.productid %>"><img src="<%= product.productImg %>" alt="<%= product.productName %>" class="product-image"></a>
-									
-									<!-- Product Name -->
-									<div class="product-details">
-										<a class="product-name" href="/products/<%= product.categoryName %>/<%= product.productid %>"><%= product.productName %></a>
-										<p class="item-price"><%= product.price.toFixed(2) %>€</p>
-										<p>(<%= product.averageRating.toFixed(1) %>)⭐</p>
-									</div>
-				
-									<!-- Trash Button -->
-									<button class="trash-btn" onclick="deleteItem('<%= product.productid %>')">
-										<i class="fa fa-trash"></i>
-									</button>
-								</li>
-							<% }) %>
-						</ul>
-
-						<!-- Total Price Display -->
-						<div class="search-total">
-							<div class="items-price">
-								<p>Products: <%= totalPrice.toFixed(2) %>€</p>
-								<p>Shipping: <%= shippingCost.toFixed(2) %>€</p>
-							</div>
-							
-							<div class="items-total-price">
-								<p>Total: <%= totalWithShipping.toFixed(2) %>€</p>
-							</div>
+				<div class="retailers-section">
+					<% Object.keys(groupedResults).forEach(retailer => { %>
+						<div class="retailer-section">
+							<!-- Retailer Name -->
+							<h2 class="retailer-name"><%= retailer %></h2>
+					
+							<!-- List of Products for this Retailer -->
+							<ul class="product-list">
+								<% groupedResults[retailer].forEach(product => { %>
+									<li class="product-item">
+										<!-- Product Image -->
+										<a href="/products/<%= product.categoryName %>/<%= product.productid %>"><img src="<%= product.productImg %>" alt="<%= product.productName %>" class="product-image"></a>
+										
+										<!-- Product Name -->
+										<div class="product-details">
+											<a class="product-name" href="/products/<%= product.categoryName %>/<%= product.productid %>"><%= product.productName %></a>
+											<p class="item-price"><%= product.price.toFixed(2) %>€</p>
+											<p>(<%= product.averageRating.toFixed(1) %>)⭐</p>
+										</div>
+					
+										<!-- Trash Button -->
+										<button class="trash-btn" onclick="deleteItem('<%= product.productid %>')">
+											<i class="fa fa-trash"></i>
+										</button>
+									</li>
+								<% }) %>
+							</ul>
+						</div>
+					<% }) %>
+		
+					<!-- Total Price Display -->
+					<div class="search-total">
+						<div class="items-price">
+							<p>Products: <%= totalPrice.toFixed(2) %>€</p>
+							<p>Shipping: <%= shippingCost.toFixed(2) %>€</p>
+						</div>
+						
+						<div class="items-total-price">
+							<p>Total: <%= totalWithShipping.toFixed(2) %>€</p>
 						</div>
 					</div>
-				<% }) %>
-		
-		
+				</div>
 				
 				
 			<% } else { %>

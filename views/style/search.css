@@ -151,7 +151,7 @@ body {
 
 
 .search-total {
-	margin-top: 20px;
+	margin-top: 50px;
 	font-weight: bold;
 	color: black;
 }
@@ -174,14 +174,16 @@ body {
 
 
 /* Retailer Section */
-.retailer-section {
-	margin: 20px auto;
+.retailers-section {
+	margin: auto;
 	padding: 20px;
 	background-color: rgba(255, 255, 255, 0.9); /* Slightly transparent white */
 	border-radius: 8px;
 	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Shadow effect */
 	max-width: 1000px;
 	width: 90%;
+	margin-top: 20px;
+	margin-bottom: 50px;
 }
 
 /* Retailer Name */
