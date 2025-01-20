@@ -106,6 +106,7 @@ h3 {
 
 .cart-total {
 	margin: 20px auto;
+	margin-top: 50px;
 	font-weight: bold;
 	color: #fff;
 
@@ -115,6 +116,10 @@ h3 {
 
 	border-radius: 5px;
 	border: 1px solid #ddd;
+}
+
+.cart-total p {
+	margin: 2px;
 }
 
 
