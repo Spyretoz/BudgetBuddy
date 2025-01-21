@@ -123,19 +123,36 @@ function filterProducts() {
 	const selectedBrands = Array.from(document.querySelectorAll('.brand-filter:checked')).map(checkbox =>
 		checkbox.value.toLowerCase()
 	);
+	const selectedYears = Array.from(document.querySelectorAll('.year-filter:checked')).map(checkbox =>
+		checkbox.value
+	);
+	
 	const productElements = document.querySelectorAll('.index-product-box');
 
 	productElements.forEach(product => {
 		const brand = product.getAttribute('data-brand').toLowerCase();
+		const year = product.getAttribute('data-year');
 
-		// Show the product if its brand is in the selected brands or no brands are selected
-		if (selectedBrands.length === 0 || selectedBrands.includes(brand)) {
+		const matchesBrand = selectedBrands.length === 0 || selectedBrands.includes(brand);
+		const matchesYear = selectedYears.length === 0 || selectedYears.includes(year);
+
+		if (matchesBrand && matchesYear) {
 			product.style.display = "block";
 		} else {
 			product.style.display = "none";
 		}
 	});
 }
+
+
+function clearFilters() {
+    document.querySelectorAll('.brand-filter, .year-filter').forEach(checkbox => {
+        checkbox.checked = false;
+    });
+    filterProducts();
+}
+
+
 
 
 function toggleFilters() {

@@ -16,14 +16,31 @@
   
 
 	<div class="filters hidden" id="filters">
-		<h2>Filters</h2>
+		<div class="filters-header">
+			<h2>Filters</h2>
+			<a onclick="clearFilters()">Clear</a>
+		</div>
+		
+		
 		<h3>Brand</h3>
 		<% brands.forEach(brand => { %>
-			<div>
+			<div class="brands">
 				<label class="custom-checkbox">
 					<input name="dummy" type="checkbox" id="brand-<%= brand %>" class="brand-filter" value="<%= brand %>" onchange="filterProducts()">
 					<span class="checkmark"></span>
 					<%= brand %>
+				</label>
+			</div>
+		<% }) %>
+
+
+		<h3>Year</h3>
+		<% years.forEach(year => { %>
+			<div class="years">
+				<label class="custom-checkbox">
+					<input name="dummy" type="checkbox" id="year-<%= year %>" class="year-filter" value="<%= year %>" onchange="filterProducts()">
+					<span class="checkmark"></span>
+					<%= year %>
 				</label>
 			</div>
 		<% }) %>
@@ -34,24 +51,44 @@
 	<div class="products-page">
 		<!-- Filters Section -->
 		<div class="filters">
-			<h2>Filters</h2>
-			<h3>Brand</h3>
-			<% brands.forEach(brand => { %>
-				<div>
-					<label class="custom-checkbox">
-						<input name="dummy" type="checkbox" id="brand-<%= brand %>" class="brand-filter" value="<%= brand %>" onchange="filterProducts()">
-						<span class="checkmark"></span>
-						<%= brand %>
-					</label>
-				</div>
-			<% }) %>
+			<div class="filters-header">
+				<h2>Filters</h2>
+				<a onclick="clearFilters()">Clear</a>
+			</div>
+
+
+			<div class="brands">
+				<h3>Brand</h3>
+				<% brands.forEach(brand => { %>
+					<div>
+						<label class="custom-checkbox">
+							<input name="dummy" type="checkbox" id="brand-<%= brand %>" class="brand-filter" value="<%= brand %>" onchange="filterProducts()">
+							<span class="checkmark"></span>
+							<%= brand %>
+						</label>
+					</div>
+				<% }) %>
+			</div>
+
+			<div class="years">
+				<h3>Year</h3>
+				<% years.forEach(year => { %>
+					<div>
+						<label class="custom-checkbox">
+							<input name="dummy" type="checkbox" id="year-<%= year %>" class="year-filter" value="<%= year %>" onchange="filterProducts()">
+							<span class="checkmark"></span>
+							<%= year %>
+						</label>
+					</div>
+				<% }) %>
+			</div>
 		</div>
 	
 		<!-- Products Section -->
 		<div class="products-container">
 			<section class="index-product" id="index-product">
 				<% products.forEach(product => { %>
-					<a href="/products/<%= product.categName %>/<%= product.productid %>" class="index-product-box" data-brand="<%= product.brand %>">
+					<a href="/products/<%= product.categName %>/<%= product.productid %>" class="index-product-box" data-brand="<%= product.brand %>" data-year="<%= product.year %>">
 						<img src="<%= product.imageurl %>">
 						<h2><%= product.brand %> - <%= product.name %></h2>
 

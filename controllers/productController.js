@@ -21,6 +21,7 @@ exports.getProducts = async (req, res) => {
 				'name',
 				'brand',
 				'imageurl',
+				'year',
 				[sequelize.fn('COALESCE',
 					sequelize.fn('MIN', sequelize.col('ProductRetailers.Price')), // Minimum price
 					sequelize.literal("0.00") // Fallback when there's no price
@@ -40,12 +41,14 @@ exports.getProducts = async (req, res) => {
 					required: false, // This will use LEFT OUTER JOIN
 				}
 			],
-			group: ['Product.ProductID', 'Product.name', 'Product.brand', 'Product.imageurl', 'Category.name'], // Group by ProductID and CategoryId
+			group: ['Product.ProductID', 'Product.name', 'Product.brand', 'Product.imageurl', 'Product.year', 'Category.name'], // Group by ProductID and CategoryId
 		});
 
 		// Extract products & unique retailers
 		const products = [];
 		// Add retailers to the unique list
+
+		console.log(results);
 
 		results.forEach(row => {
 			// Check if product is already added
@@ -55,6 +58,7 @@ exports.getProducts = async (req, res) => {
 					name: row.name,
 					brand: row.brand,
 					imageurl: row.imageurl,
+					year:  row.year,
 					minprice: parseFloat(row.minprice),
 					categName: row['Category.name']
 				});
@@ -62,8 +66,11 @@ exports.getProducts = async (req, res) => {
 		});
 
 		const brands = [...new Set(products.map(p => p.brand))]; // Extract unique brand
+		const years = [...new Set(products.map(p => p.year))]; // Extract unique years
 
-		res.status(200).render('products', { products, brands, title: `${categoryName}` });
+		// console.log(years);
+
+		res.status(200).render('products', { products, brands, years, title: `${categoryName}` });
 	} catch (error) {
 		console.error(error);
 		res.status(500).send('Internal Server Error');
