@@ -43,3 +43,6 @@ INSERT INTO productretailers (RETAILERID, PRODUCTID, PRICE, PRODUCTLINK) VALUES 
 INSERT INTO productretailers (RETAILERID, PRODUCTID, PRICE, PRODUCTLINK) VALUES (8, 19, 89, 'https://www.plaisio.gr/tilefonia-tablet/aksesouar-gia-tablet/pliktrologia-grafides/apple-pencil-usb-c_4353889');
 INSERT INTO productretailers (RETAILERID, PRODUCTID, PRICE, PRODUCTLINK) VALUES (9, 19, 89.99, 'https://www.public.gr/product/aksesoyar/tablet/grafides/grafida-apple-pencil-gia-ipad--leuko/1875205');
 INSERT INTO productretailers (RETAILERID, PRODUCTID, PRICE, PRODUCTLINK) VALUES (2, 19, 89, 'https://www.istorm.gr/apple-pencil-usb-c.html');
+
+INSERT INTO productretailers (RETAILERID, PRODUCTID, PRICE, PRODUCTLINK) VALUES (3, 20, 12.55, '#');
+INSERT INTO productretailers (RETAILERID, PRODUCTID, PRICE, PRODUCTLINK) VALUES (6, 20, 12.7, '#');
