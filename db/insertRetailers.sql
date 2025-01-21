@@ -8,3 +8,9 @@ INSERT INTO Retailers (Name, Location, Website, ContactInfo, IMAGEURL) VALUES ('
 
 
 INSERT INTO Retailers (Name, Location, Website, ContactInfo, IMAGEURL) VALUES ('DUOMO.gr', 'Αρκαδίου 124, Ρέθυμνο, Τ.Κ. 74100', 'https://www.duomo.gr/', '2105727820', 'https://c.scdn.gr/ds/shops/logos/1588/mid_20220617123939_c3e6f2ee.jpeg');
+
+INSERT INTO Retailers (Name, Location, Website, ContactInfo, IMAGEURL) VALUES ('Fokas', 'Λεωφ. Κωνσταντινουπόλεως 33, Περιστέρι, Τ.Κ. 12132', 'https://www.fokas-tyres.gr/', '2105764888', 'https://www.fokas-tyres.gr/image/cache/catalog/logo_fokas-115x46.png');
+INSERT INTO Retailers (Name, Location, Website, ContactInfo, IMAGEURL) VALUES ('Plaisio', 'ΕΘΝΙΚΗΣ ΑΝΤΙΣΤΑΣΕΩΣ 42, Περιστέρι, Τ.Κ. 12132', 'https://www.plaisio.gr/', '2105742222', 'https://www.plaisio.gr/images/logo.svg');
+
+
+INSERT INTO Retailers (Name, Location, Website, ContactInfo, IMAGEURL) VALUES ('Public', 'Καραγεώργη Σερβίας 1, Αθήνα, T.K 10563', 'https://www.public.gr/', '2108181333', 'https://www.public.gr/assets/images/img-logo.svg')

@@ -36,17 +36,16 @@ exports.getProducts = async (req, res) => {
 				},
 				{
 					model: ProductRetailer,
-					attributes: ['RetailerID'],
+					attributes: [],
 					required: false, // This will use LEFT OUTER JOIN
 				}
 			],
-			group: ['Product.ProductID', 'Product.name', 'Product.brand', 'Product.imageurl', 'Category.name', 'ProductRetailers.RetailerID'], // Group by ProductID and CategoryId
+			group: ['Product.ProductID', 'Product.name', 'Product.brand', 'Product.imageurl', 'Category.name'], // Group by ProductID and CategoryId
 		});
 
 		// Extract products & unique retailers
 		const products = [];
 		// Add retailers to the unique list
-		const uniqueRetailers = [...new Set(results.map(row => row['ProductRetailers.RetailerID']).filter(id => id))];
 
 		results.forEach(row => {
 			// Check if product is already added
@@ -63,16 +62,6 @@ exports.getProducts = async (req, res) => {
 		});
 
 		const brands = [...new Set(products.map(p => p.brand))]; // Extract unique brand
-
-		// console.log(uniqueRetailers);
-		// console.log(products);
-
-
-		// const Retailers = await Retailers.findAll({
-		// 	raw: true,
-		// 	attributes: ['name]
-		// 	where: 
-		// });
 
 		res.status(200).render('products', { products, brands, title: `${categoryName}` });
 	} catch (error) {
@@ -143,7 +132,7 @@ exports.getProduct = async (req, res) => {
 				'ProductRetailers->Retailer.imageurl',
 			],
 
-			order: [[ProductRetailer, 'Price', 'ASC']], // Order by Product Name in ascending order
+			order: [[ProductRetailer, 'Price', 'ASC']] // Order by Product Name in ascending order
 		});
 
 		// Check if the product exists
