@@ -16,4 +16,13 @@ INSERT INTO Retailers (Name, Location, Website, ContactInfo, IMAGEURL) VALUES ('
 INSERT INTO Retailers (Name, Location, Website, ContactInfo, IMAGEURL) VALUES ('Public', 'Καραγεώργη Σερβίας 1, Αθήνα, T.K 10563', 'https://www.public.gr/', '2108181333', 'https://www.public.gr/assets/images/img-logo.svg');
 
 INSERT INTO Retailers (Name, Location, Website, ContactInfo, IMAGEURL) VALUES ('IKEA', 'Λεωφ. Κηφισού 96-98, Αιγάλεω, T.K 12241', 'https://www.ikea.gr/', '8001114000', 'https://www.ikea.gr/Content/Media/logo.svg');
-INSERT INTO Retailers (Name, Location, Website, ContactInfo, IMAGEURL) VALUES ('JYSK', ' Χρυσάνθου Τραπεζούντος 29, Ελληνικό, T.K 16777', 'https://jysk.gr/', '2111985096', 'https://jysk.gr/themes/custom/jysk_bootstrap/icons/static/jysk-logo.svg')
+INSERT INTO Retailers (Name, Location, Website, ContactInfo, IMAGEURL) VALUES ('JYSK', ' Χρυσάνθου Τραπεζούντος 29, Ελληνικό, T.K 16777', 'https://jysk.gr/', '2111985096', 'https://jysk.gr/themes/custom/jysk_bootstrap/icons/static/jysk-logo.svg');
+
+INSERT INTO Retailers (Name, Location, Website, ContactInfo, IMAGEURL) VALUES ('e-papoutsia', 'ul. Nowy Kisielin - Naukowa 15, Zielona Góra, Poland, Zip: 66-002', 'https://epapoutsia.gr/', '2311180017', 'https://os-dfiles.mwscdn.io/logo/gr/259001092_logo_20218581345167.png');
+INSERT INTO Retailers (Name, Location, Website, ContactInfo, IMAGEURL) VALUES ('CosmosSport', 'Ερμού 65 & Αιόλου 28-30, T.K 10563', 'https://www.cosmossport.gr/', '2811808808', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSP4XdNBG46S5e1-dDSw8Gfk2uHoEFIJD_U6g&s');
+
+
+INSERT INTO Retailers (Name, Location, Website, ContactInfo, IMAGEURL) VALUES ('Oil-Stores', 'Λεωφ. Κορωπίου Μαρκόπουλου 167, Κορωπί, T.K 19400', 'https://oil-stores.gr/', '2114113443', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTp5kWx_FSZ7wh98-Ei1fBoH2ey8l6JSo-JfQ&s');
+INSERT INTO Retailers (Name, Location, Website, ContactInfo, IMAGEURL) VALUES ('Tyre Shop', 'Θηβών 104, Περιστέρι, T.K 12131', 'https://www.tyreshop.gr/', '2105752643', 'https://www.motograndprix.gr//gmcms/media/_2010/9_MotoGrandPrix_CLUB/SYNERGATES_PROSFORES/tyre_shop/tyre%20shop1.jpg');
+
+INSERT INTO Retailers (Name, Location, Website, ContactInfo, IMAGEURL) VALUES ('Autoplanet', '97 Kifisou Ave Agios Ioannis Rentis, Athens, P.C 18233', 'https://autoplanet.gr/', '2118000881', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQEhaf9A2iwvf2vKPqhdpKzs0iWGR91X9wTXQ&s');

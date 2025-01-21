@@ -21,7 +21,25 @@ INSERT INTO productretailers (RETAILERID, PRODUCTID, PRICE, PRODUCTLINK) VALUES 
 INSERT INTO productretailers (RETAILERID, PRODUCTID, PRICE, PRODUCTLINK) VALUES (9, 1, 549, 'https://www.public.gr/product/tilefonia/kinita-smartphones/apple-iphone-13-128gb--midnight/1641054?q=iphone%2013');
 
 
-INSERT INTO productretailers (RETAILERID, PRODUCTID, PRICE, PRODUCTLINK) VALUES (10, 12, 249, '');
-INSERT INTO productretailers (RETAILERID, PRODUCTID, PRICE, PRODUCTLINK) VALUES (11, 12, 259, '');
-INSERT INTO productretailers (RETAILERID, PRODUCTID, PRICE, PRODUCTLINK) VALUES (10, 13, 89, '');
-INSERT INTO productretailers (RETAILERID, PRODUCTID, PRICE, PRODUCTLINK) VALUES (11, 13, 69, '');
+INSERT INTO productretailers (RETAILERID, PRODUCTID, PRICE, PRODUCTLINK) VALUES (12, 12, 55, 'https://epapoutsia.gr/p/panina-papoutsia-vans-old-skool-vn000w9t6bt-black-true-white');
+INSERT INTO productretailers (RETAILERID, PRODUCTID, PRICE, PRODUCTLINK) VALUES (13, 14, 85, 'https://www.cosmossport.gr/el/71944-vans-old-skool.html?search_query=vans#/72997-%CF%87%CF%81%CF%89%CE%BC%CE%B1-black');
+INSERT INTO productretailers (RETAILERID, PRODUCTID, PRICE, PRODUCTLINK) VALUES (3, 14, 65, 'https://squareshop.gr/index.php/unisex/sneakers/293448-sneakers-handball-spezial-cblackftwwhtgum5-db3021-black-detail');
+INSERT INTO productretailers (RETAILERID, PRODUCTID, PRICE, PRODUCTLINK) VALUES (6, 14, 50, 'https://www.duomo.gr/el/vans-andrika-papoutsia-knu-skool-vn0009qcdgr-607609.html');
+INSERT INTO productretailers (RETAILERID, PRODUCTID, PRICE, PRODUCTLINK) VALUES (13, 8, 20.99, 'https://www.cosmossport.gr/el/450085-under-armour-tech-reflective-ss.html?search_query=BLACK%20SHIRT#/456189-%CF%87%CF%81%CF%89%CE%BC%CE%B1-black_reflective/58295-%CE%BC%CE%B5%CE%B3%CE%B5%CE%B8%CE%BF%CF%83-xxl');
+INSERT INTO productretailers (RETAILERID, PRODUCTID, PRICE, PRODUCTLINK) VALUES (7, 15, 155, 'https://www.fokas-tyres.gr/index.php?route=product/product&path=1&product_id=6473');
+INSERT INTO productretailers (RETAILERID, PRODUCTID, PRICE, PRODUCTLINK) VALUES (15, 15, 155, 'https://www.fokas-tyres.gr/index.php?route=product/product&path=1&product_id=6473');
+INSERT INTO productretailers (RETAILERID, PRODUCTID, PRICE, PRODUCTLINK) VALUES (14, 10, 117, 'https://oil-stores.gr/index.php?route=journal2/quickview&pid=71642');
+INSERT INTO productretailers (RETAILERID, PRODUCTID, PRICE, PRODUCTLINK) VALUES (14, 6, 36.6, 'https://oil-stores.gr/%CE%A5%CE%B2%CF%81%CE%B9%CE%B4%CE%B9%CE%BA%CF%8C-%CE%BA%CE%B5%CF%81%CE%B1%CE%BC%CE%B9%CE%BA%CF%8C-%CF%83%CE%B1%CE%BC%CF%80%CE%BF%CF%85%CE%AC%CE%BD-%CE%BA%CE%B5%CF%81%CE%AF-Wash-Wax-and-Liquid-Meguiars-Wash-SiO2-Boost-G210256?search=wash%20and%20wax');
+INSERT INTO productretailers (RETAILERID, PRODUCTID, PRICE, PRODUCTLINK) VALUES (14, 16, 19.9, 'https://oil-stores.gr/MEGUIARS-ULTIMATE-WATERLESS-WHEEL-TIRE-709ML');
+INSERT INTO productretailers (RETAILERID, PRODUCTID, PRICE, PRODUCTLINK) VALUES (16, 6, 22.41, 'https://autoplanet.gr/en/cleaning-maintenance/meguiar_s-wash-and-wax-1420ml-g17748-p-58426.html');
+INSERT INTO productretailers (RETAILERID, PRODUCTID, PRICE, PRODUCTLINK) VALUES (16, 16, 19.71, 'https://autoplanet.gr/en/car-care/meguiar_s-ultimate-waterless-wash--wax-768ml-g3626-p-58728.html');
+
+INSERT INTO productretailers (RETAILERID, PRODUCTID, PRICE, PRODUCTLINK) VALUES (8, 17, 279, 'https://www.plaisio.gr/smart-tech-gadgets/wearables/apple-watch-se-44mm-midnight-aluminium-case-with-midnight-sport-band-m-l_4625064');
+INSERT INTO productretailers (RETAILERID, PRODUCTID, PRICE, PRODUCTLINK) VALUES (9, 17, 279, 'https://www.public.gr/product/tilefonia/wearables/smartwatches/apple-watch-se-gps-44mm--midnight-aluminium-case-with-midnight-sport-band--ml/1966423');
+INSERT INTO productretailers (RETAILERID, PRODUCTID, PRICE, PRODUCTLINK) VALUES (2, 17, 279, 'https://www.istorm.gr/apple-watch-se-gps-44mm-midnight-aluminium-case-with-midnight-sport-band-m-l.html');
+INSERT INTO productretailers (RETAILERID, PRODUCTID, PRICE, PRODUCTLINK) VALUES (8, 18, 1969, 'https://www.plaisio.gr/pc-perifereiaka/laptops/apple-macbook-pro-14-m4-space-black-laptop-14-2-liquid-retina-xdr-m4-16-gb-512-gb-10-core-gpu-macos-_4665996');
+INSERT INTO productretailers (RETAILERID, PRODUCTID, PRICE, PRODUCTLINK) VALUES (9, 18, 1969, 'https://www.public.gr/product/computers-and-software/laptops/apple-macbook-pro-14-m4-pro-chip-qhd-apple-m4-pro-chip-14-cores24gb1tb-ssd20-cores-gpumacos-space-black/1950035');
+INSERT INTO productretailers (RETAILERID, PRODUCTID, PRICE, PRODUCTLINK) VALUES (2, 18, 1969, 'https://www.istorm.gr/14-inch-macbook-pro-apple-m4-with-10-core-cpu-and-10-core-gpu-16gb-512gb-ssd-space-black.html');
+INSERT INTO productretailers (RETAILERID, PRODUCTID, PRICE, PRODUCTLINK) VALUES (8, 19, 89, 'https://www.plaisio.gr/tilefonia-tablet/aksesouar-gia-tablet/pliktrologia-grafides/apple-pencil-usb-c_4353889');
+INSERT INTO productretailers (RETAILERID, PRODUCTID, PRICE, PRODUCTLINK) VALUES (9, 19, 89.99, 'https://www.public.gr/product/aksesoyar/tablet/grafides/grafida-apple-pencil-gia-ipad--leuko/1875205');
+INSERT INTO productretailers (RETAILERID, PRODUCTID, PRICE, PRODUCTLINK) VALUES (2, 19, 89, 'https://www.istorm.gr/apple-pencil-usb-c.html');
