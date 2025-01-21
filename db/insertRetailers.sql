@@ -13,4 +13,7 @@ INSERT INTO Retailers (Name, Location, Website, ContactInfo, IMAGEURL) VALUES ('
 INSERT INTO Retailers (Name, Location, Website, ContactInfo, IMAGEURL) VALUES ('Plaisio', 'ΕΘΝΙΚΗΣ ΑΝΤΙΣΤΑΣΕΩΣ 42, Περιστέρι, Τ.Κ. 12132', 'https://www.plaisio.gr/', '2105742222', 'https://www.plaisio.gr/images/logo.svg');
 
 
-INSERT INTO Retailers (Name, Location, Website, ContactInfo, IMAGEURL) VALUES ('Public', 'Καραγεώργη Σερβίας 1, Αθήνα, T.K 10563', 'https://www.public.gr/', '2108181333', 'https://www.public.gr/assets/images/img-logo.svg')
+INSERT INTO Retailers (Name, Location, Website, ContactInfo, IMAGEURL) VALUES ('Public', 'Καραγεώργη Σερβίας 1, Αθήνα, T.K 10563', 'https://www.public.gr/', '2108181333', 'https://www.public.gr/assets/images/img-logo.svg');
+
+INSERT INTO Retailers (Name, Location, Website, ContactInfo, IMAGEURL) VALUES ('IKEA', 'Λεωφ. Κηφισού 96-98, Αιγάλεω, T.K 12241', 'https://www.ikea.gr/', '8001114000', 'https://www.ikea.gr/Content/Media/logo.svg');
+INSERT INTO Retailers (Name, Location, Website, ContactInfo, IMAGEURL) VALUES ('JYSK', ' Χρυσάνθου Τραπεζούντος 29, Ελληνικό, T.K 16777', 'https://jysk.gr/', '2111985096', 'https://jysk.gr/themes/custom/jysk_bootstrap/icons/static/jysk-logo.svg')

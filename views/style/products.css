@@ -54,8 +54,8 @@ title {
 	margin-bottom: 50px;
 	color: black;
 
-	max-height: 300px;
-	height: 300px;
+	max-height: 350px;
+	height: 350px;
 
 	width: 220px;
 
@@ -78,7 +78,7 @@ title {
 	color: #eeeee6;
 }
 
-.index-product-box .price {
+.index-product-box {
 	margin-top: 5px;
 	font-size: 15px;
 	font-weight: bold;
@@ -97,7 +97,9 @@ title {
 	color: #eeeee6;
 }
 
-
+.price {
+	margin-top: 10px;
+}
 
 .button {
 	--main-focus: #2d8cf0;

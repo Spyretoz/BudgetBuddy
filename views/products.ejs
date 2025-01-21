@@ -53,10 +53,10 @@
 				<% products.forEach(product => { %>
 					<a href="/products/<%= product.categName %>/<%= product.productid %>" class="index-product-box" data-brand="<%= product.brand %>">
 						<img src="<%= product.imageurl %>">
-						<h2><%= product.name %></h2>
+						<h2><%= product.brand %> - <%= product.name %></h2>
 
 						<% if (product.minprice > 0) { %>
-							<div class="prce">From <%= product.minprice %>€</div>
+							<div class="price">From <%= product.minprice %>€</div>
 							<button type="button" class="button" id="add-button-<%= product.productid %>" onclick="event.stopPropagation(); event.preventDefault(); addToSearchList(<%= product.productid %>)">
 								<span class="button__text">Add for best retailer choice</span>
 								<span class="button__icon">
@@ -67,7 +67,7 @@
 								</span>
 							</button>
 						<% } else { %>
-							<div class="prce">-</div>
+							<div class="price">-</div>
 							<div class="no_ret">No retailers sell this</div>
 						<% } %>
 					</a>

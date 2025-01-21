@@ -19,3 +19,9 @@ INSERT INTO productretailers (RETAILERID, PRODUCTID, PRICE, PRODUCTLINK) VALUES 
 INSERT INTO productretailers (RETAILERID, PRODUCTID, PRICE, PRODUCTLINK) VALUES (9, 3, 279, 'https://www.public.gr/product/aksesoyar/tablet/bluetooth/akoustika-bluetooth-apple-airpods-pro-2nd-gen-type-c-me-magsafe-charging-case--leuka/1850721?q=airpods%20gen%202');
 INSERT INTO productretailers (RETAILERID, PRODUCTID, PRICE, PRODUCTLINK) VALUES (9, 4, 389, 'https://www.public.gr/product/gaming/nintendo/consoles/nintendo-switch-oled-model-white/1629626?q=switch%20oled');
 INSERT INTO productretailers (RETAILERID, PRODUCTID, PRICE, PRODUCTLINK) VALUES (9, 1, 549, 'https://www.public.gr/product/tilefonia/kinita-smartphones/apple-iphone-13-128gb--midnight/1641054?q=iphone%2013');
+
+
+INSERT INTO productretailers (RETAILERID, PRODUCTID, PRICE, PRODUCTLINK) VALUES (10, 12, 249, '');
+INSERT INTO productretailers (RETAILERID, PRODUCTID, PRICE, PRODUCTLINK) VALUES (11, 12, 259, '');
+INSERT INTO productretailers (RETAILERID, PRODUCTID, PRICE, PRODUCTLINK) VALUES (10, 13, 89, '');
+INSERT INTO productretailers (RETAILERID, PRODUCTID, PRICE, PRODUCTLINK) VALUES (11, 13, 69, '');
