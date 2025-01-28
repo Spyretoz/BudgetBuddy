@@ -26,7 +26,8 @@ CREATE TABLE Products (
 	CategoryID INTEGER REFERENCES Categories(CategoryID)  NOT NULL,
 	Brand VARCHAR(255),
 	IMAGEURL VARCHAR(255),
-	Year SMALLINT NOT NULL
+	Year SMALLINT NOT NULL,
+	dealOfDay BOOLEAN NOT NULL DEFAULT FALSE
 );
 
 -- Create Retailers table

@@ -18,17 +18,20 @@ const Product = sequelize.define('Product', {
 		allowNull: false
 	},
 	description: {
-		type: DataTypes.TEXT,
+		type: DataTypes.TEXT
 	},
 	brand: {
-		type: DataTypes.TEXT,
+		type: DataTypes.TEXT
 	},
 	imageurl: {
-		type: DataTypes.TEXT,
+		type: DataTypes.TEXT
 	},
 	year: {
 		type: DataTypes.INTEGER,
 		allowNull: false
+	},
+	dealOfDay: {
+		type: DataTypes.BOOLEAN
 	},
 	categoryID: {
 		type: DataTypes.INTEGER,
