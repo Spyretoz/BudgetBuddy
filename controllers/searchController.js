@@ -220,15 +220,18 @@ exports.getSearchProducts = async (req, res) => {
 			return acc;
 		}, {});
 
-		// Render the results
 		res.status(200).render('search', {
 			title: "Advanced Search",
-			results, groupedResults,
-			totalPrice: bestTotalCost - (bestCombination.usedRetailers.size * shipCost), // Total product cost only
-			shippingCost: bestCombination.usedRetailers.size * shipCost,
-			totalWithShipping: bestTotalCost, // Total cost including shipping
-			selectedOption: option
+			results: results || [], // Default to an empty array if results is null or undefined
+			groupedResults: groupedResults || {}, // Default to an empty object if groupedResults is null or undefined
+			totalPrice: 
+				(bestTotalCost ?? 0) - ((bestCombination?.usedRetailers?.size ?? 0.0) * (shipCost ?? 0.0)),
+			shippingCost: 
+				(bestCombination?.usedRetailers?.size ?? 0.0) * (shipCost ?? 0.0),
+			totalWithShipping: bestTotalCost ?? 0,
+			selectedOption: option ?? "default"
 		});
+		
 
 	} catch (error) {
 		console.error(error);

@@ -1,51 +1,103 @@
+// const sequelize = require('../config/database'); // Import the Sequelize instance
+
+// const Product = require('../models/productModel');
+// const ProductRetailer = require('../models/productRetailerModel');
+
+
+
 const sequelize = require('../config/database'); // Import the Sequelize instance
 
 const Product = require('../models/productModel');
+const Category = require('../models/categoryModel');
 const ProductRetailer = require('../models/productRetailerModel');
+const Retailer = require('../models/retailerModel');
+const RetailerReviews = require('../models/retailerReviewsModel');
 
 exports.getHome = async (req, res) => {
-    try {
-        // Fetch a random or selected product for the deal
-        // const dealProduct = await Product.findOne({
-        //     // where: { isDealOfTheDay: true }, // Use a flag or logic to select the product
-        //     attributes: ['ProductID', 'name', 'imageUrl'],
-		// 	include:{
-		// 		model: ProductRetailer,
-		// 		attributes: ['price'],
-		// 		required: true, 
-		// 	},
+	try {
+		// Fetch a random or selected product for the deal
+		// const dealProduct = await Product.findOne({
+		//     raw: true,
+		//     attributes: ['ProductID', 'name', 'imageurl',
 
-		// 	limit: 1,
+				
+		//     ],
+		//     include:{
+		//         model: ProductRetailer,
+		//         attributes: [
+		//             [sequelize.fn('COALESCE',
+		//             sequelize.fn('MIN', sequelize.col('price')), // Minimum price
+		//             sequelize.literal("0.00") // Fallback when there's no price
+		//             ), 'minPrice'],
+		//         ],
+		//         required: true, 
+		//     },
 
-        // });
-		const dealProduct = {
-			ProductID: 2,
-			name: 'S24 Ultra',
-			imageUrl: "https://static.vecteezy.com/system/resources/previews/041/329/788/non_2x/samsung-galaxy-s24-ultra-titanium-blue-back-view-free-png.png",
-			price: 1700.00
-		};
+		//     where: { dealOfDay: true }, // Use a flag or logic to select the product
 
-		console.log(dealProduct);
+		//     group: ['product.productid', 'Product.name', 'Product.imageurl'],
+		//     limit: 1
+		// });
 
-        if (!dealProduct) {
-            return res.status(404).send('No deal available today.');
-        }
 
-        // Calculate the discounted price
-        const discountPercent = 20; // Define the discount
-        const discountedPrice = (dealProduct.price * (100 - discountPercent)) / 100;
+		const dealProduct = await Product.findAll({
+			raw: true,
+			attributes: [
+				'ProductId',
+				'name',
+				'brand',
+				'imageurl',
+				'year',
+				[sequelize.fn('COALESCE',
+					sequelize.fn('MIN', sequelize.col('ProductRetailers.Price')), // Minimum price
+					sequelize.literal("0.00") // Fallback when there's no price
+				  ), 'minPrice'],
+			],
+			include: [
+				{
+					model: Category,
+					attributes: ['name'],
+				},
+				{
+					model: ProductRetailer,
+					attributes: [],
+					required: false, // This will use LEFT OUTER JOIN
+				}
+			],
+			where: { dealOfDay: true }, // Use a flag or logic to select the product
+			group: ['Product.ProductID', 'Product.name', 'Product.brand', 'Product.imageurl', 'Product.year', 'Category.name'], // Group by ProductID and CategoryId
+		});
+		// console.log(dealProduct);
 
-        // Render the deal page with product details
-        res.render('home', {
-            title: "Deal of the Day",
-            product: {
-                ...dealProduct,
-                discountedPrice: discountedPrice.toFixed(2),
-                discountPercent,
-            },
-        });
-    } catch (error) {
-        console.error(error);
-        res.status(500).send('Error fetching the deal of the day.');
-    }
+		if (!dealProduct) {
+			return res.status(404).send('No deal available today.');
+		}
+
+		// Calculate the discounted price
+		const discountPercent = 20; // Define the discount
+		// const discountedPrice = (dealProduct[0].minprice * (100 - discountPercent)) / 100; // original
+		const discountedPrice = parseFloat(dealProduct[0].minprice);
+		const originalPrice = parseFloat(dealProduct[0].minprice) + (parseFloat(dealProduct[0].minprice) * (discountPercent / 100));
+
+		// console.log(discountedPrice, originalPrice);
+
+
+		// Render the deal page with product details
+		res.render('home', {
+			title: "Deal of the Day",
+			product: {
+				name: dealProduct[0].name || '',
+				imageurl: dealProduct[0].imageurl || '',
+				// price: dealProduct['ProductRetailers.price'],
+				// price: dealProduct[0].minprice,
+				price: parseFloat(originalPrice) ?? 0.0,
+				link: "/products/" + dealProduct[0]['Category.name'] + "/" + dealProduct[0].productid,
+				discountedPrice: discountedPrice.toFixed(2) ?? 0.0,
+				discountPercent
+			}
+		});
+	} catch (error) {
+		console.error(error);
+		res.status(500).send('Error fetching the deal of the day.');
+	}
 };
