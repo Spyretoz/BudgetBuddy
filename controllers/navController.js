@@ -63,6 +63,7 @@ exports.getSearchResults = async (req, res) => {
 				'name',
 				'brand',
 				'imageurl',
+				'year',
 				[
 					Sequelize.fn(
 						'COALESCE',
@@ -89,7 +90,7 @@ exports.getSearchResults = async (req, res) => {
 					[Op.iLike]: `%${query}%` // Use ILIKE for case-insensitive search
 				}
 			},
-			group: ['Product.ProductID', 'Product.name', 'Product.brand', 'Product.imageurl', 'Category.name'] // Group by ProductID and CategoryId
+			group: ['Product.ProductID', 'Product.name', 'Product.brand', 'Product.imageurl', 'Product.year', 'Category.name'] // Group by ProductID and CategoryId
 		});
 
 		const products = [];
@@ -104,15 +105,17 @@ exports.getSearchResults = async (req, res) => {
 					brand: row.brand,
 					imageurl: row.imageurl,
 					minprice: parseFloat(row.minprice),
+					year: row.year,
 					categName: row['Category.name']
 				});
 			}
 		});
 
 		const brands = [...new Set(products.map(p => p.brand))]; // Extract unique brand
+		const years = [...new Set(products.map(p => p.year))]; // Extract unique years
 
 
-		res.status(200).render('products', { products, brands, query, title: query });
+		res.status(200).render('products', { products, brands, years, query, title: query });
 	} catch (error) {
 		res.status(500).json({ message: 'Error fetching search results', error });
 	}
